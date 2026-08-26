@@ -1,0 +1,9 @@
+# Hosted at https://docs.mantle.leslmosnk.com
+docs/
+
+# Build / tool artifacts
+build/
+.dart_tool/
+.idea/
+*.iml
+.metadata

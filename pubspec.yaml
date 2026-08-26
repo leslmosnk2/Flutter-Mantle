@@ -1,0 +1,16 @@
+name: mantle_workspace
+publish_to: none
+
+environment:
+  sdk: ^3.12.0
+
+workspace:
+  - packages/mantle_annotations
+  - packages/mantle_core
+  - packages/mantle_gen
+  - packages/mantle_widgets
+  - packages/mantle_basic
+  - packages/mantle_basic/example
+dev_dependencies:
+  melos: ^7.0.0
+  very_good_analysis: ^10.3.0

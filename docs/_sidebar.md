@@ -1,0 +1,11 @@
+- [Home](/)
+- [Getting started](/getting-started)
+- [Architecture](/architecture)
+- [Packages](/packages)
+
+- Packages
+  - [mantle_core](/core/)
+  - [mantle_widgets](/widgets/)
+  - [mantle_basic](/basic/)
+  - [mantle_annotations](/annotations/)
+  - [mantle_gen](/gen/)

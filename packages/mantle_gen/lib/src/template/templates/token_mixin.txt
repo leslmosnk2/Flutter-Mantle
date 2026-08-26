@@ -1,0 +1,5 @@
+mixin {{ name }} {
+  Map<String, {{ type }}> toMap() => {
+{% for field in fields %}    '{{ field }}': {{ field }},
+{% endfor %}  };
+}

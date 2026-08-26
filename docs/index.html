@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mantle</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="description" content="Flutter theming architecture inspired by Mantine.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css">
+  <style>
+    :root { --theme-color: #228be6; }
+    .sidebar { padding-top: 0; }
+    .app-name-link { font-weight: 700; letter-spacing: -0.02em; }
+    .markdown-section { max-width: 860px; }
+    .markdown-section table { display: table; width: 100%; overflow: auto; }
+    section.cover {
+      background: linear-gradient(165deg, #071018 0%, #0f2438 42%, #163a5c 100%) !important;
+    }
+    section.cover .cover-main > h1 {
+      font-weight: 750;
+      letter-spacing: -0.045em;
+      color: #f8f9fa;
+    }
+    section.cover .cover-main > h1 small {
+      font-size: 0.38em;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      color: #74c0fc;
+      vertical-align: super;
+    }
+    section.cover .cover-main blockquote,
+    section.cover .cover-main p {
+      color: #c5d4e3;
+      max-width: 36rem;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    section.cover .cover-main > p:last-child a:first-child {
+      background: #228be6;
+      color: #fff !important;
+      border-color: #228be6;
+    }
+    section.cover .cover-main > p:last-child a {
+      border-radius: 8px;
+      padding: 0.55em 1.35em;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">Loading…</div>
+  <script>
+    window.$docsify = {
+      name: 'Mantle',
+      nameLink: '#/',
+      loadSidebar: true,
+      loadNavbar: true,
+      subMaxLevel: 2,
+      auto2top: true,
+      relativePath: true,
+      homepage: 'README.md',
+      coverpage: true,
+      onlyCover: false,
+      alias: {
+        '/.*/_navbar.md': '/_navbar.md',
+      },
+      plugins: [
+        function (hook, vm) {
+          hook.doneEach(function () {
+            var raw = vm.route.path || '';
+            var path = raw.replace(/^\/+/, '');
+            var segs = path.split('/').filter(Boolean);
+            var out = [];
+            segs.forEach(function (seg) {
+              if (!out.length || out[out.length - 1] !== seg) {
+                out.push(seg);
+              }
+            });
+            if (out.length !== segs.length) {
+              var next = '#/' + out.join('/');
+              if (/\/$/.test(raw) && next.charAt(next.length - 1) !== '/') {
+                next += '/';
+              }
+              window.location.hash = next;
+            }
+          });
+        },
+      ],
+      search: {
+        placeholder: 'Search',
+        noData: 'No results',
+        depth: 3,
+        pathNamespaces: ['/core', '/widgets', '/basic', '/annotations', '/gen'],
+      },
+      copyCode: {
+        buttonText: 'Copy',
+        errorText: 'Error',
+        successText: 'Copied',
+      },
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify@4"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/plugins/search.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docsify-copy-code@2/dist/docsify-copy-code.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-dart.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-yaml.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-bash.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-css.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1/components/prism-markup.min.js"></script>
+</body>
+</html>

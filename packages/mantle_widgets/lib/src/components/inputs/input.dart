@@ -1,0 +1,68 @@
+// Contracts are single-method by design so themes only implement `root`.
+// ignore_for_file: one_member_abstracts
+
+import 'package:flutter/widgets.dart';
+import 'package:mantle_annotations/mantle_annotations.dart';
+import 'package:mantle_core/mantle_core.dart';
+import 'package:mantle_widgets/src/components/inputs/types.dart';
+
+part 'input.g.dart';
+
+/// Source-of-truth contract for Input: base text-field chrome.
+@MantleComponent(
+  name: 'Input',
+  variants: [
+    MantleVariant('default'),
+    MantleVariant('filled'),
+    MantleVariant('unstyled'),
+  ],
+  properties: [
+    MantleProperty<String>('value', nullable: true),
+    MantleProperty<String>('defaultValue', nullable: true),
+    MantleProperty<void Function(String)>('onChanged', nullable: true),
+    MantleProperty<String>('placeholder', nullable: true),
+    MantleProperty<Widget>('leftSection', nullable: true),
+    MantleProperty<Widget>('rightSection', nullable: true),
+    MantleProperty<bool>('disabled', nullable: true, defaultValue: false),
+    MantleProperty<bool>('readOnly', nullable: true, defaultValue: false),
+    MantleProperty<bool>('required', nullable: true, defaultValue: false),
+    MantleProperty<bool>('pointer', nullable: true, defaultValue: false),
+    MantleProperty<bool>('multiline', nullable: true, defaultValue: false),
+    MantleProperty<bool>(
+      'withErrorStyles',
+      nullable: true,
+      defaultValue: true,
+    ),
+    MantleProperty<Widget>('error', nullable: true),
+    MantleProperty<String>('size', nullable: true, defaultValue: 'sm'),
+    MantleProperty<BorderRadiusGeometry>(
+      'radius',
+      defaultBuilder: inputDefaultRadius,
+    ),
+  ],
+)
+abstract class MantleInputContract {
+  /// Builds the input chrome and editable field.
+  @MantleComponent.slot()
+  Widget root(InputContext context);
+}
+
+/// Source-of-truth contract for InputWrapper (Mantine `Input.Wrapper`).
+@MantleComponent(
+  name: 'InputWrapper',
+  variants: [MantleVariant('default')],
+  properties: [
+    MantleProperty<Widget>('child'),
+    MantleProperty<Widget>('label', nullable: true),
+    MantleProperty<Widget>('description', nullable: true),
+    MantleProperty<Widget>('error', nullable: true),
+    MantleProperty<bool>('required', nullable: true, defaultValue: false),
+    MantleProperty<bool>('withAsterisk', nullable: true),
+    MantleProperty<String>('size', nullable: true, defaultValue: 'sm'),
+  ],
+)
+abstract class MantleInputWrapperContract {
+  /// Builds label, description, input, and error.
+  @MantleComponent.slot()
+  Widget root(InputWrapperContext context);
+}

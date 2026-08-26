@@ -1,0 +1,105 @@
+enum {{ variantEnumName }} {
+{%- for variant in variants %}
+  {{ variant.enumName }},
+{%- endfor %}
+}
+
+@immutable
+class {{ styleClassName }} {
+{% if styleFields %}
+  const {{ styleClassName }}({
+{%- for field in styleFields %}
+    this.{{ field.name }},
+{%- endfor %}
+  });
+{% for field in styleFields %}
+  final {{ field.type }} {{ field.name }};
+{%- endfor %}
+
+  {{ styleClassName }} copyWith({
+{%- for field in styleFields %}
+    {{ field.type }} {{ field.name }},
+{%- endfor %}
+  }) {
+    return {{ styleClassName }}(
+{%- for field in styleFields %}
+      {{ field.name }}: {{ field.name }} ?? this.{{ field.name }},
+{%- endfor %}
+    );
+  }
+
+  {{ styleClassName }} mergeWith({{ styleClassName }}? other) {
+    if (other == null) return this;
+    return {{ styleClassName }}(
+{%- for field in styleFields %}
+      {{ field.name }}: {{ field.name }} ?? other.{{ field.name }},
+{%- endfor %}
+    );
+  }
+{% else %}
+  const {{ styleClassName }}();
+
+  {{ styleClassName }} copyWith() => this;
+
+  {{ styleClassName }} mergeWith({{ styleClassName }}? other) => this;
+{% endif %}
+}
+
+@immutable
+class {{ stateClassName }} {
+{% if stateFields %}
+  const {{ stateClassName }}({
+{%- for field in stateFields %}
+    {{ field.constructorParam }},
+{%- endfor %}
+  });
+{% for field in stateFields %}
+  final {{ field.type }} {{ field.name }};
+{%- endfor %}
+{% else %}
+  const {{ stateClassName }}();
+{% endif %}
+}
+
+@immutable
+class {{ contextClassName }} {
+  const {{ contextClassName }}({
+{%- for field in contextFields %}
+    {% if field.required %}required {% endif %}this.{{ field.name }},
+{%- endfor %}
+  });
+{% for field in contextFields %}
+  final {{ field.type }} {{ field.name }};
+{%- endfor %}
+}
+
+{% for slot in slotTypes -%}
+class {{ slot.typeName }} {
+  const {{ slot.typeName }}(this._build);
+
+  final {{ slot.functionType }} _build;
+
+  {{ slot.returnType }} call({{ contextClassName }} context) => _build(context);
+}
+
+{% endfor -%}
+abstract class {{ delegateClassName }} extends ComponentDelegate {
+  const {{ delegateClassName }}();
+{% for method in delegateMethods %}
+  {{ method.returnType }} {{ method.name }}{{ method.signature }};
+{% endfor %}
+}
+
+class {{ name }} extends StatelessWidget {
+{% for ctor in constructors %}
+  {{ ctor.signature }} : {{ ctor.initializer }};
+{% endfor %}
+{% for field in widgetFields %}
+  final {{ field.type }} {{ field.name }};
+{%- endfor %}
+
+  @override
+  Widget build(BuildContext context) {
+{{ buildBody }}
+  }
+}

@@ -1,0 +1,21 @@
+name: mantle_annotations
+description: >
+  Pure-Dart annotations for Mantle code generation. Shared by app code
+  and mantle_gen without pulling in Flutter.
+version: 1.0.0
+resolution: workspace
+
+homepage: https://mantle.leslmosnk.com
+repository: https://github.com/leslmosnk2/Flutter-Mantle/tree/main/packages/mantle_annotations
+issue_tracker: https://github.com/leslmosnk2/Flutter-Mantle/issues
+documentation: https://docs.mantle.leslmosnk.com/#/annotations/
+
+topics:
+  - annotations
+  - codegen
+  - design-system
+  - theme
+  - flutter
+
+environment:
+  sdk: ^3.12.0

@@ -1,0 +1,23 @@
+builders:
+  mantle_token:
+    import: "package:mantle_gen/mantle_gen.dart"
+    builder_factories:
+      - mantleTokenBuilder
+    build_extensions:
+      .dart:
+        - .g.part
+    auto_apply: dependents
+    build_to: cache
+    applies_builders:
+      - source_gen:combining_builder
+  mantle_component:
+    import: "package:mantle_gen/mantle_gen.dart"
+    builder_factories:
+      - mantleComponentBuilder
+    build_extensions:
+      .dart:
+        - .g.part
+    auto_apply: dependents
+    build_to: cache
+    applies_builders:
+      - source_gen:combining_builder

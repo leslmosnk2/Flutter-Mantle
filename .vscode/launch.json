@@ -1,0 +1,57 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Flutter Widgets",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "gallery",
+            "cwd": "packages/mantle_basic/example",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "mantle_basic",
+            "cwd": "packages/mantle_basic",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "mantle_core",
+            "cwd": "packages/mantle_core",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "mantle_core (profile mode)",
+            "cwd": "packages/mantle_core",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "mantle_core (release mode)",
+            "cwd": "packages/mantle_core",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "mantle_gen",
+            "cwd": "packages/mantle_gen",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "mantle_widgets",
+            "cwd": "packages/mantle_widgets",
+            "request": "launch",
+            "type": "dart"
+        }
+    ]
+}

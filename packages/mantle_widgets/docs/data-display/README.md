@@ -1,0 +1,27 @@
+# Data display
+
+Avatars, badges, cards, lists, and other read-only chrome.
+
+- [Accordion](/widgets/data-display/Accordion/)
+- [AccordionItem](/widgets/data-display/AccordionItem/)
+- [Avatar](/widgets/data-display/Avatar/)
+- [AvatarGroup](/widgets/data-display/AvatarGroup/)
+- [BackgroundImage](/widgets/data-display/BackgroundImage/)
+- [Badge](/widgets/data-display/Badge/)
+- [CardSection](/widgets/data-display/CardSection/)
+- [DataList](/widgets/data-display/DataList/)
+- [DataListItem](/widgets/data-display/DataListItem/)
+- [DataListItemLabel](/widgets/data-display/DataListItemLabel/)
+- [DataListItemValue](/widgets/data-display/DataListItemValue/)
+- [Indicator](/widgets/data-display/Indicator/)
+- [Kbd](/widgets/data-display/Kbd/)
+- [MCard](/widgets/data-display/MCard/)
+- [MColorSwatch](/widgets/data-display/MColorSwatch/)
+- [MImage](/widgets/data-display/MImage/)
+- [NumberFormatter](/widgets/data-display/NumberFormatter/)
+- [OverflowList](/widgets/data-display/OverflowList/)
+- [RollingNumber](/widgets/data-display/RollingNumber/)
+- [Spoiler](/widgets/data-display/Spoiler/)
+- [ThemeIcon](/widgets/data-display/ThemeIcon/)
+- [Timeline](/widgets/data-display/Timeline/)
+- [TimelineItem](/widgets/data-display/TimelineItem/)
