@@ -7,3 +7,6 @@ build/
 .idea/
 *.iml
 .metadata
+example/build/
+example/.dart_tool/
+example/.metadata

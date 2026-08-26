@@ -1,0 +1,21 @@
+name: mantle_widgets_example
+description: Tiny Button example painted by BasicTheme.
+publish_to: none
+resolution: workspace
+version: 1.0.0
+
+environment:
+  sdk: ^3.12.0
+  flutter: ">=3.32.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  mantle_basic: ^1.0.0
+  mantle_widgets: ^1.0.0
+
+dev_dependencies:
+  very_good_analysis: ^10.3.0
+
+flutter:
+  uses-material-design: false

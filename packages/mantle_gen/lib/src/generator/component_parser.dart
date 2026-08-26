@@ -335,14 +335,7 @@ Iterable<FormalParameter> _namedParams(MethodDeclaration method) {
 }
 
 String _parameterTypeName(FormalParameter param) {
-  final inner = param is DefaultFormalParameter ? param.parameter : param;
-  if (inner is SimpleFormalParameter) {
-    return inner.type?.toSource() ?? 'dynamic';
-  }
-  if (inner is FieldFormalParameter) {
-    return inner.type?.toSource() ?? 'dynamic';
-  }
-  return 'dynamic';
+  return param.type?.toSource() ?? 'dynamic';
 }
 
 String _pascal(String name) {

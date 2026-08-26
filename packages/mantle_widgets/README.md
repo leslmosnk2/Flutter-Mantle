@@ -21,6 +21,10 @@ dependencies:
   mantle_basic: ^1.0.0
 ```
 
+A runnable sample lives in [`example/`](example/). The full gallery is
+[`mantle_basic/example`](https://github.com/leslmosnk2/Flutter-Mantle/tree/main/packages/mantle_basic/example)
+and at [mantle.leslmosnk.com](https://mantle.leslmosnk.com).
+
 ```dart
 import 'package:flutter/widgets.dart';
 import 'package:mantle_basic/mantle_basic.dart';

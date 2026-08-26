@@ -21,12 +21,11 @@ environment:
   sdk: ^3.12.0
 
 dependencies:
-  # Cap below versions that require meta ^1.18.3 (Flutter 3.44 pins meta 1.18.0).
-  analyzer: ">=8.1.1 <13.1.0"
-  build: ">=4.0.0 <4.0.8"
+  analyzer: '>=13.3.0 <15.0.0'
+  build: '>=4.0.0 <5.0.0'
   mantle_annotations: ^1.0.0
-  source_gen: ^4.2.4
+  source_gen: '>=4.2.4 <5.0.0'
 
 dev_dependencies:
-  build_runner: ">=2.15.0 <2.15.2"
+  build_runner: ^2.15.0
   test: ^1.25.0

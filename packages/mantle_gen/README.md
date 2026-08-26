@@ -19,6 +19,8 @@ dev_dependencies:
   build_runner: ^2.4.0
 ```
 
+See [`example/example.dart`](example/example.dart) for sample generator input.
+
 Then:
 
 ```bash

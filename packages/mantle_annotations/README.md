@@ -15,6 +15,8 @@ dependencies:
   mantle_annotations: ^1.0.0
 ```
 
+See [`example/example.dart`](example/example.dart) for a `@MantleToken` group.
+
 Typically you also add `mantle_gen` as a `dev_dependency` and run
 `dart run build_runner build`.
 

@@ -20,6 +20,8 @@ dependencies:
   mantle_core: ^1.0.0
 ```
 
+A runnable sample lives in [`example/`](example/).
+
 ## Quick start
 
 Provide a theme at the root of your app (above `WidgetsApp` so overlays still

@@ -49,6 +49,37 @@
 <body>
   <div id="app">Loading…</div>
   <script>
+    (function () {
+      function collapseDuplicateHash() {
+        var hash = location.hash || '';
+        if (hash.indexOf('#/') !== 0) {
+          return;
+        }
+        var body = hash.slice(2);
+        var query = '';
+        var q = body.indexOf('?');
+        if (q !== -1) {
+          query = body.slice(q);
+          body = body.slice(0, q);
+        }
+        var trail = /\/$/.test(body);
+        var segs = body.split('/').filter(Boolean);
+        var out = [];
+        segs.forEach(function (seg) {
+          if (!out.length || out[out.length - 1] !== seg) {
+            out.push(seg);
+          }
+        });
+        if (out.length === segs.length) {
+          return;
+        }
+        location.replace('#/' + out.join('/') + (trail ? '/' : '') + query);
+      }
+      collapseDuplicateHash();
+      window.addEventListener('hashchange', collapseDuplicateHash);
+    })();
+  </script>
+  <script>
     window.$docsify = {
       name: 'Mantle',
       nameLink: '#/',
