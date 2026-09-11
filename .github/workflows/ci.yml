@@ -38,7 +38,7 @@ jobs:
           cache: true
       - run: dart pub get
       - run: dart analyze --fatal-infos
-      - run: dart run melos run test
+      - run: dart run melos run test --no-select
 
   docs:
     name: GitHub Pages

@@ -13,6 +13,27 @@ workspace:
   - packages/mantle_widgets/example
   - packages/mantle_basic
   - packages/mantle_basic/example
+
 dev_dependencies:
   melos: ^8.5.0
   very_good_analysis: ^10.3.0
+
+melos:
+  scripts:
+    analyze:
+      run: dart analyze --fatal-infos
+    test:
+      exec:
+        command: flutter test
+        concurrency: 1
+      packageFilters:
+        dirExists: test
+    gen:
+      description: Run build_runner in all packages that use codegen.
+      exec:
+        command: dart run build_runner build --delete-conflicting-outputs
+        concurrency: 1
+      packageFilters:
+        dependsOn: mantle_gen
+    format:
+      run: dart format --set-exit-if-changed .
