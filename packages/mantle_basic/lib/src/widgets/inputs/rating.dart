@@ -97,12 +97,13 @@ class _StarPainter extends CustomPainter {
     if (fill <= 0) {
       return;
     }
-    canvas.save();
-    canvas.clipRect(
-      Rect.fromLTWH(0, 0, size.width * fill, size.height),
-    );
-    canvas.drawPath(path, Paint()..color = color);
-    canvas.restore();
+    canvas
+      ..save()
+      ..clipRect(
+        Rect.fromLTWH(0, 0, size.width * fill, size.height),
+      )
+      ..drawPath(path, Paint()..color = color)
+      ..restore();
   }
 
   Path _star(Size size) {

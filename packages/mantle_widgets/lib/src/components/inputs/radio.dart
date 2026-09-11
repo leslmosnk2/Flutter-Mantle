@@ -19,7 +19,7 @@ part 'radio.g.dart';
   properties: [
     MantleProperty<String>('value'),
     MantleProperty<bool>('checked', nullable: true),
-    MantleProperty<void Function(bool)>('onChanged', nullable: true),
+    MantleProperty<ValueChanged<bool>>('onChanged', nullable: true),
     MantleProperty<Widget>('label', nullable: true),
     MantleProperty<Widget>('description', nullable: true),
     MantleProperty<Widget>('error', nullable: true),

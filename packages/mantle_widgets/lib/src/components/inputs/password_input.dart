@@ -31,7 +31,7 @@ part 'password_input.g.dart';
     MantleProperty<bool>('withAsterisk', nullable: true),
     MantleProperty<bool>('visible', nullable: true),
     MantleProperty<bool>('defaultVisible', nullable: true, defaultValue: false),
-    MantleProperty<void Function(bool)>(
+    MantleProperty<ValueChanged<bool>>(
       'onVisibilityChange',
       nullable: true,
     ),

@@ -145,27 +145,28 @@ class _SliderPainter extends CustomPainter {
       y + trackHeight / 2,
       const Radius.circular(100),
     );
-    canvas.drawRRect(track, Paint()..color = trackColor);
-    canvas.drawRRect(
-      RRect.fromLTRBR(
-        0,
-        y - trackHeight / 2,
-        size.width * progress,
-        y + trackHeight / 2,
-        const Radius.circular(100),
-      ),
-      Paint()..color = disabled ? trackColor : color,
-    );
-    canvas.drawCircle(
-      Offset(size.width * progress, y),
-      trackHeight,
-      Paint()..color = disabled ? trackColor : color,
-    );
-    canvas.drawCircle(
-      Offset(size.width * progress, y),
-      trackHeight * 0.55,
-      Paint()..color = const Color(0xFFFFFFFF),
-    );
+    canvas
+      ..drawRRect(track, Paint()..color = trackColor)
+      ..drawRRect(
+        RRect.fromLTRBR(
+          0,
+          y - trackHeight / 2,
+          size.width * progress,
+          y + trackHeight / 2,
+          const Radius.circular(100),
+        ),
+        Paint()..color = disabled ? trackColor : color,
+      )
+      ..drawCircle(
+        Offset(size.width * progress, y),
+        trackHeight,
+        Paint()..color = disabled ? trackColor : color,
+      )
+      ..drawCircle(
+        Offset(size.width * progress, y),
+        trackHeight * 0.55,
+        Paint()..color = const Color(0xFFFFFFFF),
+      );
   }
 
   @override
@@ -297,37 +298,39 @@ class _RangePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final y = size.height / 2;
-    canvas.drawRRect(
-      RRect.fromLTRBR(
-        0,
-        y - trackHeight / 2,
-        size.width,
-        y + trackHeight / 2,
-        const Radius.circular(100),
-      ),
-      Paint()..color = trackColor,
-    );
-    canvas.drawRRect(
-      RRect.fromLTRBR(
-        size.width * start,
-        y - trackHeight / 2,
-        size.width * end,
-        y + trackHeight / 2,
-        const Radius.circular(100),
-      ),
-      Paint()..color = color,
-    );
-    for (final t in [start, end]) {
-      canvas.drawCircle(
-        Offset(size.width * t, y),
-        trackHeight,
+    canvas
+      ..drawRRect(
+        RRect.fromLTRBR(
+          0,
+          y - trackHeight / 2,
+          size.width,
+          y + trackHeight / 2,
+          const Radius.circular(100),
+        ),
+        Paint()..color = trackColor,
+      )
+      ..drawRRect(
+        RRect.fromLTRBR(
+          size.width * start,
+          y - trackHeight / 2,
+          size.width * end,
+          y + trackHeight / 2,
+          const Radius.circular(100),
+        ),
         Paint()..color = color,
       );
-      canvas.drawCircle(
-        Offset(size.width * t, y),
-        trackHeight * 0.55,
-        Paint()..color = const Color(0xFFFFFFFF),
-      );
+    for (final t in [start, end]) {
+      canvas
+        ..drawCircle(
+          Offset(size.width * t, y),
+          trackHeight,
+          Paint()..color = color,
+        )
+        ..drawCircle(
+          Offset(size.width * t, y),
+          trackHeight * 0.55,
+          Paint()..color = const Color(0xFFFFFFFF),
+        );
     }
   }
 

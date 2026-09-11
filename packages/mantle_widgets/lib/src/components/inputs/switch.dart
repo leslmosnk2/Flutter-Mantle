@@ -19,7 +19,7 @@ part 'switch.g.dart';
       nullable: true,
       defaultValue: false,
     ),
-    MantleProperty<void Function(bool)>('onChanged', nullable: true),
+    MantleProperty<ValueChanged<bool>>('onChanged', nullable: true),
     MantleProperty<String>('value', nullable: true),
     MantleProperty<Widget>('label', nullable: true),
     MantleProperty<Widget>('description', nullable: true),

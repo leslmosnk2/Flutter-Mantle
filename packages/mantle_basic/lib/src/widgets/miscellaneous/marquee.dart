@@ -130,7 +130,7 @@ class _MarqueeRootState extends State<_MarqueeRoot>
           children: [
             for (var i = 0; i < copies; i++) ...[
               if (i > 0)
-                horizontal ? SizedBox(width: gap) : SizedBox(height: gap),
+                if (horizontal) SizedBox(width: gap) else SizedBox(height: gap),
               _group(key: i == 0 ? _measureKey : null),
             ],
           ],

@@ -121,7 +121,7 @@ class BasicColorSlider extends StatelessWidget {
         builder: (context, constraints) {
           final width = constraints.maxWidth;
           void setFrom(double dx, {bool end = false}) {
-            final next = ((dx / width).clamp(0.0, 1.0) * maxValue);
+            final next = (dx / width).clamp(0.0, 1.0) * maxValue;
             onChanged?.call(next);
             if (end) {
               onChangeEnd?.call(next);
@@ -246,22 +246,23 @@ class _SaturationPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final rect = Offset.zero & size;
     final hue = HSVColor.fromAHSV(1, hsv.hue, 1, 1).toColor();
-    canvas.drawRect(
-      rect,
-      Paint()
-        ..shader = LinearGradient(
-          colors: [const Color(0xFFFFFFFF), hue],
-        ).createShader(rect),
-    );
-    canvas.drawRect(
-      rect,
-      Paint()
-        ..shader = const LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [Color(0x00000000), Color(0xFF000000)],
-        ).createShader(rect),
-    );
+    canvas
+      ..drawRect(
+        rect,
+        Paint()
+          ..shader = LinearGradient(
+            colors: [const Color(0xFFFFFFFF), hue],
+          ).createShader(rect),
+      )
+      ..drawRect(
+        rect,
+        Paint()
+          ..shader = const LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [Color(0x00000000), Color(0xFF000000)],
+          ).createShader(rect),
+      );
   }
 
   @override

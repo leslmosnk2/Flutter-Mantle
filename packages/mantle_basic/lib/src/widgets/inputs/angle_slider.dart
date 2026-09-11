@@ -111,25 +111,27 @@ class _AnglePainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final center = Offset(size.width / 2, size.height / 2);
     final radius = size.width / 2 - thumbSize / 2;
-    canvas.drawCircle(center, radius, Paint()..color = track);
-    canvas.drawCircle(
-      center,
-      radius - 6,
-      Paint()..color = const Color(0x00000000),
-    );
+    canvas
+      ..drawCircle(center, radius, Paint()..color = track)
+      ..drawCircle(
+        center,
+        radius - 6,
+        Paint()..color = const Color(0x00000000),
+      );
     final rad = value * math.pi / 180;
     final thumb = Offset(
       center.dx + radius * math.sin(rad),
       center.dy - radius * math.cos(rad),
     );
-    canvas.drawLine(
-      center,
-      thumb,
-      Paint()
-        ..color = color
-        ..strokeWidth = 2,
-    );
-    canvas.drawCircle(thumb, thumbSize / 2, Paint()..color = color);
+    canvas
+      ..drawLine(
+        center,
+        thumb,
+        Paint()
+          ..color = color
+          ..strokeWidth = 2,
+      )
+      ..drawCircle(thumb, thumbSize / 2, Paint()..color = color);
     if (label != null) {
       final painter = TextPainter(
         text: TextSpan(

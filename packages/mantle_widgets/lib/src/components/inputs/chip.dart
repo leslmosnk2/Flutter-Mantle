@@ -26,7 +26,7 @@ part 'chip.g.dart';
       nullable: true,
       defaultValue: false,
     ),
-    MantleProperty<void Function(bool)>('onChanged', nullable: true),
+    MantleProperty<ValueChanged<bool>>('onChanged', nullable: true),
     MantleProperty<bool>('disabled', nullable: true, defaultValue: false),
     MantleProperty<Widget>('icon', nullable: true),
     MantleProperty<String>('color', nullable: true),

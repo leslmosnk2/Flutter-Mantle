@@ -38,10 +38,10 @@ bool _isMaskToken(String token) => '9aA*#'.contains(token);
 bool _matchesToken(String token, String ch) {
   return switch (token) {
     '9' => RegExp(r'\d').hasMatch(ch),
-    'a' => RegExp(r'[A-Za-z]').hasMatch(ch),
-    'A' => RegExp(r'[A-Za-z]').hasMatch(ch),
-    '*' => RegExp(r'[A-Za-z0-9]').hasMatch(ch),
-    '#' => RegExp(r'[-+0-9]').hasMatch(ch),
+    'a' => RegExp('[A-Za-z]').hasMatch(ch),
+    'A' => RegExp('[A-Za-z]').hasMatch(ch),
+    '*' => RegExp('[A-Za-z0-9]').hasMatch(ch),
+    '#' => RegExp('[-+0-9]').hasMatch(ch),
     _ => false,
   };
 }
