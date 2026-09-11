@@ -6,24 +6,36 @@ part of 'transition.dart';
 // MantleComponentGenerator
 // **************************************************************************
 
-enum MTransitionVariant { defaults }
+/// Visual variants of [MTransition].
+enum MTransitionVariant {
+  /// The default variant.
+  defaults,
+}
 
+/// Resolved visual values for [MTransition].
 @immutable
 class MTransitionStyle {
+  /// Creates a [MTransitionStyle].
   const MTransitionStyle();
 
+  /// Returns a copy of this [MTransitionStyle] with selected fields replaced.
   MTransitionStyle copyWith() => this;
 
+  /// Merges [other] over this [MTransitionStyle]; null fields keep this value.
   MTransitionStyle mergeWith(MTransitionStyle? other) => this;
 }
 
+/// Resolved interaction state for [MTransition].
 @immutable
 class MTransitionState {
+  /// Creates a [MTransitionState].
   const MTransitionState();
 }
 
+/// Values passed to [MTransitionDelegate] slots during build.
 @immutable
 class MTransitionContext {
+  /// Creates a [MTransitionContext].
   const MTransitionContext({
     required this.context,
     required this.style,
@@ -39,35 +51,66 @@ class MTransitionContext {
     this.onExited,
   });
 
+  /// The [BuildContext] for this build.
   final BuildContext context;
+
+  /// Style overrides merged over theme defaults.
   final MTransitionStyle style;
+
+  /// Resolved interaction state for this build.
   final MTransitionState state;
+
+  /// The visual variant selected by the constructor.
   final MTransitionVariant variant;
+
+  /// The primary child widget.
   final Widget child;
+
+  /// Whether the transition is in the mounted phase.
   final bool mounted;
+
+  /// The transition.
   final MantleTransitionName transition;
+
+  /// Animation duration in milliseconds.
   final int duration;
+
+  /// Exit animation duration in milliseconds.
   final int? exitDuration;
+
+  /// Whether to keep children mounted when closed.
   final bool keepMounted;
+
+  /// Called after the enter transition finishes.
   final VoidCallback? onEntered;
+
+  /// Called after the exit transition finishes.
   final VoidCallback? onExited;
 }
 
+/// Builder for the root slot.
 class MTransitionRoot {
+  /// Creates a [MTransitionRoot] from a builder function.
   const MTransitionRoot(this._build);
 
   final Widget Function(MTransitionContext context) _build;
 
+  /// Invokes this slot with [context].
   Widget call(MTransitionContext context) => _build(context);
 }
 
+/// Theme-owned composition slots for [MTransition].
 abstract class MTransitionDelegate extends ComponentDelegate {
+  /// Creates a [MTransitionDelegate].
   const MTransitionDelegate();
 
+  /// Builds the composition root.
   Widget root(MTransitionContext context);
 }
 
+/// A [MTransition] widget resolved through [MTransitionDelegate].
 class MTransition extends StatelessWidget {
+  /// Creates a [MTransition].
   const MTransition({
     super.key,
     required this.child,
@@ -81,17 +124,37 @@ class MTransition extends StatelessWidget {
     this.style,
   }) : variant = MTransitionVariant.defaults;
 
+  /// The visual variant selected by the constructor.
   final MTransitionVariant variant;
+
+  /// The primary child widget.
   final Widget child;
+
+  /// Whether the transition is in the mounted phase.
   final bool mounted;
+
+  /// The transition.
   final MantleTransitionName? transition;
+
+  /// Animation duration in milliseconds.
   final int? duration;
+
+  /// Exit animation duration in milliseconds.
   final int? exitDuration;
+
+  /// Whether to keep children mounted when closed.
   final bool? keepMounted;
+
+  /// Called after the enter transition finishes.
   final VoidCallback? onEntered;
+
+  /// Called after the exit transition finishes.
   final VoidCallback? onExited;
+
+  /// Style overrides merged over theme defaults.
   final MTransitionStyle? style;
 
+  /// Resolves properties and builds via [MTransitionDelegate].
   @override
   Widget build(BuildContext context) {
     final resolvedChild = child;

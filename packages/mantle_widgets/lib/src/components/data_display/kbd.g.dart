@@ -6,24 +6,36 @@ part of 'kbd.dart';
 // MantleComponentGenerator
 // **************************************************************************
 
-enum KbdVariant { defaults }
+/// Visual variants of [Kbd].
+enum KbdVariant {
+  /// The default variant.
+  defaults,
+}
 
+/// Resolved visual values for [Kbd].
 @immutable
 class KbdStyle {
+  /// Creates a [KbdStyle].
   const KbdStyle();
 
+  /// Returns a copy of this [KbdStyle] with selected fields replaced.
   KbdStyle copyWith() => this;
 
+  /// Merges [other] over this [KbdStyle]; null fields keep this value.
   KbdStyle mergeWith(KbdStyle? other) => this;
 }
 
+/// Resolved interaction state for [Kbd].
 @immutable
 class KbdState {
+  /// Creates a [KbdState].
   const KbdState();
 }
 
+/// Values passed to [KbdDelegate] slots during build.
 @immutable
 class KbdContext {
+  /// Creates a [KbdContext].
   const KbdContext({
     required this.context,
     required this.style,
@@ -33,37 +45,64 @@ class KbdContext {
     required this.size,
   });
 
+  /// The [BuildContext] for this build.
   final BuildContext context;
+
+  /// Style overrides merged over theme defaults.
   final KbdStyle style;
+
+  /// Resolved interaction state for this build.
   final KbdState state;
+
+  /// The visual variant selected by the constructor.
   final KbdVariant variant;
+
+  /// The primary child widget.
   final Widget child;
+
+  /// Size token.
   final String size;
 }
 
+/// Builder for the root slot.
 class KbdRoot {
+  /// Creates a [KbdRoot] from a builder function.
   const KbdRoot(this._build);
 
   final Widget Function(KbdContext context) _build;
 
+  /// Invokes this slot with [context].
   Widget call(KbdContext context) => _build(context);
 }
 
+/// Theme-owned composition slots for [Kbd].
 abstract class KbdDelegate extends ComponentDelegate {
+  /// Creates a [KbdDelegate].
   const KbdDelegate();
 
+  /// Builds the composition root.
   Widget root(KbdContext context);
 }
 
+/// A [Kbd] widget resolved through [KbdDelegate].
 class Kbd extends StatelessWidget {
+  /// Creates a [Kbd].
   const Kbd({super.key, required this.child, this.size, this.style})
     : variant = KbdVariant.defaults;
 
+  /// The visual variant selected by the constructor.
   final KbdVariant variant;
+
+  /// The primary child widget.
   final Widget child;
+
+  /// Size token.
   final String? size;
+
+  /// Style overrides merged over theme defaults.
   final KbdStyle? style;
 
+  /// Resolves properties and builds via [KbdDelegate].
   @override
   Widget build(BuildContext context) {
     final resolvedChild = child;

@@ -6,24 +6,42 @@ part of 'input.dart';
 // MantleComponentGenerator
 // **************************************************************************
 
-enum InputVariant { defaults, filled, unstyled }
+/// Visual variants of [Input].
+enum InputVariant {
+  /// The default variant.
+  defaults,
 
+  /// The filled variant.
+  filled,
+
+  /// The unstyled variant.
+  unstyled,
+}
+
+/// Resolved visual values for [Input].
 @immutable
 class InputStyle {
+  /// Creates an [InputStyle].
   const InputStyle();
 
+  /// Returns a copy of this [InputStyle] with selected fields replaced.
   InputStyle copyWith() => this;
 
+  /// Merges [other] over this [InputStyle]; null fields keep this value.
   InputStyle mergeWith(InputStyle? other) => this;
 }
 
+/// Resolved interaction state for [Input].
 @immutable
 class InputState {
+  /// Creates an [InputState].
   const InputState();
 }
 
+/// Values passed to [InputDelegate] slots during build.
 @immutable
 class InputContext {
+  /// Creates an [InputContext].
   const InputContext({
     required this.context,
     required this.style,
@@ -46,42 +64,87 @@ class InputContext {
     required this.radius,
   });
 
+  /// The [BuildContext] for this build.
   final BuildContext context;
+
+  /// Style overrides merged over theme defaults.
   final InputStyle style;
+
+  /// Resolved interaction state for this build.
   final InputState state;
+
+  /// The visual variant selected by the constructor.
   final InputVariant variant;
+
+  /// The controlled value.
   final String? value;
+
+  /// Initial value when [value] is omitted.
   final String? defaultValue;
+
+  /// Called when the value changes.
   final void Function(String)? onChanged;
+
+  /// Placeholder text when empty.
   final String? placeholder;
+
+  /// The left section.
   final Widget? leftSection;
+
+  /// The right section.
   final Widget? rightSection;
+
+  /// Whether interaction is disabled.
   final bool disabled;
+
+  /// Whether the value cannot be edited.
   final bool readOnly;
+
+  /// Whether required.
   final bool required;
+
+  /// Whether pointer.
   final bool pointer;
+
+  /// Whether multiline.
   final bool multiline;
+
+  /// Whether with error styles.
   final bool withErrorStyles;
+
+  /// Error text or error state.
   final Widget? error;
+
+  /// Size token.
   final String size;
+
+  /// Corner radius.
   final BorderRadiusGeometry radius;
 }
 
+/// Builder for the root slot.
 class InputRoot {
+  /// Creates an [InputRoot] from a builder function.
   const InputRoot(this._build);
 
   final Widget Function(InputContext context) _build;
 
+  /// Invokes this slot with [context].
   Widget call(InputContext context) => _build(context);
 }
 
+/// Theme-owned composition slots for [Input].
 abstract class InputDelegate extends ComponentDelegate {
+  /// Creates an [InputDelegate].
   const InputDelegate();
 
+  /// Builds the composition root.
   Widget root(InputContext context);
 }
 
+/// An [Input] widget resolved through [InputDelegate].
 class Input extends StatelessWidget {
+  /// Creates an [Input].
   const Input({
     super.key,
     this.value,
@@ -102,6 +165,7 @@ class Input extends StatelessWidget {
     this.style,
   }) : variant = InputVariant.defaults;
 
+  /// Creates a filled [Input].
   const Input.filled({
     super.key,
     this.value,
@@ -122,6 +186,7 @@ class Input extends StatelessWidget {
     this.style,
   }) : variant = InputVariant.filled;
 
+  /// Creates an unstyled [Input].
   const Input.unstyled({
     super.key,
     this.value,
@@ -142,24 +207,58 @@ class Input extends StatelessWidget {
     this.style,
   }) : variant = InputVariant.unstyled;
 
+  /// The visual variant selected by the constructor.
   final InputVariant variant;
+
+  /// The controlled value.
   final String? value;
+
+  /// Initial value when [value] is omitted.
   final String? defaultValue;
+
+  /// Called when the value changes.
   final void Function(String)? onChanged;
+
+  /// Placeholder text when empty.
   final String? placeholder;
+
+  /// The left section.
   final Widget? leftSection;
+
+  /// The right section.
   final Widget? rightSection;
+
+  /// Whether interaction is disabled.
   final bool? disabled;
+
+  /// Whether the value cannot be edited.
   final bool? readOnly;
+
+  /// Whether required.
   final bool? required;
+
+  /// Whether pointer.
   final bool? pointer;
+
+  /// Whether multiline.
   final bool? multiline;
+
+  /// Whether with error styles.
   final bool? withErrorStyles;
+
+  /// Error text or error state.
   final Widget? error;
+
+  /// Size token.
   final String? size;
+
+  /// Corner radius.
   final BorderRadiusGeometry? radius;
+
+  /// Style overrides merged over theme defaults.
   final InputStyle? style;
 
+  /// Resolves properties and builds via [InputDelegate].
   @override
   Widget build(BuildContext context) {
     final resolvedValue = value;
@@ -208,24 +307,36 @@ class Input extends StatelessWidget {
   }
 }
 
-enum InputWrapperVariant { defaults }
+/// Visual variants of [InputWrapper].
+enum InputWrapperVariant {
+  /// The default variant.
+  defaults,
+}
 
+/// Resolved visual values for [InputWrapper].
 @immutable
 class InputWrapperStyle {
+  /// Creates an [InputWrapperStyle].
   const InputWrapperStyle();
 
+  /// Returns a copy of this [InputWrapperStyle] with selected fields replaced.
   InputWrapperStyle copyWith() => this;
 
+  /// Merges [other] over this [InputWrapperStyle]; null fields keep this value.
   InputWrapperStyle mergeWith(InputWrapperStyle? other) => this;
 }
 
+/// Resolved interaction state for [InputWrapper].
 @immutable
 class InputWrapperState {
+  /// Creates an [InputWrapperState].
   const InputWrapperState();
 }
 
+/// Values passed to [InputWrapperDelegate] slots during build.
 @immutable
 class InputWrapperContext {
+  /// Creates an [InputWrapperContext].
   const InputWrapperContext({
     required this.context,
     required this.style,
@@ -240,34 +351,63 @@ class InputWrapperContext {
     required this.size,
   });
 
+  /// The [BuildContext] for this build.
   final BuildContext context;
+
+  /// Style overrides merged over theme defaults.
   final InputWrapperStyle style;
+
+  /// Resolved interaction state for this build.
   final InputWrapperState state;
+
+  /// The visual variant selected by the constructor.
   final InputWrapperVariant variant;
+
+  /// The primary child widget.
   final Widget child;
+
+  /// The label.
   final Widget? label;
+
+  /// Supporting description text.
   final Widget? description;
+
+  /// Error text or error state.
   final Widget? error;
+
+  /// Whether required.
   final bool required;
+
+  /// Whether with asterisk.
   final bool? withAsterisk;
+
+  /// Size token.
   final String size;
 }
 
+/// Builder for the root slot.
 class InputWrapperRoot {
+  /// Creates an [InputWrapperRoot] from a builder function.
   const InputWrapperRoot(this._build);
 
   final Widget Function(InputWrapperContext context) _build;
 
+  /// Invokes this slot with [context].
   Widget call(InputWrapperContext context) => _build(context);
 }
 
+/// Theme-owned composition slots for [InputWrapper].
 abstract class InputWrapperDelegate extends ComponentDelegate {
+  /// Creates an [InputWrapperDelegate].
   const InputWrapperDelegate();
 
+  /// Builds the composition root.
   Widget root(InputWrapperContext context);
 }
 
+/// An [InputWrapper] widget resolved through [InputWrapperDelegate].
 class InputWrapper extends StatelessWidget {
+  /// Creates an [InputWrapper].
   const InputWrapper({
     super.key,
     required this.child,
@@ -280,16 +420,34 @@ class InputWrapper extends StatelessWidget {
     this.style,
   }) : variant = InputWrapperVariant.defaults;
 
+  /// The visual variant selected by the constructor.
   final InputWrapperVariant variant;
+
+  /// The primary child widget.
   final Widget child;
+
+  /// The label.
   final Widget? label;
+
+  /// Supporting description text.
   final Widget? description;
+
+  /// Error text or error state.
   final Widget? error;
+
+  /// Whether required.
   final bool? required;
+
+  /// Whether with asterisk.
   final bool? withAsterisk;
+
+  /// Size token.
   final String? size;
+
+  /// Style overrides merged over theme defaults.
   final InputWrapperStyle? style;
 
+  /// Resolves properties and builds via [InputWrapperDelegate].
   @override
   Widget build(BuildContext context) {
     final resolvedChild = child;

@@ -1,5 +1,8 @@
 import 'package:flutter/widgets.dart';
+import 'package:mantle_annotations/mantle_annotations.dart';
 import 'package:mantle_core/mantle_core.dart';
+
+part 'basic_tokens.g.dart';
 
 /// Mantine radius scale in logical pixels.
 const MantleRadius basicRadius = MantleRadius.fromScale(
@@ -33,6 +36,48 @@ const MantleBreakpoint basicBreakpoints = MantleBreakpoint.fromScale(
     'xl': 1408,
   }),
 );
+
+/// Context-built Mantine spacing scale.
+@MantleToken(['xs', 'sm', 'md', 'lg', 'xl'])
+class BasicSpacing extends _$BasicSpacing {
+  /// Creates spacing tokens for the current `BuildContext`.
+  BasicSpacing(BuildContext _)
+    : super(
+        xs: 10,
+        sm: 12,
+        md: 16,
+        lg: 20,
+        xl: 32,
+      );
+}
+
+/// Context-built Mantine radius scale.
+@MantleToken(['xs', 'sm', 'md', 'lg', 'xl'])
+class BasicRadius extends _$BasicRadius {
+  /// Creates radius tokens for the current `BuildContext`.
+  BasicRadius(BuildContext _)
+    : super(
+        xs: 2,
+        sm: 4,
+        md: 8,
+        lg: 16,
+        xl: 32,
+      );
+}
+
+/// Context-built Mantine breakpoint scale.
+@MantleToken(['xs', 'sm', 'md', 'lg', 'xl'])
+class BasicBreakpoints extends _$BasicBreakpoints {
+  /// Creates breakpoint tokens for the current `BuildContext`.
+  BasicBreakpoints(BuildContext _)
+    : super(
+        xs: 576,
+        sm: 768,
+        md: 992,
+        lg: 1200,
+        xl: 1408,
+      );
+}
 
 /// Mantine type scale, headings, and body/label styles.
 const MantleTypography basicTypography = MantleTypography(

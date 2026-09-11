@@ -10,7 +10,7 @@ and (with [`mantle_widgets`](/widgets/)) the structure of every widget.
 
 ```yaml
 dependencies:
-  mantle_core: ^1.0.0
+  mantle_core: ^1.1.0
 ```
 
 ## Provide a theme

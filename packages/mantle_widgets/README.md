@@ -11,14 +11,14 @@ This library re-exports `package:mantle_core/mantle_core.dart`, so you do
 not need a separate core import to use `MantleProvider` or tokens.
 
 - **Gallery:** [mantle.leslmosnk.com](https://mantle.leslmosnk.com)
-- **Docs:** [docs.mantle.leslmosnk.com/widgets](https://docs.mantle.leslmosnk.com/#/widgets/)
+- **Docs:** [leslmosnk2.github.io/Flutter-Mantle/#/widgets](https://leslmosnk2.github.io/Flutter-Mantle/#/widgets/)
 
 ## Install
 
 ```yaml
 dependencies:
-  mantle_widgets: ^1.0.0
-  mantle_basic: ^1.0.0
+  mantle_widgets: ^1.1.0
+  mantle_basic: ^1.1.0
 ```
 
 A runnable sample lives in [`example/`](example/). The full gallery is

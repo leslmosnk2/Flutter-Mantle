@@ -6,10 +6,16 @@ part of 'select.dart';
 // MantleComponentGenerator
 // **************************************************************************
 
-enum SelectVariant { defaults }
+/// Visual variants of [Select].
+enum SelectVariant {
+  /// The default variant.
+  defaults,
+}
 
+/// Resolved visual values for [Select].
 @immutable
 class SelectStyle {
+  /// Creates a [SelectStyle].
   const SelectStyle({
     this.background,
     this.borderColor,
@@ -18,12 +24,22 @@ class SelectStyle {
     this.radius,
   });
 
+  /// Background color.
   final Color? background;
+
+  /// Border color token or value.
   final Color? borderColor;
+
+  /// Foreground or accent color.
   final Color? color;
+
+  /// Height in logical pixels.
   final double? height;
+
+  /// Corner radius.
   final BorderRadiusGeometry? radius;
 
+  /// Returns a copy of this [SelectStyle] with selected fields replaced.
   SelectStyle copyWith({
     Color? background,
     Color? borderColor,
@@ -40,6 +56,7 @@ class SelectStyle {
     );
   }
 
+  /// Merges [other] over this [SelectStyle]; null fields keep this value.
   SelectStyle mergeWith(SelectStyle? other) {
     if (other == null) return this;
     return SelectStyle(
@@ -52,16 +69,23 @@ class SelectStyle {
   }
 }
 
+/// Resolved interaction state for [Select].
 @immutable
 class SelectState {
+  /// Creates a [SelectState].
   const SelectState({this.disabled = false, this.searchable = false});
 
+  /// Whether interaction is disabled.
   final bool disabled;
+
+  /// Whether the list can be filtered.
   final bool searchable;
 }
 
+/// Values passed to [SelectDelegate] slots during build.
 @immutable
 class SelectContext {
+  /// Creates a [SelectContext].
   const SelectContext({
     required this.context,
     required this.style,
@@ -93,51 +117,114 @@ class SelectContext {
     required this.radius,
   });
 
+  /// The [BuildContext] for this build.
   final BuildContext context;
+
+  /// Style overrides merged over theme defaults.
   final SelectStyle style;
+
+  /// Resolved interaction state for this build.
   final SelectState state;
+
+  /// The visual variant selected by the constructor.
   final SelectVariant variant;
+
+  /// Tabular data to render.
   final List<ComboboxItem> data;
+
+  /// The controlled value.
   final String? value;
+
+  /// Called when the value changes.
   final SelectChanged? onChange;
+
+  /// Placeholder text when empty.
   final String? placeholder;
+
+  /// The label.
   final String? label;
+
+  /// Supporting description text.
   final String? description;
+
+  /// Error text or error state.
   final String? error;
+
+  /// Whether the list can be filtered.
   final bool searchable;
+
+  /// Controlled search text.
   final String? searchValue;
+
+  /// Called when the search text changes.
   final ComboboxSearchChanged? onSearchChange;
+
+  /// Whether the value can be cleared.
   final bool clearable;
+
+  /// Whether allow deselect.
   final bool allowDeselect;
+
+  /// Whether interaction is disabled.
   final bool disabled;
+
+  /// Whether the value cannot be edited.
   final bool readOnly;
+
+  /// Whether the dropdown is open.
   final bool? dropdownOpened;
+
+  /// Called when the dropdown opens.
   final VoidCallback? onDropdownOpen;
+
+  /// Called when the dropdown closes.
   final VoidCallback? onDropdownClose;
+
+  /// Message shown when no options match.
   final String? nothingFoundMessage;
+
+  /// Whether with check icon.
   final bool withCheckIcon;
+
+  /// The check icon position.
   final ComboboxCheckIconPosition checkIconPosition;
+
+  /// The limit.
   final int? limit;
+
+  /// The max dropdown height.
   final double maxDropdownHeight;
+
+  /// Size token.
   final String size;
+
+  /// Corner radius.
   final BorderRadiusGeometry radius;
 }
 
+/// Builder for the root slot.
 class SelectRoot {
+  /// Creates a [SelectRoot] from a builder function.
   const SelectRoot(this._build);
 
   final Widget Function(SelectContext context) _build;
 
+  /// Invokes this slot with [context].
   Widget call(SelectContext context) => _build(context);
 }
 
+/// Theme-owned composition slots for [Select].
 abstract class SelectDelegate extends ComponentDelegate {
+  /// Creates a [SelectDelegate].
   const SelectDelegate();
 
+  /// Builds the composition root.
   Widget root(SelectContext context);
 }
 
+/// A [Select] widget resolved through [SelectDelegate].
 class Select extends StatelessWidget {
+  /// Creates a [Select].
   const Select({
     super.key,
     required this.data,
@@ -167,33 +254,85 @@ class Select extends StatelessWidget {
     this.style,
   }) : variant = SelectVariant.defaults;
 
+  /// The visual variant selected by the constructor.
   final SelectVariant variant;
+
+  /// Tabular data to render.
   final List<ComboboxItem> data;
+
+  /// The controlled value.
   final String? value;
+
+  /// Called when the value changes.
   final SelectChanged? onChange;
+
+  /// Placeholder text when empty.
   final String? placeholder;
+
+  /// The label.
   final String? label;
+
+  /// Supporting description text.
   final String? description;
+
+  /// Error text or error state.
   final String? error;
+
+  /// Whether the list can be filtered.
   final bool? searchable;
+
+  /// Controlled search text.
   final String? searchValue;
+
+  /// Called when the search text changes.
   final ComboboxSearchChanged? onSearchChange;
+
+  /// Whether the value can be cleared.
   final bool? clearable;
+
+  /// Whether allow deselect.
   final bool? allowDeselect;
+
+  /// Whether interaction is disabled.
   final bool? disabled;
+
+  /// Whether the value cannot be edited.
   final bool? readOnly;
+
+  /// Whether the dropdown is open.
   final bool? dropdownOpened;
+
+  /// Called when the dropdown opens.
   final VoidCallback? onDropdownOpen;
+
+  /// Called when the dropdown closes.
   final VoidCallback? onDropdownClose;
+
+  /// Message shown when no options match.
   final String? nothingFoundMessage;
+
+  /// Whether with check icon.
   final bool? withCheckIcon;
+
+  /// The check icon position.
   final ComboboxCheckIconPosition? checkIconPosition;
+
+  /// The limit.
   final int? limit;
+
+  /// The max dropdown height.
   final double? maxDropdownHeight;
+
+  /// Size token.
   final String? size;
+
+  /// Corner radius.
   final BorderRadiusGeometry? radius;
+
+  /// Style overrides merged over theme defaults.
   final SelectStyle? style;
 
+  /// Resolves properties and builds via [SelectDelegate].
   @override
   Widget build(BuildContext context) {
     final resolvedData = data;

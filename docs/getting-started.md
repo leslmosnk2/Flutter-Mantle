@@ -24,8 +24,8 @@ flutter run -d linux   # or: flutter run -d chrome
 dependencies:
   flutter:
     sdk: flutter
-  mantle_widgets: ^1.0.0
-  mantle_basic: ^1.0.0
+  mantle_widgets: ^1.1.0
+  mantle_basic: ^1.1.0
 ```
 
 `mantle_widgets` re-exports the public `mantle_core` API (`MantleProvider`,
@@ -89,10 +89,10 @@ If you author new contracts:
 
 ```yaml
 dependencies:
-  mantle_annotations: ^1.0.0
+  mantle_annotations: ^1.1.0
 
 dev_dependencies:
-  mantle_gen: ^1.0.0
+  mantle_gen: ^1.1.0
   build_runner: ^2.4.0
 ```
 

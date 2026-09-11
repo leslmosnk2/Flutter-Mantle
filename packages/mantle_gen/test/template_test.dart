@@ -2,7 +2,9 @@ import 'package:mantle_gen/src/generator/component_spec.dart';
 import 'package:mantle_gen/src/parser/exception.dart';
 import 'package:mantle_gen/src/parser/template.dart';
 import 'package:mantle_gen/src/template/component.dart';
+import 'package:mantle_gen/src/template/token_group.dart';
 import 'package:mantle_gen/src/template/token_mixin.dart';
+import 'package:mantle_gen/src/template/token_theme.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -176,6 +178,83 @@ mixin _PaletteTokens {
     });
   });
 
+  group('TokenGroupTemplate', () {
+    test('renders a spacing base with named fields and all.md helpers', () {
+      final output = TokenGroupTemplate.render({
+        'baseName': r'_$AppSpacing',
+        'className': 'AppSpacing',
+        'interfaceType': 'MantleSpacing',
+        'fields': ['xs', 'md'],
+        'isSpacing': true,
+        'isRadius': false,
+        'isBreakpoint': false,
+      });
+
+      expect(
+        output,
+        contains(r'class _$AppSpacing implements MantleSpacing'),
+      );
+      expect(output, contains(r'const _$AppSpacing({'));
+      expect(output, contains('final double xs;'));
+      expect(output, contains('final double md;'));
+      expect(output, contains('xs: transform(xs),'));
+      expect(output, contains(r'_$AppSpacingAll get all'));
+      expect(output, contains('EdgeInsets get md => EdgeInsets.all(_s.md);'));
+      expect(output, contains('EdgeInsets only({'));
+      expect(output, contains("xs: getOrNull('xs') ?? other['xs']"));
+      expect(output, isNot(contains('toGroup()')));
+      expect(output, isNot(contains('extension ')));
+    });
+
+    test('renders radius border and circular helpers', () {
+      final output = TokenGroupTemplate.render({
+        'baseName': r'_$AppRadius',
+        'className': 'AppRadius',
+        'interfaceType': 'MantleRadius',
+        'fields': ['sm', 'md'],
+        'isSpacing': false,
+        'isRadius': true,
+        'isBreakpoint': false,
+      });
+
+      expect(output, contains(r'_$AppRadiusBorder get border'));
+      expect(output, contains(r'_$AppRadiusCircular get circular'));
+      expect(
+        output,
+        contains('BorderRadius get md => BorderRadius.circular(_s.md);'),
+      );
+      expect(output, contains('Radius get sm => Radius.circular(_s.sm);'));
+      expect(output, isNot(contains('EdgeInsets')));
+    });
+  });
+
+  group('TokenThemeTemplate', () {
+    test('renders of() and typed slot getters', () {
+      final output = TokenThemeTemplate.render({
+        'baseName': r'_$AppTheme',
+        'className': 'AppTheme',
+        'helpersMixin': r'_$AppThemeMixin',
+        'tokens': [
+          {
+            'className': 'AppSpacing',
+            'baseName': r'_$AppSpacing',
+            'slotName': 'spacing',
+            'slotType': 'MantleSpacing',
+          },
+        ],
+      });
+
+      expect(output, contains(r'class _$AppTheme extends MantleTheme'));
+      expect(output, contains(r'_$AppTheme.of(BuildContext context'));
+      expect(output, contains('AppSpacing.new'));
+      expect(
+        output,
+        contains(r'_$AppSpacing get spacing =>'),
+      );
+      expect(output, contains(r'mixin _$AppThemeMixin {}'));
+    });
+  });
+
   group('ComponentTemplate', () {
     test('renders widget API, style, state, and slot delegates', () {
       final label = SlotSpec(
@@ -248,7 +327,16 @@ mixin _PaletteTokens {
         ),
       );
 
-      expect(output, contains('enum ChipVariant {\n  defaults,\n  filled,'));
+      expect(output, contains('enum ChipVariant {'));
+      expect(output, contains('defaults,'));
+      expect(output, contains('filled,'));
+      expect(
+        output,
+        contains('/// A [Chip] widget resolved through [ChipDelegate].'),
+      );
+      expect(output, contains('/// Creates a [Chip].'));
+      expect(output, contains('/// The primary child widget.'));
+      expect(output, contains('/// Creates a filled [Chip].'));
       expect(output, contains('class ChipStyle {'));
       expect(output, contains('ChipStyle mergeWith(ChipStyle? other)'));
       expect(output, contains('final bool disabled;'));

@@ -6,10 +6,16 @@ part of 'cascader.dart';
 // MantleComponentGenerator
 // **************************************************************************
 
-enum CascaderVariant { defaults }
+/// Visual variants of [Cascader].
+enum CascaderVariant {
+  /// The default variant.
+  defaults,
+}
 
+/// Resolved visual values for [Cascader].
 @immutable
 class CascaderStyle {
+  /// Creates a [CascaderStyle].
   const CascaderStyle({
     this.background,
     this.borderColor,
@@ -17,11 +23,19 @@ class CascaderStyle {
     this.radius,
   });
 
+  /// Background color.
   final Color? background;
+
+  /// Border color token or value.
   final Color? borderColor;
+
+  /// Height in logical pixels.
   final double? height;
+
+  /// Corner radius.
   final BorderRadiusGeometry? radius;
 
+  /// Returns a copy of this [CascaderStyle] with selected fields replaced.
   CascaderStyle copyWith({
     Color? background,
     Color? borderColor,
@@ -36,6 +50,7 @@ class CascaderStyle {
     );
   }
 
+  /// Merges [other] over this [CascaderStyle]; null fields keep this value.
   CascaderStyle mergeWith(CascaderStyle? other) {
     if (other == null) return this;
     return CascaderStyle(
@@ -47,15 +62,20 @@ class CascaderStyle {
   }
 }
 
+/// Resolved interaction state for [Cascader].
 @immutable
 class CascaderState {
+  /// Creates a [CascaderState].
   const CascaderState({this.disabled = false});
 
+  /// Whether interaction is disabled.
   final bool disabled;
 }
 
+/// Values passed to [CascaderDelegate] slots during build.
 @immutable
 class CascaderContext {
+  /// Creates a [CascaderContext].
   const CascaderContext({
     required this.context,
     required this.style,
@@ -88,52 +108,117 @@ class CascaderContext {
     required this.radius,
   });
 
+  /// The [BuildContext] for this build.
   final BuildContext context;
+
+  /// Style overrides merged over theme defaults.
   final CascaderStyle style;
+
+  /// Resolved interaction state for this build.
   final CascaderState state;
+
+  /// The visual variant selected by the constructor.
   final CascaderVariant variant;
+
+  /// Tabular data to render.
   final List<CascaderOption> data;
+
+  /// The controlled value.
   final List<String>? value;
+
+  /// Called when the value changes.
   final CascaderChanged? onChange;
+
+  /// Placeholder text when empty.
   final String? placeholder;
+
+  /// The label.
   final String? label;
+
+  /// Supporting description text.
   final String? description;
+
+  /// Error text or error state.
   final String? error;
+
+  /// Whether the list can be filtered.
   final bool searchable;
+
+  /// Controlled search text.
   final String? searchValue;
+
+  /// Called when the search text changes.
   final ComboboxSearchChanged? onSearchChange;
+
+  /// Whether change on select.
   final bool changeOnSelect;
+
+  /// Whether with columns.
   final bool withColumns;
+
+  /// The expand trigger.
   final CascaderExpandTrigger expandTrigger;
+
+  /// Whether allow deselect.
   final bool allowDeselect;
+
+  /// Whether the value can be cleared.
   final bool clearable;
+
+  /// Whether interaction is disabled.
   final bool disabled;
+
+  /// Whether the dropdown is open.
   final bool? dropdownOpened;
+
+  /// Called when the dropdown opens.
   final VoidCallback? onDropdownOpen;
+
+  /// Called when the dropdown closes.
   final VoidCallback? onDropdownClose;
+
+  /// Message shown when no options match.
   final String? nothingFoundMessage;
+
+  /// The separator.
   final String separator;
+
+  /// The column width.
   final double columnWidth;
+
+  /// The max dropdown height.
   final double maxDropdownHeight;
+
+  /// Size token.
   final String size;
+
+  /// Corner radius.
   final BorderRadiusGeometry radius;
 }
 
+/// Builder for the root slot.
 class CascaderRoot {
+  /// Creates a [CascaderRoot] from a builder function.
   const CascaderRoot(this._build);
 
   final Widget Function(CascaderContext context) _build;
 
+  /// Invokes this slot with [context].
   Widget call(CascaderContext context) => _build(context);
 }
 
+/// Theme-owned composition slots for [Cascader].
 abstract class CascaderDelegate extends ComponentDelegate {
+  /// Creates a [CascaderDelegate].
   const CascaderDelegate();
 
+  /// Builds the composition root.
   Widget root(CascaderContext context);
 }
 
+/// A [Cascader] widget resolved through [CascaderDelegate].
 class Cascader extends StatelessWidget {
+  /// Creates a [Cascader].
   const Cascader({
     super.key,
     required this.data,
@@ -164,34 +249,88 @@ class Cascader extends StatelessWidget {
     this.style,
   }) : variant = CascaderVariant.defaults;
 
+  /// The visual variant selected by the constructor.
   final CascaderVariant variant;
+
+  /// Tabular data to render.
   final List<CascaderOption> data;
+
+  /// The controlled value.
   final List<String>? value;
+
+  /// Called when the value changes.
   final CascaderChanged? onChange;
+
+  /// Placeholder text when empty.
   final String? placeholder;
+
+  /// The label.
   final String? label;
+
+  /// Supporting description text.
   final String? description;
+
+  /// Error text or error state.
   final String? error;
+
+  /// Whether the list can be filtered.
   final bool? searchable;
+
+  /// Controlled search text.
   final String? searchValue;
+
+  /// Called when the search text changes.
   final ComboboxSearchChanged? onSearchChange;
+
+  /// Whether change on select.
   final bool? changeOnSelect;
+
+  /// Whether with columns.
   final bool? withColumns;
+
+  /// The expand trigger.
   final CascaderExpandTrigger? expandTrigger;
+
+  /// Whether allow deselect.
   final bool? allowDeselect;
+
+  /// Whether the value can be cleared.
   final bool? clearable;
+
+  /// Whether interaction is disabled.
   final bool? disabled;
+
+  /// Whether the dropdown is open.
   final bool? dropdownOpened;
+
+  /// Called when the dropdown opens.
   final VoidCallback? onDropdownOpen;
+
+  /// Called when the dropdown closes.
   final VoidCallback? onDropdownClose;
+
+  /// Message shown when no options match.
   final String? nothingFoundMessage;
+
+  /// The separator.
   final String? separator;
+
+  /// The column width.
   final double? columnWidth;
+
+  /// The max dropdown height.
   final double? maxDropdownHeight;
+
+  /// Size token.
   final String? size;
+
+  /// Corner radius.
   final BorderRadiusGeometry? radius;
+
+  /// Style overrides merged over theme defaults.
   final CascaderStyle? style;
 
+  /// Resolves properties and builds via [CascaderDelegate].
   @override
   Widget build(BuildContext context) {
     final resolvedData = data;

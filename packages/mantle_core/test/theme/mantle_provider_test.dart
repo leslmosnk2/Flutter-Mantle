@@ -234,4 +234,58 @@ void main() {
 
     expect(id, 'ov');
   });
+
+  testWidgets('spacingBuilder resolves against the reading context', (
+    tester,
+  ) async {
+    late double md;
+
+    await tester.pumpMantle(
+      Builder(
+        builder: (context) {
+          md = MantleTheme.of(context).spacing['md'];
+          return const SizedBox.shrink();
+        },
+      ),
+      theme: MantleTheme(
+        spacingBuilder: (context) => MantleSpacing({'md': 24}),
+      ),
+    );
+
+    expect(md, equals(24));
+  });
+
+  testWidgets('of() rebuilds spacing when the text scaler changes', (
+    tester,
+  ) async {
+    late double md;
+
+    Widget host(TextScaler scaler) {
+      return MediaQuery(
+        data: MediaQueryData(textScaler: scaler),
+        child: MantleProvider(
+          theme: MantleTheme(
+            spacingBuilder: (context) => MantleSpacing({
+              'md': 1.emOf(context),
+            }),
+          ),
+          child: Directionality(
+            textDirection: TextDirection.ltr,
+            child: Builder(
+              builder: (context) {
+                md = MantleTheme.of(context).spacing['md'];
+                return const SizedBox.shrink();
+              },
+            ),
+          ),
+        ),
+      );
+    }
+
+    await tester.pumpWidget(host(TextScaler.noScaling));
+    expect(md, equals(16));
+
+    await tester.pumpWidget(host(const TextScaler.linear(2)));
+    expect(md, equals(32));
+  });
 }

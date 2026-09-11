@@ -1,3 +1,11 @@
+/// Form-control contracts and generated widgets.
+///
+/// Angle slider, checkbox, chip, color picker, fieldset, file input, input,
+/// JSON input, mask input, native select, number input, password input, pin
+/// input, radio, rating, segmented control, slider, switch, text input, and
+/// textarea.
+library;
+
 export 'src/components/inputs/angle_slider.dart';
 export 'src/components/inputs/checkbox.dart';
 export 'src/components/inputs/chip.dart';

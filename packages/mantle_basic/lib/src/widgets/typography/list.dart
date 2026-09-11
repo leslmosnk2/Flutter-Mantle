@@ -1,7 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:mantle_basic/src/widgets/layout/layout_tokens.dart';
 import 'package:mantle_basic/src/widgets/typography/tokens.dart';
-import 'package:mantle_core/mantle_core.dart';
 import 'package:mantle_widgets/mantle_widgets.dart';
 
 /// Baseline [MListDelegate]: ordered/unordered column with [ListScope].
@@ -59,7 +58,8 @@ class BasicListItemDelegate extends ListItemDelegate {
         (icon == null ? resolveSpacing(theme, 'lg') : 0.0) +
         (scope.withPadding ? resolveSpacing(theme, 'md') : 0.0);
 
-    final marker = icon ??
+    final marker =
+        icon ??
         (scope.type == ListType.ordered
             ? Text('${index + 1}.')
             : const Text('•'));

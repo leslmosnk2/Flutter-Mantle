@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mantle_core/mantle_core.dart';
 
@@ -45,6 +46,53 @@ void main() {
       expect(merged['sm'], equals(4));
       expect(merged['md'], equals(8));
       expect(merged['lg'], equals(24));
+    });
+
+    test('.map() transforms every value', () {
+      const scale = MantleSizeScale<double>({'sm': 4, 'md': 8});
+      final doubled = scale.map((value) => value * 2);
+
+      expect(doubled['sm'], equals(8));
+      expect(doubled['md'], equals(16));
+    });
+  });
+
+  group('MantleSizeScaleRem', () {
+    test('.resolveRem() scales px-at-remBase with a linear scaler', () {
+      const scale = MantleSizeScale<double>({'sm': 16, 'md': 32});
+      final resolved = scale.resolveRem(textScaler: const TextScaler.linear(2));
+
+      expect(resolved['sm'], equals(32));
+      expect(resolved['md'], equals(64));
+    });
+
+    test('.resolveRem() honors a custom remBase', () {
+      const scale = MantleSizeScale<double>({'md': 20});
+      final resolved = scale.resolveRem(
+        textScaler: const TextScaler.linear(2),
+        remBase: 10,
+      );
+
+      expect(resolved['md'], equals(40));
+    });
+
+    testWidgets('.fromMedia() uses the ambient text scaler', (tester) async {
+      const scale = MantleSizeScale<double>({'md': 16});
+      late MantleSizeScale<double> resolved;
+
+      await tester.pumpWidget(
+        MediaQuery(
+          data: const MediaQueryData(textScaler: TextScaler.linear(1.5)),
+          child: Builder(
+            builder: (context) {
+              resolved = scale.fromMedia(context);
+              return const SizedBox.shrink();
+            },
+          ),
+        ),
+      );
+
+      expect(resolved['md'], equals(24));
     });
   });
 

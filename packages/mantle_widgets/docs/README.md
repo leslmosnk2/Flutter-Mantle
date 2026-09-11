@@ -14,8 +14,8 @@ not need a separate core import to use `MantleProvider` or tokens.
 
 ```yaml
 dependencies:
-  mantle_widgets: ^1.0.0
-  mantle_basic: ^1.0.0
+  mantle_widgets: ^1.1.0
+  mantle_basic: ^1.1.0
 ```
 
 ```dart

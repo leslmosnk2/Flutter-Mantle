@@ -14,9 +14,11 @@ BasicTheme(
 )
 ```
 
-Omitted token groups use the constants below. `components` is merged **on
-top of** the bundled registry, so you can replace individual delegates
-without restating the rest.
+Omitted spacing, radius, and breakpoints use context-built
+`BasicSpacing` / `BasicRadius` / `BasicBreakpoints` factories so
+`MantleTheme.of(context)` can resolve them for the current context.
+`components` is merged **on top of** the bundled registry, so you can
+replace individual delegates without restating the rest.
 
 ## Tokens
 

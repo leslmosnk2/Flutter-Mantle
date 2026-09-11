@@ -1,4 +1,5 @@
-import 'package:mantle_core/mantle_core.dart';
+import 'package:flutter/widgets.dart';
+import 'package:mantle_core/src/tokens/size.dart';
 
 /// A scale for managing size tokens.
 class MantleSizeScale<T> {
@@ -19,6 +20,13 @@ class MantleSizeScale<T> {
 
   /// Returns the value for [key], or `null` if not present.
   T? getOrNull(MantleSize key) => _sizes[key];
+
+  /// Returns a scale whose values are produced by [transform].
+  MantleSizeScale<T> map(T Function(T value) transform) {
+    return MantleSizeScale({
+      for (final entry in _sizes.entries) entry.key: transform(entry.value),
+    });
+  }
 
   /// Merges this scale with another scale.
   MantleSizeScale<T> merge(MantleSizeScale<T> other) {
@@ -46,5 +54,30 @@ extension MantleSizeScaleLerper<T extends num> on MantleSizeScale<T> {
       for (final size in tokens)
         size: lerper(_sizes[size], other._sizes[size]).toDouble(),
     });
+  }
+}
+
+/// Rem conversion for numeric size scales.
+///
+/// Values are treated as px at `remBase` (16 by default). Resolving uses
+/// [TextScaler] so non-linear accessibility scaling stays correct.
+extension MantleSizeScaleRem on MantleSizeScale<double> {
+  /// Converts each value from px-at-[remBase] using [textScaler].
+  MantleSizeScale<double> resolveRem({
+    required TextScaler textScaler,
+    double remBase = 16,
+  }) {
+    return map((value) => textScaler.scale(value / remBase) * remBase);
+  }
+
+  /// [resolveRem] using [MediaQuery.textScalerOf].
+  MantleSizeScale<double> fromMedia(
+    BuildContext context, {
+    double remBase = 16,
+  }) {
+    return resolveRem(
+      textScaler: MediaQuery.textScalerOf(context),
+      remBase: remBase,
+    );
   }
 }

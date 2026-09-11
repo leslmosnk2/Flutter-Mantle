@@ -4,8 +4,9 @@ Flutter theming architecture where the theme owns design tokens and the
 structure of every widget. Inspired by [Mantine](https://mantine.dev).
 
 - **Gallery:** [mantle.leslmosnk.com](https://mantle.leslmosnk.com)
-- **Docs:** [docs.mantle.leslmosnk.com](https://docs.mantle.leslmosnk.com)
+- **Docs:** [leslmosnk2.github.io/Flutter-Mantle](https://leslmosnk2.github.io/Flutter-Mantle/)
 - **Source:** [github.com/leslmosnk2/Flutter-Mantle](https://github.com/leslmosnk2/Flutter-Mantle)
+- **Issues:** [github.com/leslmosnk2/Flutter-Mantle/issues](https://github.com/leslmosnk2/Flutter-Mantle/issues)
 
 ## Packages
 
@@ -21,8 +22,8 @@ structure of every widget. Inspired by [Mantine](https://mantine.dev).
 
 ```yaml
 dependencies:
-  mantle_widgets: ^1.0.0
-  mantle_basic: ^1.0.0
+  mantle_widgets: ^1.1.0
+  mantle_basic: ^1.1.0
 ```
 
 `mantle_widgets` re-exports the public `mantle_core` API. Depend on
@@ -40,10 +41,11 @@ flutter run -d linux   # or: flutter run -d chrome
 
 ## Documentation
 
-Live at [docs.mantle.leslmosnk.com](https://docs.mantle.leslmosnk.com).
-The Docsify site lives in [`docs/`](docs/). Package pages are the same
-markdown as `packages/<name>/docs`, linked with symbolic links so they are
-not duplicated.
+Live at [leslmosnk2.github.io/Flutter-Mantle](https://leslmosnk2.github.io/Flutter-Mantle/).
+Pushes to `main` deploy the Docsify site in [`docs/`](docs/) to GitHub Pages
+and publish any package whose `version` is not yet on pub.dev (bump that
+version when you want a release). Package pages are the same markdown as
+`packages/<name>/docs`, linked with symbolic links so they are not duplicated.
 
 ```bash
 npx --yes docsify-cli serve docs

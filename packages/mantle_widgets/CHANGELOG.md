@@ -1,3 +1,7 @@
+## 1.1.0
+
+- Generated widgets, constructors, and fields include dartdoc comments.
+
 ## 1.0.0
 
 - Initial stable release.

@@ -2,7 +2,6 @@ import 'package:flutter/widgets.dart';
 import 'package:mantle_basic/src/widgets/combobox/combobox_chrome.dart';
 import 'package:mantle_basic/src/widgets/inputs/input_field.dart';
 import 'package:mantle_basic/src/widgets/inputs/input_tokens.dart';
-import 'package:mantle_core/mantle_core.dart';
 import 'package:mantle_widgets/mantle_widgets.dart';
 
 /// Baseline [PillsInputDelegate].

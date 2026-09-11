@@ -1,24 +1,129 @@
 import 'package:flutter/widgets.dart';
-import 'package:mantle_core/mantle_core.dart';
+import 'package:mantle_core/src/tokens/scale.dart';
+import 'package:mantle_core/src/tokens/size.dart';
+import 'package:mantle_core/src/tokens/token_group.dart';
 
-/// A class for managing spacing values based on a size scale.
-class MantleSpacing implements MantleTokenGroup {
-  /// Creates a new instance of [MantleSpacing] with the given sizes.
-  MantleSpacing(Map<MantleSize, double> spacing)
+double _lerpNum(double? a, double? b, double t) {
+  if (a == null || b == null) {
+    return a ?? b!;
+  }
+  return a * (1 - t) + b * t;
+}
+
+/// Spacing scale keyed by [MantleSize].
+abstract interface class MantleSpacing implements MantleTokenGroup {
+  /// Creates a map-backed spacing group.
+  factory MantleSpacing(Map<MantleSize, double> spacing) = MantleSpacingMap;
+
+  /// Empty sentinel; yields to the other side in [mergeWith].
+  const factory MantleSpacing.empty() = MantleSpacingMap.empty;
+
+  /// Creates a group from an existing scale.
+  const factory MantleSpacing.fromScale(MantleSizeScale<double> scale) =
+      MantleSpacingMap.fromScale;
+
+  /// Size keys in this group.
+  Set<MantleSize> get tokens;
+
+  /// Whether this group has no keys.
+  bool get isEmpty;
+
+  /// Raw spacing for [size].
+  double operator [](MantleSize size);
+
+  /// Spacing for [size], or `null` if missing.
+  double? getOrNull(MantleSize size);
+
+  /// A copy whose values are produced by [transform].
+  MantleSpacing mapValues(double Function(double value) transform);
+
+  /// Converts each value from px-at-[remBase] using [textScaler].
+  MantleSpacing resolveRem({
+    required TextScaler textScaler,
+    double remBase = 16,
+  });
+
+  @override
+  MantleSpacing mergeWith(covariant MantleSpacing other);
+
+  @override
+  MantleSpacing lerpWith(covariant MantleSpacing other, double t);
+}
+
+/// Map-backed [MantleSpacing] used for literals, empty sentinels, and merges.
+class MantleSpacingMap implements MantleSpacing {
+  /// Creates a new instance with the given sizes.
+  MantleSpacingMap(Map<MantleSize, double> spacing)
     : _scale = MantleSizeScale(spacing);
 
   /// Creates an empty spacing instance.
-  const MantleSpacing.empty() : _scale = const MantleSizeScale.empty();
+  const MantleSpacingMap.empty() : _scale = const MantleSizeScale.empty();
 
-  /// Creates a new instance of [MantleSpacing] with the given size scale.
-  const MantleSpacing.fromScale(MantleSizeScale<double> scale) : _scale = scale;
+  /// Creates a new instance from the given size scale.
+  const MantleSpacingMap.fromScale(MantleSizeScale<double> scale)
+    : _scale = scale;
 
   final MantleSizeScale<double> _scale;
 
-  /// Returns an EdgeInsets with the same value for all sides.
-  EdgeInsets all(MantleSize size) => EdgeInsets.all(_scale[size]);
+  @override
+  Set<MantleSize> get tokens => _scale.tokens;
 
-  /// Returns an EdgeInsets with the specified values.
+  @override
+  bool get isEmpty => _scale.tokens.isEmpty;
+
+  @override
+  double operator [](MantleSize size) => _scale[size];
+
+  @override
+  double? getOrNull(MantleSize size) => _scale.getOrNull(size);
+
+  @override
+  MantleSpacing mapValues(double Function(double value) transform) {
+    return MantleSpacing.fromScale(_scale.map(transform));
+  }
+
+  @override
+  MantleSpacing resolveRem({
+    required TextScaler textScaler,
+    double remBase = 16,
+  }) {
+    return MantleSpacing.fromScale(
+      _scale.resolveRem(textScaler: textScaler, remBase: remBase),
+    );
+  }
+
+  @override
+  MantleSpacing lerpWith(covariant MantleSpacing other, double t) {
+    final keys = {...tokens, ...other.tokens};
+    return MantleSpacing({
+      for (final token in keys)
+        token: _lerpNum(getOrNull(token), other.getOrNull(token), t),
+    });
+  }
+
+  @override
+  MantleSpacing mergeWith(covariant MantleSpacing other) {
+    final keys = {...tokens, ...other.tokens};
+    return MantleSpacing({
+      for (final token in keys) token: getOrNull(token) ?? other[token],
+    });
+  }
+}
+
+/// EdgeInsets helpers and rem resolution for any [MantleSpacing].
+extension MantleSpacingInsets on MantleSpacing {
+  /// [resolveRem] using [MediaQuery.textScalerOf].
+  MantleSpacing fromMedia(BuildContext context, {double remBase = 16}) {
+    return resolveRem(
+      textScaler: MediaQuery.textScalerOf(context),
+      remBase: remBase,
+    );
+  }
+
+  /// [EdgeInsets.all] for [size].
+  EdgeInsets all(MantleSize size) => EdgeInsets.all(this[size]);
+
+  /// [EdgeInsets.only] for the given size keys.
   EdgeInsets only({
     MantleSize? top,
     MantleSize? right,
@@ -26,40 +131,18 @@ class MantleSpacing implements MantleTokenGroup {
     MantleSize? left,
   }) {
     return EdgeInsets.only(
-      top: top != null ? _scale[top] : 0,
-      right: right != null ? _scale[right] : 0,
-      bottom: bottom != null ? _scale[bottom] : 0,
-      left: left != null ? _scale[left] : 0,
+      top: top != null ? this[top] : 0,
+      right: right != null ? this[right] : 0,
+      bottom: bottom != null ? this[bottom] : 0,
+      left: left != null ? this[left] : 0,
     );
   }
 
-  /// Returns an EdgeInsets with the values for vertical and horizontal sides.
+  /// [EdgeInsets.symmetric] for the given size keys.
   EdgeInsets symmetric({MantleSize? vertical, MantleSize? horizontal}) {
     return EdgeInsets.symmetric(
-      vertical: vertical != null ? _scale[vertical] : 0,
-      horizontal: horizontal != null ? _scale[horizontal] : 0,
+      vertical: vertical != null ? this[vertical] : 0,
+      horizontal: horizontal != null ? this[horizontal] : 0,
     );
-  }
-
-  @override
-  MantleSpacing lerpWith(covariant MantleSpacing other, double t) {
-    final tokens = {..._scale.tokens, ...other._scale.tokens};
-
-    double lerper(double? a, double? b) {
-      if (a == null || b == null) {
-        return a ?? b!;
-      }
-      return a * (1 - t) + b * t;
-    }
-
-    return MantleSpacing({
-      for (final token in tokens)
-        token: lerper(_scale.getOrNull(token), other._scale.getOrNull(token)),
-    });
-  }
-
-  @override
-  MantleSpacing mergeWith(covariant MantleSpacing other) {
-    return MantleSpacing.fromScale(_scale.merge(other._scale));
   }
 }

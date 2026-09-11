@@ -6,24 +6,42 @@ part of 'pin_input.dart';
 // MantleComponentGenerator
 // **************************************************************************
 
-enum PinInputVariant { defaults, filled, unstyled }
+/// Visual variants of [PinInput].
+enum PinInputVariant {
+  /// The default variant.
+  defaults,
 
+  /// The filled variant.
+  filled,
+
+  /// The unstyled variant.
+  unstyled,
+}
+
+/// Resolved visual values for [PinInput].
 @immutable
 class PinInputStyle {
+  /// Creates a [PinInputStyle].
   const PinInputStyle();
 
+  /// Returns a copy of this [PinInputStyle] with selected fields replaced.
   PinInputStyle copyWith() => this;
 
+  /// Merges [other] over this [PinInputStyle]; null fields keep this value.
   PinInputStyle mergeWith(PinInputStyle? other) => this;
 }
 
+/// Resolved interaction state for [PinInput].
 @immutable
 class PinInputState {
+  /// Creates a [PinInputState].
   const PinInputState();
 }
 
+/// Values passed to [PinInputDelegate] slots during build.
 @immutable
 class PinInputContext {
+  /// Creates a [PinInputContext].
   const PinInputContext({
     required this.context,
     required this.style,
@@ -46,42 +64,87 @@ class PinInputContext {
     required this.radius,
   });
 
+  /// The [BuildContext] for this build.
   final BuildContext context;
+
+  /// Style overrides merged over theme defaults.
   final PinInputStyle style;
+
+  /// Resolved interaction state for this build.
   final PinInputState state;
+
+  /// The visual variant selected by the constructor.
   final PinInputVariant variant;
+
+  /// The controlled value.
   final String? value;
+
+  /// Initial value when [value] is omitted.
   final String? defaultValue;
+
+  /// Called when the value changes.
   final void Function(String)? onChanged;
+
+  /// Called when complete.
   final void Function(String)? onComplete;
+
+  /// The length.
   final int length;
+
+  /// Placeholder text when empty.
   final String placeholder;
+
+  /// Spacing token between items.
   final String gap;
+
+  /// Whether interaction is disabled.
   final bool disabled;
+
+  /// Whether the value cannot be edited.
   final bool readOnly;
+
+  /// Whether mask.
   final bool mask;
+
+  /// Error text or error state.
   final bool error;
+
+  /// Whether manage focus.
   final bool manageFocus;
+
+  /// The type.
   final PinInputType type;
+
+  /// Size token.
   final String size;
+
+  /// Corner radius.
   final BorderRadiusGeometry radius;
 }
 
+/// Builder for the root slot.
 class PinInputRoot {
+  /// Creates a [PinInputRoot] from a builder function.
   const PinInputRoot(this._build);
 
   final Widget Function(PinInputContext context) _build;
 
+  /// Invokes this slot with [context].
   Widget call(PinInputContext context) => _build(context);
 }
 
+/// Theme-owned composition slots for [PinInput].
 abstract class PinInputDelegate extends ComponentDelegate {
+  /// Creates a [PinInputDelegate].
   const PinInputDelegate();
 
+  /// Builds the composition root.
   Widget root(PinInputContext context);
 }
 
+/// A [PinInput] widget resolved through [PinInputDelegate].
 class PinInput extends StatelessWidget {
+  /// Creates a [PinInput].
   const PinInput({
     super.key,
     this.value,
@@ -102,6 +165,7 @@ class PinInput extends StatelessWidget {
     this.style,
   }) : variant = PinInputVariant.defaults;
 
+  /// Creates a filled [PinInput].
   const PinInput.filled({
     super.key,
     this.value,
@@ -122,6 +186,7 @@ class PinInput extends StatelessWidget {
     this.style,
   }) : variant = PinInputVariant.filled;
 
+  /// Creates an unstyled [PinInput].
   const PinInput.unstyled({
     super.key,
     this.value,
@@ -142,24 +207,58 @@ class PinInput extends StatelessWidget {
     this.style,
   }) : variant = PinInputVariant.unstyled;
 
+  /// The visual variant selected by the constructor.
   final PinInputVariant variant;
+
+  /// The controlled value.
   final String? value;
+
+  /// Initial value when [value] is omitted.
   final String? defaultValue;
+
+  /// Called when the value changes.
   final void Function(String)? onChanged;
+
+  /// Called when complete.
   final void Function(String)? onComplete;
+
+  /// The length.
   final int? length;
+
+  /// Placeholder text when empty.
   final String? placeholder;
+
+  /// Spacing token between items.
   final String? gap;
+
+  /// Whether interaction is disabled.
   final bool? disabled;
+
+  /// Whether the value cannot be edited.
   final bool? readOnly;
+
+  /// Whether mask.
   final bool? mask;
+
+  /// Error text or error state.
   final bool? error;
+
+  /// Whether manage focus.
   final bool? manageFocus;
+
+  /// The type.
   final PinInputType? type;
+
+  /// Size token.
   final String? size;
+
+  /// Corner radius.
   final BorderRadiusGeometry? radius;
+
+  /// Style overrides merged over theme defaults.
   final PinInputStyle? style;
 
+  /// Resolves properties and builds via [PinInputDelegate].
   @override
   Widget build(BuildContext context) {
     final resolvedValue = value;

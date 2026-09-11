@@ -20,6 +20,3 @@ scripts:
       dependsOn: mantle_gen
   format:
     run: dart format --set-exit-if-changed .
-  new:component:
-    description: Scaffold a new component from the mason brick.
-    run: mason make mantle_component -o packages/mantle_widgets/lib/src/components

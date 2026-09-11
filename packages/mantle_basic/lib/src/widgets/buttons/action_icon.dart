@@ -1,6 +1,5 @@
 import 'package:flutter/widgets.dart';
 import 'package:mantle_basic/src/widgets/buttons/oval_loader.dart';
-import 'package:mantle_core/mantle_core.dart';
 import 'package:mantle_widgets/mantle_widgets.dart';
 
 /// Mantine-like [ActionIconDelegate] for the baseline theme.

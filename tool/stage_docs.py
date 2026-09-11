@@ -5,11 +5,11 @@ from __future__ import annotations
 
 import shutil
 import subprocess
+import sys
 from pathlib import Path
 
-ROOT = Path("/home/leslmosnk/Desktop/Flutter Widgets")
+ROOT = Path(__file__).resolve().parents[1]
 SRC = ROOT / "docs"
-DEST = Path("/tmp/mantle-docs-upload")
 PACKAGES = ("core", "widgets", "basic", "annotations", "gen")
 
 REDIRECT = """<!DOCTYPE html>
@@ -19,7 +19,8 @@ REDIRECT = """<!DOCTYPE html>
   <title>Mantle</title>
   <script>
     (function () {
-      var parts = location.pathname.replace(/\\/+$/, '').split('/');
+      var path = location.pathname.replace(/\\/+$/, '').replace(/\\/index\\.html$/, '');
+      var parts = path.split('/');
       var pkg = parts[parts.length - 1] || '';
       var rest = (location.hash || '#/').replace(/^#\\/?/, '');
       var target;
@@ -30,7 +31,8 @@ REDIRECT = """<!DOCTYPE html>
       } else {
         target = pkg + '/' + rest.replace(/^\\/+/, '');
       }
-      location.replace('/#/' + target);
+      var root = parts.slice(0, -1).join('/') || '';
+      location.replace(root + '/#/' + target);
     })();
   </script>
 </head>
@@ -40,23 +42,24 @@ REDIRECT = """<!DOCTYPE html>
 
 
 def main() -> None:
-    if DEST.exists():
-        shutil.rmtree(DEST)
-    DEST.mkdir(parents=True)
+    dest = Path(sys.argv[1] if len(sys.argv) > 1 else "_site").resolve()
+    if dest.exists():
+        shutil.rmtree(dest)
+    dest.mkdir(parents=True)
     subprocess.run(
-        ["rsync", "-aL", "--delete", f"{SRC}/", f"{DEST}/"],
+        ["rsync", "-aL", "--delete", f"{SRC}/", f"{dest}/"],
         check=True,
     )
     for pkg in PACKAGES:
-        html = DEST / pkg / "index.html"
+        html = dest / pkg / "index.html"
         if html.exists():
             html.write_text(REDIRECT, encoding="utf-8")
-    leftover = list(DEST.rglob("*"))
+    leftover = list(dest.rglob("*"))
     symlinks = [p for p in leftover if p.is_symlink()]
     if symlinks:
         raise SystemExit(f"leftover symlinks: {symlinks[:5]}")
     files = [p for p in leftover if p.is_file()]
-    print(f"staged {len(files)} files in {DEST}")
+    print(f"staged {len(files)} files in {dest}")
     for pkg in PACKAGES:
         print(f"  redirect {pkg}/index.html")
 

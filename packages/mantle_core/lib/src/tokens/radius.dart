@@ -1,50 +1,132 @@
-import 'package:flutter/painting.dart';
-import 'package:mantle_core/mantle_core.dart';
+import 'package:flutter/widgets.dart';
+import 'package:mantle_core/src/tokens/scale.dart';
+import 'package:mantle_core/src/tokens/size.dart';
+import 'package:mantle_core/src/tokens/token_group.dart';
 
-/// A class for managing radius values based on a size scale.
-class MantleRadius implements MantleTokenGroup {
-  /// Creates a new instance of [MantleRadius] with the given sizes.
-  MantleRadius(Map<MantleSize, double> radius)
+double _lerpNum(double? a, double? b, double t) {
+  if (a == null || b == null) {
+    return a ?? b!;
+  }
+  return a * (1 - t) + b * t;
+}
+
+/// Radius scale keyed by [MantleSize].
+abstract interface class MantleRadius implements MantleTokenGroup {
+  /// Creates a map-backed radius group.
+  factory MantleRadius(Map<MantleSize, double> radius) = MantleRadiusMap;
+
+  /// Creates a group from an existing scale.
+  const factory MantleRadius.fromScale(MantleSizeScale<double> scale) =
+      MantleRadiusMap.fromScale;
+
+  /// Empty sentinel; yields to the other side in [mergeWith].
+  const factory MantleRadius.empty() = MantleRadiusMap.empty;
+
+  /// Size keys in this group.
+  Set<MantleSize> get tokens;
+
+  /// Whether this group has no keys.
+  bool get isEmpty;
+
+  /// Raw radius for [size].
+  double operator [](MantleSize size);
+
+  /// Radius for [size], or `null` if missing.
+  double? getOrNull(MantleSize size);
+
+  /// A copy whose values are produced by [transform].
+  MantleRadius mapValues(double Function(double value) transform);
+
+  /// Converts each value from px-at-[remBase] using [textScaler].
+  MantleRadius resolveRem({
+    required TextScaler textScaler,
+    double remBase = 16,
+  });
+
+  @override
+  MantleRadius mergeWith(covariant MantleRadius other);
+
+  @override
+  MantleRadius lerpWith(covariant MantleRadius other, double t);
+}
+
+/// Map-backed [MantleRadius] used for literals, empty sentinels, and merges.
+class MantleRadiusMap implements MantleRadius {
+  /// Creates a new instance with the given sizes.
+  MantleRadiusMap(Map<MantleSize, double> radius)
     : _scale = MantleSizeScale(radius);
 
-  /// Creates a new instance of [MantleRadius] with the given size scale.
-  const MantleRadius.fromScale(MantleSizeScale<double> scale) : _scale = scale;
+  /// Creates a new instance from the given size scale.
+  const MantleRadiusMap.fromScale(MantleSizeScale<double> scale)
+    : _scale = scale;
 
   /// Creates an empty radius instance.
-  ///   For when you don't have any radius values.
-  const MantleRadius.empty() : _scale = const MantleSizeScale.empty();
+  const MantleRadiusMap.empty() : _scale = const MantleSizeScale.empty();
 
   final MantleSizeScale<double> _scale;
 
-  /// Returns a [BorderRadius] with the specified size.
-  BorderRadius border(MantleSize size) => BorderRadius.circular(_scale[size]);
+  @override
+  Set<MantleSize> get tokens => _scale.tokens;
 
-  /// Returns a [Radius] with the specified size.
-  Radius circular(MantleSize size) => Radius.circular(_scale[size]);
+  @override
+  bool get isEmpty => _scale.tokens.isEmpty;
 
-  /// Returns an [Radius] with the specified x and y values.
-  Radius elliptical(MantleSize x, MantleSize y) =>
-      Radius.elliptical(_scale[x], _scale[y]);
+  @override
+  double operator [](MantleSize size) => _scale[size];
+
+  @override
+  double? getOrNull(MantleSize size) => _scale.getOrNull(size);
+
+  @override
+  MantleRadius mapValues(double Function(double value) transform) {
+    return MantleRadius.fromScale(_scale.map(transform));
+  }
+
+  @override
+  MantleRadius resolveRem({
+    required TextScaler textScaler,
+    double remBase = 16,
+  }) {
+    return MantleRadius.fromScale(
+      _scale.resolveRem(textScaler: textScaler, remBase: remBase),
+    );
+  }
 
   @override
   MantleRadius lerpWith(covariant MantleRadius other, double t) {
-    final tokens = {..._scale.tokens, ...other._scale.tokens};
-
-    double lerper(double? a, double? b) {
-      if (a == null || b == null) {
-        return a ?? b!;
-      }
-      return a * (1 - t) + b * t;
-    }
-
+    final keys = {...tokens, ...other.tokens};
     return MantleRadius({
-      for (final token in tokens)
-        token: lerper(_scale.getOrNull(token), other._scale.getOrNull(token)),
+      for (final token in keys)
+        token: _lerpNum(getOrNull(token), other.getOrNull(token), t),
     });
   }
 
   @override
   MantleRadius mergeWith(covariant MantleRadius other) {
-    return MantleRadius.fromScale(_scale.merge(other._scale));
+    final keys = {...tokens, ...other.tokens};
+    return MantleRadius({
+      for (final token in keys) token: getOrNull(token) ?? other[token],
+    });
   }
+}
+
+/// Radius helpers and rem resolution for any [MantleRadius].
+extension MantleRadiusGeometry on MantleRadius {
+  /// [resolveRem] using [MediaQuery.textScalerOf].
+  MantleRadius fromMedia(BuildContext context, {double remBase = 16}) {
+    return resolveRem(
+      textScaler: MediaQuery.textScalerOf(context),
+      remBase: remBase,
+    );
+  }
+
+  /// [BorderRadius.circular] for [size].
+  BorderRadius border(MantleSize size) => BorderRadius.circular(this[size]);
+
+  /// [Radius.circular] for [size].
+  Radius circular(MantleSize size) => Radius.circular(this[size]);
+
+  /// [Radius.elliptical] for [x] and [y].
+  Radius elliptical(MantleSize x, MantleSize y) =>
+      Radius.elliptical(this[x], this[y]);
 }

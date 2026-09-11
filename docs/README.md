@@ -22,8 +22,8 @@ Packages:
 
 ```yaml
 dependencies:
-  mantle_widgets: ^1.0.0
-  mantle_basic: ^1.0.0
+  mantle_widgets: ^1.1.0
+  mantle_basic: ^1.1.0
 ```
 
 `mantle_widgets` re-exports the public `mantle_core` API. Depend on

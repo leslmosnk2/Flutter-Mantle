@@ -6,24 +6,36 @@ part of 'indicator.dart';
 // MantleComponentGenerator
 // **************************************************************************
 
-enum IndicatorVariant { defaults }
+/// Visual variants of [Indicator].
+enum IndicatorVariant {
+  /// The default variant.
+  defaults,
+}
 
+/// Resolved visual values for [Indicator].
 @immutable
 class IndicatorStyle {
+  /// Creates an [IndicatorStyle].
   const IndicatorStyle();
 
+  /// Returns a copy of this [IndicatorStyle] with selected fields replaced.
   IndicatorStyle copyWith() => this;
 
+  /// Merges [other] over this [IndicatorStyle]; null fields keep this value.
   IndicatorStyle mergeWith(IndicatorStyle? other) => this;
 }
 
+/// Resolved interaction state for [Indicator].
 @immutable
 class IndicatorState {
+  /// Creates an [IndicatorState].
   const IndicatorState();
 }
 
+/// Values passed to [IndicatorDelegate] slots during build.
 @immutable
 class IndicatorContext {
+  /// Creates an [IndicatorContext].
   const IndicatorContext({
     required this.context,
     required this.style,
@@ -43,39 +55,78 @@ class IndicatorContext {
     required this.autoContrast,
   });
 
+  /// The [BuildContext] for this build.
   final BuildContext context;
+
+  /// Style overrides merged over theme defaults.
   final IndicatorStyle style;
+
+  /// Resolved interaction state for this build.
   final IndicatorState state;
+
+  /// The visual variant selected by the constructor.
   final IndicatorVariant variant;
+
+  /// The primary child widget.
   final Widget child;
+
+  /// The label.
   final Widget? label;
+
+  /// The position.
   final IndicatorPosition position;
+
+  /// The offset.
   final double offset;
+
+  /// Size token.
   final double size;
+
+  /// Foreground or accent color.
   final String? color;
+
+  /// Corner radius.
   final BorderRadiusGeometry radius;
+
+  /// Whether to render inline.
   final bool inline;
+
+  /// Whether to draw a border.
   final bool withBorder;
+
+  /// Whether interaction is disabled.
   final bool disabled;
+
+  /// Whether processing.
   final bool processing;
+
+  /// Whether to pick a contrasting foreground automatically.
   final bool autoContrast;
 }
 
+/// Builder for the root slot.
 class IndicatorRoot {
+  /// Creates an [IndicatorRoot] from a builder function.
   const IndicatorRoot(this._build);
 
   final Widget Function(IndicatorContext context) _build;
 
+  /// Invokes this slot with [context].
   Widget call(IndicatorContext context) => _build(context);
 }
 
+/// Theme-owned composition slots for [Indicator].
 abstract class IndicatorDelegate extends ComponentDelegate {
+  /// Creates an [IndicatorDelegate].
   const IndicatorDelegate();
 
+  /// Builds the composition root.
   Widget root(IndicatorContext context);
 }
 
+/// An [Indicator] widget resolved through [IndicatorDelegate].
 class Indicator extends StatelessWidget {
+  /// Creates an [Indicator].
   const Indicator({
     super.key,
     required this.child,
@@ -93,21 +144,49 @@ class Indicator extends StatelessWidget {
     this.style,
   }) : variant = IndicatorVariant.defaults;
 
+  /// The visual variant selected by the constructor.
   final IndicatorVariant variant;
+
+  /// The primary child widget.
   final Widget child;
+
+  /// The label.
   final Widget? label;
+
+  /// The position.
   final IndicatorPosition? position;
+
+  /// The offset.
   final double? offset;
+
+  /// Size token.
   final double? size;
+
+  /// Foreground or accent color.
   final String? color;
+
+  /// Corner radius.
   final BorderRadiusGeometry? radius;
+
+  /// Whether to render inline.
   final bool? inline;
+
+  /// Whether to draw a border.
   final bool? withBorder;
+
+  /// Whether interaction is disabled.
   final bool? disabled;
+
+  /// Whether processing.
   final bool? processing;
+
+  /// Whether to pick a contrasting foreground automatically.
   final bool? autoContrast;
+
+  /// Style overrides merged over theme defaults.
   final IndicatorStyle? style;
 
+  /// Resolves properties and builds via [IndicatorDelegate].
   @override
   Widget build(BuildContext context) {
     final resolvedChild = child;

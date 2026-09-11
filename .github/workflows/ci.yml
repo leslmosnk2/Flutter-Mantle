@@ -1,0 +1,82 @@
+# On every push to main:
+#   1. Analyze and test
+#   2. Deploy Docsify docs to GitHub Pages
+#   3. Publish any package version that is not yet on pub.dev
+#
+# One-time GitHub setup (https://github.com/leslmosnk2/Flutter-Mantle/settings):
+#   Pages → Build and deployment → Source: GitHub Actions
+#   General → Features → Issues: enabled
+#   Secrets and variables → Actions → New repository secret:
+#     PUB_CREDENTIALS = contents of ~/.pub-cache/credentials.json
+#     (or ~/.config/dart/pub-credentials.json after `dart pub login`)
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: Analyze and test
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.47.1"
+          channel: stable
+          cache: true
+      - run: dart pub get
+      - run: dart analyze --fatal-infos
+      - run: dart run melos run test
+
+  docs:
+    name: GitHub Pages
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Stage Docsify site
+        run: python3 tool/stage_docs.py _site
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - id: deployment
+        uses: actions/deploy-pages@v4
+
+  publish:
+    name: Publish to pub.dev
+    needs: check
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.47.1"
+          channel: stable
+          cache: true
+      - run: dart pub get
+      - name: Publish unpublished packages
+        env:
+          PUB_CREDENTIALS: ${{ secrets.PUB_CREDENTIALS }}
+        run: python3 tool/publish_unpublished.py

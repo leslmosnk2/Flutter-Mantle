@@ -6,10 +6,16 @@ part of 'pills_input.dart';
 // MantleComponentGenerator
 // **************************************************************************
 
-enum PillsInputVariant { defaults }
+/// Visual variants of [PillsInput].
+enum PillsInputVariant {
+  /// The default variant.
+  defaults,
+}
 
+/// Resolved visual values for [PillsInput].
 @immutable
 class PillsInputStyle {
+  /// Creates a [PillsInputStyle].
   const PillsInputStyle({
     this.background,
     this.borderColor,
@@ -17,11 +23,19 @@ class PillsInputStyle {
     this.radius,
   });
 
+  /// Background color.
   final Color? background;
+
+  /// Border color token or value.
   final Color? borderColor;
+
+  /// Height in logical pixels.
   final double? height;
+
+  /// Corner radius.
   final BorderRadiusGeometry? radius;
 
+  /// Returns a copy of this [PillsInputStyle] with selected fields replaced.
   PillsInputStyle copyWith({
     Color? background,
     Color? borderColor,
@@ -36,6 +50,7 @@ class PillsInputStyle {
     );
   }
 
+  /// Merges [other] over this [PillsInputStyle]; null fields keep this value.
   PillsInputStyle mergeWith(PillsInputStyle? other) {
     if (other == null) return this;
     return PillsInputStyle(
@@ -47,15 +62,20 @@ class PillsInputStyle {
   }
 }
 
+/// Resolved interaction state for [PillsInput].
 @immutable
 class PillsInputState {
+  /// Creates a [PillsInputState].
   const PillsInputState({this.disabled = false});
 
+  /// Whether interaction is disabled.
   final bool disabled;
 }
 
+/// Values passed to [PillsInputDelegate] slots during build.
 @immutable
 class PillsInputContext {
+  /// Creates a [PillsInputContext].
   const PillsInputContext({
     required this.context,
     required this.style,
@@ -70,34 +90,63 @@ class PillsInputContext {
     required this.radius,
   });
 
+  /// The [BuildContext] for this build.
   final BuildContext context;
+
+  /// Style overrides merged over theme defaults.
   final PillsInputStyle style;
+
+  /// Resolved interaction state for this build.
   final PillsInputState state;
+
+  /// The visual variant selected by the constructor.
   final PillsInputVariant variant;
+
+  /// Child widgets composed by this component.
   final List<Widget> children;
+
+  /// The label.
   final String? label;
+
+  /// Supporting description text.
   final String? description;
+
+  /// Error text or error state.
   final String? error;
+
+  /// Whether interaction is disabled.
   final bool disabled;
+
+  /// Size token.
   final String size;
+
+  /// Corner radius.
   final BorderRadiusGeometry radius;
 }
 
+/// Builder for the root slot.
 class PillsInputRoot {
+  /// Creates a [PillsInputRoot] from a builder function.
   const PillsInputRoot(this._build);
 
   final Widget Function(PillsInputContext context) _build;
 
+  /// Invokes this slot with [context].
   Widget call(PillsInputContext context) => _build(context);
 }
 
+/// Theme-owned composition slots for [PillsInput].
 abstract class PillsInputDelegate extends ComponentDelegate {
+  /// Creates a [PillsInputDelegate].
   const PillsInputDelegate();
 
+  /// Builds the composition root.
   Widget root(PillsInputContext context);
 }
 
+/// A [PillsInput] widget resolved through [PillsInputDelegate].
 class PillsInput extends StatelessWidget {
+  /// Creates a [PillsInput].
   const PillsInput({
     super.key,
     required this.children,
@@ -110,16 +159,34 @@ class PillsInput extends StatelessWidget {
     this.style,
   }) : variant = PillsInputVariant.defaults;
 
+  /// The visual variant selected by the constructor.
   final PillsInputVariant variant;
+
+  /// Child widgets composed by this component.
   final List<Widget> children;
+
+  /// The label.
   final String? label;
+
+  /// Supporting description text.
   final String? description;
+
+  /// Error text or error state.
   final String? error;
+
+  /// Whether interaction is disabled.
   final bool? disabled;
+
+  /// Size token.
   final String? size;
+
+  /// Corner radius.
   final BorderRadiusGeometry? radius;
+
+  /// Style overrides merged over theme defaults.
   final PillsInputStyle? style;
 
+  /// Resolves properties and builds via [PillsInputDelegate].
   @override
   Widget build(BuildContext context) {
     final resolvedChildren = children;
@@ -158,24 +225,36 @@ class PillsInput extends StatelessWidget {
   }
 }
 
-enum PillsInputFieldVariant { defaults }
+/// Visual variants of [PillsInputField].
+enum PillsInputFieldVariant {
+  /// The default variant.
+  defaults,
+}
 
+/// Resolved visual values for [PillsInputField].
 @immutable
 class PillsInputFieldStyle {
+  /// Creates a [PillsInputFieldStyle].
   const PillsInputFieldStyle();
 
+  /// Returns a copy of this [PillsInputFieldStyle] with selected fields replaced.
   PillsInputFieldStyle copyWith() => this;
 
+  /// Merges [other] over this [PillsInputFieldStyle]; null fields keep this value.
   PillsInputFieldStyle mergeWith(PillsInputFieldStyle? other) => this;
 }
 
+/// Resolved interaction state for [PillsInputField].
 @immutable
 class PillsInputFieldState {
+  /// Creates a [PillsInputFieldState].
   const PillsInputFieldState();
 }
 
+/// Values passed to [PillsInputFieldDelegate] slots during build.
 @immutable
 class PillsInputFieldContext {
+  /// Creates a [PillsInputFieldContext].
   const PillsInputFieldContext({
     required this.context,
     required this.style,
@@ -189,33 +268,60 @@ class PillsInputFieldContext {
     required this.pointer,
   });
 
+  /// The [BuildContext] for this build.
   final BuildContext context;
+
+  /// Style overrides merged over theme defaults.
   final PillsInputFieldStyle style;
+
+  /// Resolved interaction state for this build.
   final PillsInputFieldState state;
+
+  /// The visual variant selected by the constructor.
   final PillsInputFieldVariant variant;
+
+  /// The controlled value.
   final String value;
+
+  /// Called when the value changes.
   final ComboboxSearchChanged? onChanged;
+
+  /// Placeholder text when empty.
   final String? placeholder;
+
+  /// Whether interaction is disabled.
   final bool disabled;
+
+  /// The type.
   final PillsInputFieldType type;
+
+  /// Whether pointer.
   final bool pointer;
 }
 
+/// Builder for the root slot.
 class PillsInputFieldRoot {
+  /// Creates a [PillsInputFieldRoot] from a builder function.
   const PillsInputFieldRoot(this._build);
 
   final Widget Function(PillsInputFieldContext context) _build;
 
+  /// Invokes this slot with [context].
   Widget call(PillsInputFieldContext context) => _build(context);
 }
 
+/// Theme-owned composition slots for [PillsInputField].
 abstract class PillsInputFieldDelegate extends ComponentDelegate {
+  /// Creates a [PillsInputFieldDelegate].
   const PillsInputFieldDelegate();
 
+  /// Builds the composition root.
   Widget root(PillsInputFieldContext context);
 }
 
+/// A [PillsInputField] widget resolved through [PillsInputFieldDelegate].
 class PillsInputField extends StatelessWidget {
+  /// Creates a [PillsInputField].
   const PillsInputField({
     super.key,
     this.value,
@@ -227,15 +333,31 @@ class PillsInputField extends StatelessWidget {
     this.style,
   }) : variant = PillsInputFieldVariant.defaults;
 
+  /// The visual variant selected by the constructor.
   final PillsInputFieldVariant variant;
+
+  /// The controlled value.
   final String? value;
+
+  /// Called when the value changes.
   final ComboboxSearchChanged? onChanged;
+
+  /// Placeholder text when empty.
   final String? placeholder;
+
+  /// Whether interaction is disabled.
   final bool? disabled;
+
+  /// The type.
   final PillsInputFieldType? type;
+
+  /// Whether pointer.
   final bool? pointer;
+
+  /// Style overrides merged over theme defaults.
   final PillsInputFieldStyle? style;
 
+  /// Resolves properties and builds via [PillsInputFieldDelegate].
   @override
   Widget build(BuildContext context) {
     final resolvedValue = value ?? '';

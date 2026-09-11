@@ -6,24 +6,36 @@ part of 'scroller.dart';
 // MantleComponentGenerator
 // **************************************************************************
 
-enum ScrollerVariant { defaults }
+/// Visual variants of [Scroller].
+enum ScrollerVariant {
+  /// The default variant.
+  defaults,
+}
 
+/// Resolved visual values for [Scroller].
 @immutable
 class ScrollerStyle {
+  /// Creates a [ScrollerStyle].
   const ScrollerStyle();
 
+  /// Returns a copy of this [ScrollerStyle] with selected fields replaced.
   ScrollerStyle copyWith() => this;
 
+  /// Merges [other] over this [ScrollerStyle]; null fields keep this value.
   ScrollerStyle mergeWith(ScrollerStyle? other) => this;
 }
 
+/// Resolved interaction state for [Scroller].
 @immutable
 class ScrollerState {
+  /// Creates a [ScrollerState].
   const ScrollerState();
 }
 
+/// Values passed to [ScrollerDelegate] slots during build.
 @immutable
 class ScrollerContext {
+  /// Creates a [ScrollerContext].
   const ScrollerContext({
     required this.context,
     required this.style,
@@ -39,35 +51,66 @@ class ScrollerContext {
     required this.showEndControl,
   });
 
+  /// The [BuildContext] for this build.
   final BuildContext context;
+
+  /// Style overrides merged over theme defaults.
   final ScrollerStyle style;
+
+  /// Resolved interaction state for this build.
   final ScrollerState state;
+
+  /// The visual variant selected by the constructor.
   final ScrollerVariant variant;
+
+  /// The primary child widget.
   final Widget child;
+
+  /// Distance scrolled by each control press.
   final double scrollAmount;
+
+  /// Whether the content can be dragged.
   final bool draggable;
+
+  /// Size of the scroll controls.
   final double controlSize;
+
+  /// The start control icon.
   final Widget? startControlIcon;
+
+  /// The end control icon.
   final Widget? endControlIcon;
+
+  /// Whether show start control.
   final bool showStartControl;
+
+  /// Whether show end control.
   final bool showEndControl;
 }
 
+/// Builder for the root slot.
 class ScrollerRoot {
+  /// Creates a [ScrollerRoot] from a builder function.
   const ScrollerRoot(this._build);
 
   final Widget Function(ScrollerContext context) _build;
 
+  /// Invokes this slot with [context].
   Widget call(ScrollerContext context) => _build(context);
 }
 
+/// Theme-owned composition slots for [Scroller].
 abstract class ScrollerDelegate extends ComponentDelegate {
+  /// Creates a [ScrollerDelegate].
   const ScrollerDelegate();
 
+  /// Builds the composition root.
   Widget root(ScrollerContext context);
 }
 
+/// A [Scroller] widget resolved through [ScrollerDelegate].
 class Scroller extends StatelessWidget {
+  /// Creates a [Scroller].
   const Scroller({
     super.key,
     required this.child,
@@ -81,17 +124,37 @@ class Scroller extends StatelessWidget {
     this.style,
   }) : variant = ScrollerVariant.defaults;
 
+  /// The visual variant selected by the constructor.
   final ScrollerVariant variant;
+
+  /// The primary child widget.
   final Widget child;
+
+  /// Distance scrolled by each control press.
   final double? scrollAmount;
+
+  /// Whether the content can be dragged.
   final bool? draggable;
+
+  /// Size of the scroll controls.
   final double? controlSize;
+
+  /// The start control icon.
   final Widget? startControlIcon;
+
+  /// The end control icon.
   final Widget? endControlIcon;
+
+  /// Whether show start control.
   final bool? showStartControl;
+
+  /// Whether show end control.
   final bool? showEndControl;
+
+  /// Style overrides merged over theme defaults.
   final ScrollerStyle? style;
 
+  /// Resolves properties and builds via [ScrollerDelegate].
   @override
   Widget build(BuildContext context) {
     final resolvedChild = child;

@@ -11,8 +11,6 @@ import 'package:mantle_basic/src/widgets/miscellaneous/miscellaneous.dart';
 import 'package:mantle_basic/src/widgets/navigation/navigation.dart';
 import 'package:mantle_basic/src/widgets/overlays/overlays.dart';
 import 'package:mantle_basic/src/widgets/typography/typography_widgets.dart';
-
-import 'package:mantle_core/mantle_core.dart';
 import 'package:mantle_widgets/mantle_widgets.dart';
 
 /// Baseline theme: Mantine default tokens and component delegates.
@@ -57,10 +55,13 @@ class BasicTheme extends MantleTheme {
          colors: colors ?? basicColors,
          icons: icons ?? const MantleIcons.empty(),
          typography: typography ?? basicTypography,
-         spacing: spacing ?? basicSpacing,
-         radius: radius ?? basicRadius,
+         spacing: spacing ?? const MantleSpacing.empty(),
+         spacingBuilder: spacing == null ? BasicSpacing.new : null,
+         radius: radius ?? const MantleRadius.empty(),
+         radiusBuilder: radius == null ? BasicRadius.new : null,
          shadows: shadows ?? const MantleShadow.empty(),
-         breakpoints: breakpoints ?? basicBreakpoints,
+         breakpoints: breakpoints ?? const MantleBreakpoint.empty(),
+         breakpointsBuilder: breakpoints == null ? BasicBreakpoints.new : null,
          componentDefaults:
              componentDefaults ?? const ComponentDefaults.empty(),
          extensions: extensions ?? const {},
@@ -260,11 +261,9 @@ class BasicTheme extends MantleTheme {
              TableThDelegate: BasicTableThDelegate(),
              TableTdDelegate: BasicTableTdDelegate(),
              TableCaptionDelegate: BasicTableCaptionDelegate(),
-             TableScrollContainerDelegate:
-                 BasicTableScrollContainerDelegate(),
+             TableScrollContainerDelegate: BasicTableScrollContainerDelegate(),
              TypographyDelegate: BasicTypographyDelegate(),
            }),
-
          ),
        );
 }

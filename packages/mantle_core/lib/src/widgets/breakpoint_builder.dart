@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:mantle_core/src/theme/mantle_provider.dart';
+import 'package:mantle_core/src/tokens/breakpoint.dart';
 import 'package:mantle_core/src/tokens/size.dart';
 
 /// A widget that builds its child based on the current breakpoint.

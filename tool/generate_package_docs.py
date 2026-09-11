@@ -7,7 +7,7 @@ import re
 from collections import defaultdict
 from pathlib import Path
 
-ROOT = Path("/home/leslmosnk/Desktop/Flutter Widgets")
+ROOT = Path(__file__).resolve().parents[1]
 WIDGETS_LIB = ROOT / "packages/mantle_widgets/lib/src/components"
 BASIC_LIB = ROOT / "packages/mantle_basic/lib/src/widgets"
 WIDGETS_DOCS = ROOT / "packages/mantle_widgets/docs"

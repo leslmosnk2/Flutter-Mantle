@@ -1,6 +1,6 @@
 <!-- _coverpage.md -->
 
-# Mantle <small>1.0</small>
+# Mantle <small>1.1</small>
 
 > Weave your own widgets.
 

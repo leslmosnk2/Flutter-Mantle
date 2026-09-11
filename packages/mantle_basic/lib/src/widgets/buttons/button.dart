@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:flutter/widgets.dart';
-import 'package:mantle_core/mantle_core.dart';
 import 'package:mantle_widgets/mantle_widgets.dart';
 
 /// Mantine-like [ButtonDelegate] for the baseline theme.

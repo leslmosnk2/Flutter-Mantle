@@ -6,10 +6,16 @@ part of 'tags_input.dart';
 // MantleComponentGenerator
 // **************************************************************************
 
-enum TagsInputVariant { defaults }
+/// Visual variants of [TagsInput].
+enum TagsInputVariant {
+  /// The default variant.
+  defaults,
+}
 
+/// Resolved visual values for [TagsInput].
 @immutable
 class TagsInputStyle {
+  /// Creates a [TagsInputStyle].
   const TagsInputStyle({
     this.background,
     this.borderColor,
@@ -17,11 +23,19 @@ class TagsInputStyle {
     this.radius,
   });
 
+  /// Background color.
   final Color? background;
+
+  /// Border color token or value.
   final Color? borderColor;
+
+  /// Height in logical pixels.
   final double? height;
+
+  /// Corner radius.
   final BorderRadiusGeometry? radius;
 
+  /// Returns a copy of this [TagsInputStyle] with selected fields replaced.
   TagsInputStyle copyWith({
     Color? background,
     Color? borderColor,
@@ -36,6 +50,7 @@ class TagsInputStyle {
     );
   }
 
+  /// Merges [other] over this [TagsInputStyle]; null fields keep this value.
   TagsInputStyle mergeWith(TagsInputStyle? other) {
     if (other == null) return this;
     return TagsInputStyle(
@@ -47,15 +62,20 @@ class TagsInputStyle {
   }
 }
 
+/// Resolved interaction state for [TagsInput].
 @immutable
 class TagsInputState {
+  /// Creates a [TagsInputState].
   const TagsInputState({this.disabled = false});
 
+  /// Whether interaction is disabled.
   final bool disabled;
 }
 
+/// Values passed to [TagsInputDelegate] slots during build.
 @immutable
 class TagsInputContext {
+  /// Creates a [TagsInputContext].
   const TagsInputContext({
     required this.context,
     required this.style,
@@ -88,52 +108,117 @@ class TagsInputContext {
     required this.radius,
   });
 
+  /// The [BuildContext] for this build.
   final BuildContext context;
+
+  /// Style overrides merged over theme defaults.
   final TagsInputStyle style;
+
+  /// Resolved interaction state for this build.
   final TagsInputState state;
+
+  /// The visual variant selected by the constructor.
   final TagsInputVariant variant;
+
+  /// Tabular data to render.
   final List<ComboboxItem>? data;
+
+  /// The controlled value.
   final List<String>? value;
+
+  /// Called when the value changes.
   final MultiSelectChanged? onChange;
+
+  /// Called when an item is removed.
   final ComboboxOptionSubmit? onRemove;
+
+  /// Placeholder text when empty.
   final String? placeholder;
+
+  /// The label.
   final String? label;
+
+  /// Supporting description text.
   final String? description;
+
+  /// Error text or error state.
   final String? error;
+
+  /// Controlled search text.
   final String? searchValue;
+
+  /// Called when the search text changes.
   final ComboboxSearchChanged? onSearchChange;
+
+  /// Maximum number of tags.
   final int? maxTags;
+
+  /// Whether allow duplicates.
   final bool allowDuplicates;
+
+  /// Characters that split tags.
   final String splitChars;
+
+  /// Whether accept value on blur.
   final bool acceptValueOnBlur;
+
+  /// Whether the value can be cleared.
   final bool clearable;
+
+  /// Whether interaction is disabled.
   final bool disabled;
+
+  /// Whether the value cannot be edited.
   final bool readOnly;
+
+  /// Whether the dropdown is open.
   final bool? dropdownOpened;
+
+  /// Called when the dropdown opens.
   final VoidCallback? onDropdownOpen;
+
+  /// Called when the dropdown closes.
   final VoidCallback? onDropdownClose;
+
+  /// Message shown when no options match.
   final String? nothingFoundMessage;
+
+  /// The limit.
   final int? limit;
+
+  /// The max dropdown height.
   final double maxDropdownHeight;
+
+  /// Size token.
   final String size;
+
+  /// Corner radius.
   final BorderRadiusGeometry radius;
 }
 
+/// Builder for the root slot.
 class TagsInputRoot {
+  /// Creates a [TagsInputRoot] from a builder function.
   const TagsInputRoot(this._build);
 
   final Widget Function(TagsInputContext context) _build;
 
+  /// Invokes this slot with [context].
   Widget call(TagsInputContext context) => _build(context);
 }
 
+/// Theme-owned composition slots for [TagsInput].
 abstract class TagsInputDelegate extends ComponentDelegate {
+  /// Creates a [TagsInputDelegate].
   const TagsInputDelegate();
 
+  /// Builds the composition root.
   Widget root(TagsInputContext context);
 }
 
+/// A [TagsInput] widget resolved through [TagsInputDelegate].
 class TagsInput extends StatelessWidget {
+  /// Creates a [TagsInput].
   const TagsInput({
     super.key,
     this.data,
@@ -164,34 +249,88 @@ class TagsInput extends StatelessWidget {
     this.style,
   }) : variant = TagsInputVariant.defaults;
 
+  /// The visual variant selected by the constructor.
   final TagsInputVariant variant;
+
+  /// Tabular data to render.
   final List<ComboboxItem>? data;
+
+  /// The controlled value.
   final List<String>? value;
+
+  /// Called when the value changes.
   final MultiSelectChanged? onChange;
+
+  /// Called when an item is removed.
   final ComboboxOptionSubmit? onRemove;
+
+  /// Placeholder text when empty.
   final String? placeholder;
+
+  /// The label.
   final String? label;
+
+  /// Supporting description text.
   final String? description;
+
+  /// Error text or error state.
   final String? error;
+
+  /// Controlled search text.
   final String? searchValue;
+
+  /// Called when the search text changes.
   final ComboboxSearchChanged? onSearchChange;
+
+  /// Maximum number of tags.
   final int? maxTags;
+
+  /// Whether allow duplicates.
   final bool? allowDuplicates;
+
+  /// Characters that split tags.
   final String? splitChars;
+
+  /// Whether accept value on blur.
   final bool? acceptValueOnBlur;
+
+  /// Whether the value can be cleared.
   final bool? clearable;
+
+  /// Whether interaction is disabled.
   final bool? disabled;
+
+  /// Whether the value cannot be edited.
   final bool? readOnly;
+
+  /// Whether the dropdown is open.
   final bool? dropdownOpened;
+
+  /// Called when the dropdown opens.
   final VoidCallback? onDropdownOpen;
+
+  /// Called when the dropdown closes.
   final VoidCallback? onDropdownClose;
+
+  /// Message shown when no options match.
   final String? nothingFoundMessage;
+
+  /// The limit.
   final int? limit;
+
+  /// The max dropdown height.
   final double? maxDropdownHeight;
+
+  /// Size token.
   final String? size;
+
+  /// Corner radius.
   final BorderRadiusGeometry? radius;
+
+  /// Style overrides merged over theme defaults.
   final TagsInputStyle? style;
 
+  /// Resolves properties and builds via [TagsInputDelegate].
   @override
   Widget build(BuildContext context) {
     final resolvedData = data;

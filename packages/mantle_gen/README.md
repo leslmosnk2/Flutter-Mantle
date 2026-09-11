@@ -6,16 +6,16 @@ Annotate libraries with [`mantle_annotations`](https://pub.dev/packages/mantle_a
 this package emits the matching part files. Add it as a **dev dependency** only
 — app code never imports `mantle_gen` directly.
 
-- **Docs:** [docs.mantle.leslmosnk.com/gen](https://docs.mantle.leslmosnk.com/#/gen/)
+- **Docs:** [leslmosnk2.github.io/Flutter-Mantle/#/gen](https://leslmosnk2.github.io/Flutter-Mantle/#/gen/)
 
 ## Install
 
 ```yaml
 dependencies:
-  mantle_annotations: ^1.0.0
+  mantle_annotations: ^1.1.0
 
 dev_dependencies:
-  mantle_gen: ^1.0.0
+  mantle_gen: ^1.1.0
   build_runner: ^2.4.0
 ```
 
@@ -38,21 +38,9 @@ dependents:
 
 ### Token generator
 
-Given:
-
-```dart
-import 'package:mantle_annotations/mantle_annotations.dart';
-
-part 'palette.g.dart';
-
-@MantleToken()
-abstract final class Palette {
-  static const red = 0xFFFF0000;
-  static const blue = 0xFF0000FF;
-}
-```
-
-The generator emits a mixin that exposes those consts as a `toMap()`.
+Size-list `@MantleToken` classes emit `_$ClassName` (named fields, `all.md`,
+merge/lerp). `@MantleAppTheme` emits `AppTheme.of(context)`.
+Static-const classes still get `toMap()`.
 
 ## License
 

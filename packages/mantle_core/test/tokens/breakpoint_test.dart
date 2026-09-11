@@ -82,5 +82,43 @@ void main() {
       expect(merged['md'], equals(600));
       expect(merged['lg'], equals(1024));
     });
+
+    test('.getOrNull() returns null for missing keys', () {
+      expect(breakpoints.getOrNull('md'), equals(600));
+      expect(breakpoints.getOrNull('missing'), isNull);
+    });
+
+    test('.mapValues() transforms every value', () {
+      final doubled = breakpoints.mapValues((value) => value * 2);
+
+      expect(doubled['sm'], equals(0));
+      expect(doubled['md'], equals(1200));
+    });
+
+    test('.resolveRem() scales px-at-remBase values', () {
+      final resolved = breakpoints.resolveRem(
+        textScaler: const TextScaler.linear(2),
+      );
+
+      expect(resolved['md'], equals(1200));
+    });
+
+    testWidgets('.fromMedia() uses the ambient text scaler', (tester) async {
+      late MantleBreakpoint resolved;
+
+      await tester.pumpWidget(
+        MediaQuery(
+          data: const MediaQueryData(textScaler: TextScaler.linear(0.5)),
+          child: Builder(
+            builder: (context) {
+              resolved = breakpoints.fromMedia(context);
+              return const SizedBox.shrink();
+            },
+          ),
+        ),
+      );
+
+      expect(resolved['md'], equals(300));
+    });
   });
 }

@@ -1,0 +1,116 @@
+class {{ baseName }} implements {{ interfaceType }} {
+  const {{ baseName }}({
+{% for field in fields %}    required this.{{ field }},
+{% endfor %}  });
+
+{% for field in fields %}  final double {{ field }};
+{% endfor %}
+  @override
+  Set<MantleSize> get tokens => {
+{% for field in fields %}    '{{ field }}',
+{% endfor %}  };
+
+  @override
+  bool get isEmpty => false;
+
+  @override
+  double operator [](MantleSize size) => switch (size) {
+{% for field in fields %}    '{{ field }}' => {{ field }},
+{% endfor %}    _ => throw ArgumentError('No size named "$size"'),
+  };
+
+  @override
+  double? getOrNull(MantleSize size) => switch (size) {
+{% for field in fields %}    '{{ field }}' => {{ field }},
+{% endfor %}    _ => null,
+  };
+
+  @override
+  {{ baseName }} mapValues(double Function(double value) transform) {
+    return {{ baseName }}(
+{% for field in fields %}      {{ field }}: transform({{ field }}),
+{% endfor %}    );
+  }
+
+  @override
+  {{ baseName }} resolveRem({
+    required TextScaler textScaler,
+    double remBase = 16,
+  }) {
+    return mapValues((value) => textScaler.scale(value / remBase) * remBase);
+  }
+{% if isSpacing %}
+  {{ baseName }}All get all => {{ baseName }}All(this);
+
+  EdgeInsets only({
+    double top = 0,
+    double right = 0,
+    double bottom = 0,
+    double left = 0,
+  }) {
+    return EdgeInsets.only(
+      top: top,
+      right: right,
+      bottom: bottom,
+      left: left,
+    );
+  }
+
+  EdgeInsets symmetric({double vertical = 0, double horizontal = 0}) {
+    return EdgeInsets.symmetric(vertical: vertical, horizontal: horizontal);
+  }
+{% endif %}{% if isRadius %}
+  {{ baseName }}Border get border => {{ baseName }}Border(this);
+
+  {{ baseName }}Circular get circular => {{ baseName }}Circular(this);
+
+  Radius elliptical(double x, double y) => Radius.elliptical(x, y);
+{% endif %}
+  {{ baseName }} copyWith({
+{% for field in fields %}    double? {{ field }},
+{% endfor %}  }) {
+    return {{ baseName }}(
+{% for field in fields %}      {{ field }}: {{ field }} ?? this.{{ field }},
+{% endfor %}    );
+  }
+
+  @override
+  {{ baseName }} mergeWith(covariant {{ interfaceType }} other) {
+    return {{ baseName }}(
+{% for field in fields %}      {{ field }}: getOrNull('{{ field }}') ?? other['{{ field }}'],
+{% endfor %}    );
+  }
+
+  @override
+  {{ baseName }} lerpWith(covariant {{ interfaceType }} other, double t) {
+    return {{ baseName }}(
+{% for field in fields %}      {{ field }}: {{ field }} * (1 - t) +
+          (other.getOrNull('{{ field }}') ?? {{ field }}) * t,
+{% endfor %}    );
+  }
+}
+{% if isSpacing %}
+class {{ baseName }}All {
+  const {{ baseName }}All(this._s);
+
+  final {{ baseName }} _s;
+{% for field in fields %}
+  EdgeInsets get {{ field }} => EdgeInsets.all(_s.{{ field }});
+{% endfor %}}
+{% endif %}{% if isRadius %}
+class {{ baseName }}Border {
+  const {{ baseName }}Border(this._s);
+
+  final {{ baseName }} _s;
+{% for field in fields %}
+  BorderRadius get {{ field }} => BorderRadius.circular(_s.{{ field }});
+{% endfor %}}
+
+class {{ baseName }}Circular {
+  const {{ baseName }}Circular(this._s);
+
+  final {{ baseName }} _s;
+{% for field in fields %}
+  Radius get {{ field }} => Radius.circular(_s.{{ field }});
+{% endfor %}}
+{% endif %}

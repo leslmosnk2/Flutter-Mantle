@@ -6,10 +6,16 @@ part of 'multi_select.dart';
 // MantleComponentGenerator
 // **************************************************************************
 
-enum MultiSelectVariant { defaults }
+/// Visual variants of [MultiSelect].
+enum MultiSelectVariant {
+  /// The default variant.
+  defaults,
+}
 
+/// Resolved visual values for [MultiSelect].
 @immutable
 class MultiSelectStyle {
+  /// Creates a [MultiSelectStyle].
   const MultiSelectStyle({
     this.background,
     this.borderColor,
@@ -17,11 +23,19 @@ class MultiSelectStyle {
     this.radius,
   });
 
+  /// Background color.
   final Color? background;
+
+  /// Border color token or value.
   final Color? borderColor;
+
+  /// Height in logical pixels.
   final double? height;
+
+  /// Corner radius.
   final BorderRadiusGeometry? radius;
 
+  /// Returns a copy of this [MultiSelectStyle] with selected fields replaced.
   MultiSelectStyle copyWith({
     Color? background,
     Color? borderColor,
@@ -36,6 +50,7 @@ class MultiSelectStyle {
     );
   }
 
+  /// Merges [other] over this [MultiSelectStyle]; null fields keep this value.
   MultiSelectStyle mergeWith(MultiSelectStyle? other) {
     if (other == null) return this;
     return MultiSelectStyle(
@@ -47,16 +62,23 @@ class MultiSelectStyle {
   }
 }
 
+/// Resolved interaction state for [MultiSelect].
 @immutable
 class MultiSelectState {
+  /// Creates a [MultiSelectState].
   const MultiSelectState({this.disabled = false, this.searchable = false});
 
+  /// Whether interaction is disabled.
   final bool disabled;
+
+  /// Whether the list can be filtered.
   final bool searchable;
 }
 
+/// Values passed to [MultiSelectDelegate] slots during build.
 @immutable
 class MultiSelectContext {
+  /// Creates a [MultiSelectContext].
   const MultiSelectContext({
     required this.context,
     required this.style,
@@ -90,53 +112,120 @@ class MultiSelectContext {
     required this.radius,
   });
 
+  /// The [BuildContext] for this build.
   final BuildContext context;
+
+  /// Style overrides merged over theme defaults.
   final MultiSelectStyle style;
+
+  /// Resolved interaction state for this build.
   final MultiSelectState state;
+
+  /// The visual variant selected by the constructor.
   final MultiSelectVariant variant;
+
+  /// Tabular data to render.
   final List<ComboboxItem> data;
+
+  /// The controlled value.
   final List<String>? value;
+
+  /// Called when the value changes.
   final MultiSelectChanged? onChange;
+
+  /// Called when an item is removed.
   final ComboboxOptionSubmit? onRemove;
+
+  /// Placeholder text when empty.
   final String? placeholder;
+
+  /// The label.
   final String? label;
+
+  /// Supporting description text.
   final String? description;
+
+  /// Error text or error state.
   final String? error;
+
+  /// Whether the list can be filtered.
   final bool searchable;
+
+  /// Controlled search text.
   final String? searchValue;
+
+  /// Called when the search text changes.
   final ComboboxSearchChanged? onSearchChange;
+
+  /// Maximum number of selected values.
   final int? maxValues;
+
+  /// Whether hide picked options.
   final bool hidePickedOptions;
+
+  /// Whether the value can be cleared.
   final bool clearable;
+
+  /// Whether interaction is disabled.
   final bool disabled;
+
+  /// Whether the value cannot be edited.
   final bool readOnly;
+
+  /// Whether the dropdown is open.
   final bool? dropdownOpened;
+
+  /// Called when the dropdown opens.
   final VoidCallback? onDropdownOpen;
+
+  /// Called when the dropdown closes.
   final VoidCallback? onDropdownClose;
+
+  /// Message shown when no options match.
   final String? nothingFoundMessage;
+
+  /// Whether with check icon.
   final bool withCheckIcon;
+
+  /// The check icon position.
   final ComboboxCheckIconPosition checkIconPosition;
+
+  /// The limit.
   final int? limit;
+
+  /// The max dropdown height.
   final double maxDropdownHeight;
+
+  /// Size token.
   final String size;
+
+  /// Corner radius.
   final BorderRadiusGeometry radius;
 }
 
+/// Builder for the root slot.
 class MultiSelectRoot {
+  /// Creates a [MultiSelectRoot] from a builder function.
   const MultiSelectRoot(this._build);
 
   final Widget Function(MultiSelectContext context) _build;
 
+  /// Invokes this slot with [context].
   Widget call(MultiSelectContext context) => _build(context);
 }
 
+/// Theme-owned composition slots for [MultiSelect].
 abstract class MultiSelectDelegate extends ComponentDelegate {
+  /// Creates a [MultiSelectDelegate].
   const MultiSelectDelegate();
 
+  /// Builds the composition root.
   Widget root(MultiSelectContext context);
 }
 
+/// A [MultiSelect] widget resolved through [MultiSelectDelegate].
 class MultiSelect extends StatelessWidget {
+  /// Creates a [MultiSelect].
   const MultiSelect({
     super.key,
     required this.data,
@@ -168,35 +257,91 @@ class MultiSelect extends StatelessWidget {
     this.style,
   }) : variant = MultiSelectVariant.defaults;
 
+  /// The visual variant selected by the constructor.
   final MultiSelectVariant variant;
+
+  /// Tabular data to render.
   final List<ComboboxItem> data;
+
+  /// The controlled value.
   final List<String>? value;
+
+  /// Called when the value changes.
   final MultiSelectChanged? onChange;
+
+  /// Called when an item is removed.
   final ComboboxOptionSubmit? onRemove;
+
+  /// Placeholder text when empty.
   final String? placeholder;
+
+  /// The label.
   final String? label;
+
+  /// Supporting description text.
   final String? description;
+
+  /// Error text or error state.
   final String? error;
+
+  /// Whether the list can be filtered.
   final bool? searchable;
+
+  /// Controlled search text.
   final String? searchValue;
+
+  /// Called when the search text changes.
   final ComboboxSearchChanged? onSearchChange;
+
+  /// Maximum number of selected values.
   final int? maxValues;
+
+  /// Whether hide picked options.
   final bool? hidePickedOptions;
+
+  /// Whether the value can be cleared.
   final bool? clearable;
+
+  /// Whether interaction is disabled.
   final bool? disabled;
+
+  /// Whether the value cannot be edited.
   final bool? readOnly;
+
+  /// Whether the dropdown is open.
   final bool? dropdownOpened;
+
+  /// Called when the dropdown opens.
   final VoidCallback? onDropdownOpen;
+
+  /// Called when the dropdown closes.
   final VoidCallback? onDropdownClose;
+
+  /// Message shown when no options match.
   final String? nothingFoundMessage;
+
+  /// Whether with check icon.
   final bool? withCheckIcon;
+
+  /// The check icon position.
   final ComboboxCheckIconPosition? checkIconPosition;
+
+  /// The limit.
   final int? limit;
+
+  /// The max dropdown height.
   final double? maxDropdownHeight;
+
+  /// Size token.
   final String? size;
+
+  /// Corner radius.
   final BorderRadiusGeometry? radius;
+
+  /// Style overrides merged over theme defaults.
   final MultiSelectStyle? style;
 
+  /// Resolves properties and builds via [MultiSelectDelegate].
   @override
   Widget build(BuildContext context) {
     final resolvedData = data;

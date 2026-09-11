@@ -1,7 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:mantle_basic/src/widgets/layout/layout_tokens.dart';
 import 'package:mantle_basic/src/widgets/typography/tokens.dart';
-import 'package:mantle_core/mantle_core.dart';
 import 'package:mantle_widgets/mantle_widgets.dart';
 
 /// Baseline [MTableDelegate]: scope + column of sections.

@@ -6,10 +6,19 @@ part of 'pill.dart';
 // MantleComponentGenerator
 // **************************************************************************
 
-enum PillVariant { defaults, contrast }
+/// Visual variants of [Pill].
+enum PillVariant {
+  /// The default variant.
+  defaults,
 
+  /// The contrast variant.
+  contrast,
+}
+
+/// Resolved visual values for [Pill].
 @immutable
 class PillStyle {
+  /// Creates a [PillStyle].
   const PillStyle({
     this.background,
     this.color,
@@ -18,12 +27,22 @@ class PillStyle {
     this.radius,
   });
 
+  /// Background color.
   final Color? background;
+
+  /// Foreground or accent color.
   final Color? color;
+
+  /// Height in logical pixels.
   final double? height;
+
+  /// Font size in logical pixels.
   final double? fontSize;
+
+  /// Corner radius.
   final BorderRadiusGeometry? radius;
 
+  /// Returns a copy of this [PillStyle] with selected fields replaced.
   PillStyle copyWith({
     Color? background,
     Color? color,
@@ -40,6 +59,7 @@ class PillStyle {
     );
   }
 
+  /// Merges [other] over this [PillStyle]; null fields keep this value.
   PillStyle mergeWith(PillStyle? other) {
     if (other == null) return this;
     return PillStyle(
@@ -52,16 +72,23 @@ class PillStyle {
   }
 }
 
+/// Resolved interaction state for [Pill].
 @immutable
 class PillState {
+  /// Creates a [PillState].
   const PillState({this.disabled = false, this.withRemoveButton = false});
 
+  /// Whether interaction is disabled.
   final bool disabled;
+
+  /// Whether a remove control is shown.
   final bool withRemoveButton;
 }
 
+/// Values passed to [PillDelegate] slots during build.
 @immutable
 class PillContext {
+  /// Creates a [PillContext].
   const PillContext({
     required this.context,
     required this.style,
@@ -75,33 +102,60 @@ class PillContext {
     required this.radius,
   });
 
+  /// The [BuildContext] for this build.
   final BuildContext context;
+
+  /// Style overrides merged over theme defaults.
   final PillStyle style;
+
+  /// Resolved interaction state for this build.
   final PillState state;
+
+  /// The visual variant selected by the constructor.
   final PillVariant variant;
+
+  /// The primary child widget.
   final Widget child;
+
+  /// Whether a remove control is shown.
   final bool withRemoveButton;
+
+  /// Called when an item is removed.
   final VoidCallback? onRemove;
+
+  /// Whether interaction is disabled.
   final bool disabled;
+
+  /// Size token.
   final String? size;
+
+  /// Corner radius.
   final BorderRadiusGeometry radius;
 }
 
+/// Builder for the root slot.
 class PillRoot {
+  /// Creates a [PillRoot] from a builder function.
   const PillRoot(this._build);
 
   final Widget Function(PillContext context) _build;
 
+  /// Invokes this slot with [context].
   Widget call(PillContext context) => _build(context);
 }
 
+/// Theme-owned composition slots for [Pill].
 abstract class PillDelegate extends ComponentDelegate {
+  /// Creates a [PillDelegate].
   const PillDelegate();
 
+  /// Builds the composition root.
   Widget root(PillContext context);
 }
 
+/// A [Pill] widget resolved through [PillDelegate].
 class Pill extends StatelessWidget {
+  /// Creates a [Pill].
   const Pill({
     super.key,
     required this.child,
@@ -113,6 +167,7 @@ class Pill extends StatelessWidget {
     this.style,
   }) : variant = PillVariant.defaults;
 
+  /// Creates a contrast [Pill].
   const Pill.contrast({
     super.key,
     required this.child,
@@ -124,15 +179,31 @@ class Pill extends StatelessWidget {
     this.style,
   }) : variant = PillVariant.contrast;
 
+  /// The visual variant selected by the constructor.
   final PillVariant variant;
+
+  /// The primary child widget.
   final Widget child;
+
+  /// Whether a remove control is shown.
   final bool? withRemoveButton;
+
+  /// Called when an item is removed.
   final VoidCallback? onRemove;
+
+  /// Whether interaction is disabled.
   final bool? disabled;
+
+  /// Size token.
   final String? size;
+
+  /// Corner radius.
   final BorderRadiusGeometry? radius;
+
+  /// Style overrides merged over theme defaults.
   final PillStyle? style;
 
+  /// Resolves properties and builds via [PillDelegate].
   @override
   Widget build(BuildContext context) {
     final resolvedChild = child;
@@ -173,24 +244,36 @@ class Pill extends StatelessWidget {
   }
 }
 
-enum PillGroupVariant { defaults }
+/// Visual variants of [PillGroup].
+enum PillGroupVariant {
+  /// The default variant.
+  defaults,
+}
 
+/// Resolved visual values for [PillGroup].
 @immutable
 class PillGroupStyle {
+  /// Creates a [PillGroupStyle].
   const PillGroupStyle();
 
+  /// Returns a copy of this [PillGroupStyle] with selected fields replaced.
   PillGroupStyle copyWith() => this;
 
+  /// Merges [other] over this [PillGroupStyle]; null fields keep this value.
   PillGroupStyle mergeWith(PillGroupStyle? other) => this;
 }
 
+/// Resolved interaction state for [PillGroup].
 @immutable
 class PillGroupState {
+  /// Creates a [PillGroupState].
   const PillGroupState();
 }
 
+/// Values passed to [PillGroupDelegate] slots during build.
 @immutable
 class PillGroupContext {
+  /// Creates a [PillGroupContext].
   const PillGroupContext({
     required this.context,
     required this.style,
@@ -202,31 +285,54 @@ class PillGroupContext {
     required this.disabled,
   });
 
+  /// The [BuildContext] for this build.
   final BuildContext context;
+
+  /// Style overrides merged over theme defaults.
   final PillGroupStyle style;
+
+  /// Resolved interaction state for this build.
   final PillGroupState state;
+
+  /// The visual variant selected by the constructor.
   final PillGroupVariant variant;
+
+  /// Child widgets composed by this component.
   final List<Widget> children;
+
+  /// Size token.
   final String? size;
+
+  /// Spacing token between items.
   final String? gap;
+
+  /// Whether interaction is disabled.
   final bool disabled;
 }
 
+/// Builder for the root slot.
 class PillGroupRoot {
+  /// Creates a [PillGroupRoot] from a builder function.
   const PillGroupRoot(this._build);
 
   final Widget Function(PillGroupContext context) _build;
 
+  /// Invokes this slot with [context].
   Widget call(PillGroupContext context) => _build(context);
 }
 
+/// Theme-owned composition slots for [PillGroup].
 abstract class PillGroupDelegate extends ComponentDelegate {
+  /// Creates a [PillGroupDelegate].
   const PillGroupDelegate();
 
+  /// Builds the composition root.
   Widget root(PillGroupContext context);
 }
 
+/// A [PillGroup] widget resolved through [PillGroupDelegate].
 class PillGroup extends StatelessWidget {
+  /// Creates a [PillGroup].
   const PillGroup({
     super.key,
     required this.children,
@@ -236,13 +342,25 @@ class PillGroup extends StatelessWidget {
     this.style,
   }) : variant = PillGroupVariant.defaults;
 
+  /// The visual variant selected by the constructor.
   final PillGroupVariant variant;
+
+  /// Child widgets composed by this component.
   final List<Widget> children;
+
+  /// Size token.
   final String? size;
+
+  /// Spacing token between items.
   final String? gap;
+
+  /// Whether interaction is disabled.
   final bool? disabled;
+
+  /// Style overrides merged over theme defaults.
   final PillGroupStyle? style;
 
+  /// Resolves properties and builds via [PillGroupDelegate].
   @override
   Widget build(BuildContext context) {
     final resolvedChildren = children;

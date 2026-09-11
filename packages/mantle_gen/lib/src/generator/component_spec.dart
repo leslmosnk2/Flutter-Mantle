@@ -1,3 +1,5 @@
+import 'package:mantle_gen/src/generator/component_docs.dart';
+
 /// A parsed `@MantleComponent` contract, ready to render.
 final class ComponentSpec {
   /// Creates a [ComponentSpec].
@@ -70,12 +72,41 @@ final class ComponentSpec {
       'stateClassName': '${name}State',
       'contextClassName': '${name}Context',
       'delegateClassName': '${name}Delegate',
+      'widgetDoc': GeneratedComponentDocs.widget(name),
+      'variantEnumDoc': GeneratedComponentDocs.variantEnum(name),
+      'styleClassDoc': GeneratedComponentDocs.styleClass(name),
+      'stateClassDoc': GeneratedComponentDocs.stateClass(name),
+      'contextClassDoc': GeneratedComponentDocs.contextClass(name),
+      'delegateClassDoc': GeneratedComponentDocs.delegateClass(name),
+      'styleConstructorDoc': GeneratedComponentDocs.typeConstructor(
+        '${name}Style',
+      ),
+      'stateConstructorDoc': GeneratedComponentDocs.typeConstructor(
+        '${name}State',
+      ),
+      'contextConstructorDoc': GeneratedComponentDocs.typeConstructor(
+        '${name}Context',
+      ),
+      'delegateConstructorDoc': GeneratedComponentDocs.typeConstructor(
+        '${name}Delegate',
+      ),
+      'copyWithDoc': GeneratedComponentDocs.copyWith('${name}Style'),
+      'mergeWithDoc': GeneratedComponentDocs.mergeWith('${name}Style'),
+      'buildDoc': GeneratedComponentDocs.buildMethod(name),
       'variants': [
-        for (final variant in variants) {'enumName': variant.enumName},
+        for (final variant in variants)
+          {
+            'enumName': variant.enumName,
+            'doc': GeneratedComponentDocs.variantValue(variant.name),
+          },
       ],
       'styleFields': [
         for (final field in styleProperties)
-          {'type': '${field.type}?', 'name': field.name},
+          {
+            'type': '${field.type}?',
+            'name': field.name,
+            'doc': _fieldDoc(field.name, type: field.type),
+          },
       ],
       'stateFields': [
         for (final field in stateProperties)
@@ -83,6 +114,7 @@ final class ComponentSpec {
             'type': field.nullable ? '${field.type}?' : field.type,
             'name': field.name,
             'constructorParam': _stateConstructorParam(field),
+            'doc': _fieldDoc(field.name, type: field.type),
           },
       ],
       'contextFields': _contextFields(),
@@ -93,6 +125,11 @@ final class ComponentSpec {
             'returnType': slot.returnType,
             'functionType':
                 '${slot.returnType} Function(${name}Context context)',
+            'doc': GeneratedComponentDocs.slotClass(slot.methodName),
+            'constructorDoc': GeneratedComponentDocs.slotConstructor(
+              slot.typeName,
+            ),
+            'callDoc': GeneratedComponentDocs.slotCall(),
           },
       ],
       'delegateMethods': [
@@ -101,6 +138,7 @@ final class ComponentSpec {
             'returnType': slot.returnType,
             'name': slot.methodName,
             'signature': slot.methodSignature('${name}Context'),
+            'doc': GeneratedComponentDocs.delegateMethod(slot.methodName),
           },
       ],
       'widgetFields': _widgetFields(),
@@ -109,6 +147,14 @@ final class ComponentSpec {
       ],
       'buildBody': _buildBody(),
     };
+  }
+
+  String _fieldDoc(String fieldName, {String? type}) {
+    return GeneratedComponentDocs.property(
+      fieldName,
+      type: type,
+      componentName: name,
+    );
   }
 
   String _stateConstructorParam(PropertySpec field) {
@@ -123,25 +169,58 @@ final class ComponentSpec {
 
   List<Map<String, Object?>> _contextFields() {
     return [
-      {'type': 'BuildContext', 'name': 'context', 'required': true},
-      {'type': '${name}Style', 'name': 'style', 'required': true},
-      {'type': '${name}State', 'name': 'state', 'required': true},
-      {'type': '${name}Variant', 'name': 'variant', 'required': true},
+      {
+        'type': 'BuildContext',
+        'name': 'context',
+        'required': true,
+        'doc': _fieldDoc('context'),
+      },
+      {
+        'type': '${name}Style',
+        'name': 'style',
+        'required': true,
+        'doc': _fieldDoc('style'),
+      },
+      {
+        'type': '${name}State',
+        'name': 'state',
+        'required': true,
+        'doc': _fieldDoc('state'),
+      },
+      {
+        'type': '${name}Variant',
+        'name': 'variant',
+        'required': true,
+        'doc': _fieldDoc('variant'),
+      },
       for (final property in allProperties)
         {
           'type': property.contextFieldType,
           'name': property.name,
           'required': property.contextFieldRequired,
+          'doc': _fieldDoc(property.name, type: property.type),
         },
     ];
   }
 
   List<Map<String, Object?>> _widgetFields() {
     return [
-      {'type': '${name}Variant', 'name': 'variant'},
+      {
+        'type': '${name}Variant',
+        'name': 'variant',
+        'doc': _fieldDoc('variant'),
+      },
       for (final property in allProperties)
-        {'type': property.widgetFieldType, 'name': property.name},
-      {'type': '${name}Style?', 'name': 'style'},
+        {
+          'type': property.widgetFieldType,
+          'name': property.name,
+          'doc': _fieldDoc(property.name, type: property.type),
+        },
+      {
+        'type': '${name}Style?',
+        'name': 'style',
+        'doc': _fieldDoc('style'),
+      },
     ];
   }
 
@@ -173,6 +252,11 @@ final class ComponentSpec {
         : '$name.${variant.name}';
 
     return {
+      'doc': GeneratedComponentDocs.constructor(
+        name,
+        unnamed: variant.isUnnamedConstructor,
+        variantName: variant.name,
+      ),
       'signature': 'const $ctorName({\n    ${params.join(',\n    ')},\n  })',
       'initializer': initializers.join(',\n       '),
     };

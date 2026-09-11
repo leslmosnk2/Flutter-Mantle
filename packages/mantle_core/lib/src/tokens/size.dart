@@ -1,4 +1,4 @@
-import 'package:mantle_core/mantle_core.dart';
+import 'package:mantle_core/src/tokens/scale.dart';
 
 /// A type alias for defining size tokens.
 typedef MantleSize = String;

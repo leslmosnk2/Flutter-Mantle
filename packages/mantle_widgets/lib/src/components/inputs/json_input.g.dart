@@ -6,24 +6,42 @@ part of 'json_input.dart';
 // MantleComponentGenerator
 // **************************************************************************
 
-enum JsonInputVariant { defaults, filled, unstyled }
+/// Visual variants of [JsonInput].
+enum JsonInputVariant {
+  /// The default variant.
+  defaults,
 
+  /// The filled variant.
+  filled,
+
+  /// The unstyled variant.
+  unstyled,
+}
+
+/// Resolved visual values for [JsonInput].
 @immutable
 class JsonInputStyle {
+  /// Creates a [JsonInputStyle].
   const JsonInputStyle();
 
+  /// Returns a copy of this [JsonInputStyle] with selected fields replaced.
   JsonInputStyle copyWith() => this;
 
+  /// Merges [other] over this [JsonInputStyle]; null fields keep this value.
   JsonInputStyle mergeWith(JsonInputStyle? other) => this;
 }
 
+/// Resolved interaction state for [JsonInput].
 @immutable
 class JsonInputState {
+  /// Creates a [JsonInputState].
   const JsonInputState();
 }
 
+/// Values passed to [JsonInputDelegate] slots during build.
 @immutable
 class JsonInputContext {
+  /// Creates a [JsonInputContext].
   const JsonInputContext({
     required this.context,
     required this.style,
@@ -47,43 +65,90 @@ class JsonInputContext {
     required this.radius,
   });
 
+  /// The [BuildContext] for this build.
   final BuildContext context;
+
+  /// Style overrides merged over theme defaults.
   final JsonInputStyle style;
+
+  /// Resolved interaction state for this build.
   final JsonInputState state;
+
+  /// The visual variant selected by the constructor.
   final JsonInputVariant variant;
+
+  /// The controlled value.
   final String? value;
+
+  /// Initial value when [value] is omitted.
   final String? defaultValue;
+
+  /// Called when the value changes.
   final void Function(String)? onChanged;
+
+  /// Placeholder text when empty.
   final String? placeholder;
+
+  /// The label.
   final Widget? label;
+
+  /// Supporting description text.
   final Widget? description;
+
+  /// Error text or error state.
   final Widget? error;
+
+  /// The validation error.
   final Widget? validationError;
+
+  /// Whether interaction is disabled.
   final bool disabled;
+
+  /// Whether the value cannot be edited.
   final bool readOnly;
+
+  /// Whether required.
   final bool required;
+
+  /// Whether format on blur.
   final bool formatOnBlur;
+
+  /// Whether with asterisk.
   final bool? withAsterisk;
+
+  /// The min rows.
   final int minRows;
+
+  /// Size token.
   final String size;
+
+  /// Corner radius.
   final BorderRadiusGeometry radius;
 }
 
+/// Builder for the root slot.
 class JsonInputRoot {
+  /// Creates a [JsonInputRoot] from a builder function.
   const JsonInputRoot(this._build);
 
   final Widget Function(JsonInputContext context) _build;
 
+  /// Invokes this slot with [context].
   Widget call(JsonInputContext context) => _build(context);
 }
 
+/// Theme-owned composition slots for [JsonInput].
 abstract class JsonInputDelegate extends ComponentDelegate {
+  /// Creates a [JsonInputDelegate].
   const JsonInputDelegate();
 
+  /// Builds the composition root.
   Widget root(JsonInputContext context);
 }
 
+/// A [JsonInput] widget resolved through [JsonInputDelegate].
 class JsonInput extends StatelessWidget {
+  /// Creates a [JsonInput].
   const JsonInput({
     super.key,
     this.value,
@@ -105,6 +170,7 @@ class JsonInput extends StatelessWidget {
     this.style,
   }) : variant = JsonInputVariant.defaults;
 
+  /// Creates a filled [JsonInput].
   const JsonInput.filled({
     super.key,
     this.value,
@@ -126,6 +192,7 @@ class JsonInput extends StatelessWidget {
     this.style,
   }) : variant = JsonInputVariant.filled;
 
+  /// Creates an unstyled [JsonInput].
   const JsonInput.unstyled({
     super.key,
     this.value,
@@ -147,25 +214,61 @@ class JsonInput extends StatelessWidget {
     this.style,
   }) : variant = JsonInputVariant.unstyled;
 
+  /// The visual variant selected by the constructor.
   final JsonInputVariant variant;
+
+  /// The controlled value.
   final String? value;
+
+  /// Initial value when [value] is omitted.
   final String? defaultValue;
+
+  /// Called when the value changes.
   final void Function(String)? onChanged;
+
+  /// Placeholder text when empty.
   final String? placeholder;
+
+  /// The label.
   final Widget? label;
+
+  /// Supporting description text.
   final Widget? description;
+
+  /// Error text or error state.
   final Widget? error;
+
+  /// The validation error.
   final Widget? validationError;
+
+  /// Whether interaction is disabled.
   final bool? disabled;
+
+  /// Whether the value cannot be edited.
   final bool? readOnly;
+
+  /// Whether required.
   final bool? required;
+
+  /// Whether format on blur.
   final bool? formatOnBlur;
+
+  /// Whether with asterisk.
   final bool? withAsterisk;
+
+  /// The min rows.
   final int? minRows;
+
+  /// Size token.
   final String? size;
+
+  /// Corner radius.
   final BorderRadiusGeometry? radius;
+
+  /// Style overrides merged over theme defaults.
   final JsonInputStyle? style;
 
+  /// Resolves properties and builds via [JsonInputDelegate].
   @override
   Widget build(BuildContext context) {
     final resolvedValue = value;

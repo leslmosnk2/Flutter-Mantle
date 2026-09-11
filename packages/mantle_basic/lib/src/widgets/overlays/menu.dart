@@ -1,6 +1,5 @@
 import 'package:flutter/widgets.dart';
 import 'package:mantle_basic/src/widgets/overlays/overlay_chrome.dart';
-import 'package:mantle_core/mantle_core.dart';
 import 'package:mantle_widgets/mantle_widgets.dart';
 
 /// Baseline MenuDelegate: target plus a list of items when opened.

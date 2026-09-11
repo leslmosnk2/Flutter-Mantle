@@ -44,7 +44,9 @@ Builder mantleComponentBuilder(BuilderOptions options) {
 Generators render Mustache-like templates from
 `package:mantle_gen/src/template/templates/`:
 
-- `token_mixin.txt` — mixin with `toMap()`
+- `token_mixin.txt` — static-const mixin with `toMap()`
+- `token_group.txt` — context-built token base class (`all.md`, merge/lerp)
+- `token_theme.txt` — `AppTheme()` factories and `AppTheme.of(context)`
 - `component.txt` — widget, delegate, style, state, context, slots
 
 The template engine (`Template.compile` / `Template.render`) lives in this

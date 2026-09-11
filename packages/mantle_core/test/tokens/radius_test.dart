@@ -1,4 +1,5 @@
 import 'package:flutter/painting.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mantle_core/mantle_core.dart';
 
@@ -47,6 +48,41 @@ void main() {
       expect(merged.circular('sm'), equals(const Radius.circular(4)));
       expect(merged.circular('md'), equals(const Radius.circular(8)));
       expect(merged.circular('lg'), equals(const Radius.circular(24)));
+    });
+
+    test('[] returns a raw radius value', () {
+      expect(radius['md'], equals(8));
+    });
+
+    test('.getOrNull() returns null for missing keys', () {
+      expect(radius.getOrNull('md'), equals(8));
+      expect(radius.getOrNull('missing'), isNull);
+    });
+
+    test('.resolveRem() scales px-at-remBase values', () {
+      final resolved = radius.resolveRem(
+        textScaler: const TextScaler.linear(2),
+      );
+
+      expect(resolved['md'], equals(16));
+    });
+
+    testWidgets('.fromMedia() uses the ambient text scaler', (tester) async {
+      late MantleRadius resolved;
+
+      await tester.pumpWidget(
+        MediaQuery(
+          data: const MediaQueryData(textScaler: TextScaler.linear(2)),
+          child: Builder(
+            builder: (context) {
+              resolved = radius.fromMedia(context);
+              return const SizedBox.shrink();
+            },
+          ),
+        ),
+      );
+
+      expect(resolved['md'], equals(16));
     });
   });
 }

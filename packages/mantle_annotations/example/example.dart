@@ -3,8 +3,16 @@ import 'package:mantle_annotations/mantle_annotations.dart';
 /// Token group consumed by `mantle_gen`.
 ///
 /// Add `mantle_gen` as a dev dependency and run
-/// `dart run build_runner build` to emit a mixin with `toMap()`.
-@MantleToken()
+/// `dart run build_runner build` to emit `_$AppSpacing`. Mix in or extend
+/// that base and pass named values from a `BuildContext` constructor.
+@MantleToken(['xs', 'sm', 'md', 'lg', 'xl'])
+class AppSpacing {
+  /// Builds spacing from a `BuildContext` after generation.
+  AppSpacing(Object _);
+}
+
+/// Static-const groups still emit a `toMap()` mixin.
+@MantleToken.consts(type: int)
 abstract final class Palette {
   static const red = 0xFFFF0000;
   static const blue = 0xFF0000FF;

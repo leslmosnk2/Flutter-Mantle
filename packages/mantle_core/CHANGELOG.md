@@ -1,3 +1,11 @@
+## 1.1.0
+
+- `MantleSpacing`, `MantleRadius`, and `MantleBreakpoint` are interfaces with
+  map implementations for literals and empty sentinels.
+- `emOf` on `num` for CSS-style em relative to the ambient text style.
+- `MantleTheme` stores optional token factories; `MantleTheme.of(context)`
+  builds a fresh theme for the current context.
+
 ## 1.0.0
 
 - Initial stable release of the Mantle core runtime.

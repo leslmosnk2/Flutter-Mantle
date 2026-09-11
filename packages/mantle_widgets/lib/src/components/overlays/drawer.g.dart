@@ -6,24 +6,36 @@ part of 'drawer.dart';
 // MantleComponentGenerator
 // **************************************************************************
 
-enum DrawerVariant { defaults }
+/// Visual variants of [Drawer].
+enum DrawerVariant {
+  /// The default variant.
+  defaults,
+}
 
+/// Resolved visual values for [Drawer].
 @immutable
 class DrawerStyle {
+  /// Creates a [DrawerStyle].
   const DrawerStyle();
 
+  /// Returns a copy of this [DrawerStyle] with selected fields replaced.
   DrawerStyle copyWith() => this;
 
+  /// Merges [other] over this [DrawerStyle]; null fields keep this value.
   DrawerStyle mergeWith(DrawerStyle? other) => this;
 }
 
+/// Resolved interaction state for [Drawer].
 @immutable
 class DrawerState {
+  /// Creates a [DrawerState].
   const DrawerState();
 }
 
+/// Values passed to [DrawerDelegate] slots during build.
 @immutable
 class DrawerContext {
+  /// Creates a [DrawerContext].
   const DrawerContext({
     required this.context,
     required this.style,
@@ -39,35 +51,66 @@ class DrawerContext {
     this.size,
   });
 
+  /// The [BuildContext] for this build.
   final BuildContext context;
+
+  /// Style overrides merged over theme defaults.
   final DrawerStyle style;
+
+  /// Resolved interaction state for this build.
   final DrawerState state;
+
+  /// The visual variant selected by the constructor.
   final DrawerVariant variant;
+
+  /// Whether the content is expanded.
   final bool opened;
+
+  /// The primary child widget.
   final Widget child;
+
+  /// The title.
   final Widget? title;
+
+  /// Called when the overlay closes.
   final VoidCallback? onClose;
+
+  /// The position.
   final DrawerPosition position;
+
+  /// Whether with overlay.
   final bool withOverlay;
+
+  /// Whether with close button.
   final bool withCloseButton;
+
+  /// Size token.
   final double? size;
 }
 
+/// Builder for the root slot.
 class DrawerRoot {
+  /// Creates a [DrawerRoot] from a builder function.
   const DrawerRoot(this._build);
 
   final Widget Function(DrawerContext context) _build;
 
+  /// Invokes this slot with [context].
   Widget call(DrawerContext context) => _build(context);
 }
 
+/// Theme-owned composition slots for [Drawer].
 abstract class DrawerDelegate extends ComponentDelegate {
+  /// Creates a [DrawerDelegate].
   const DrawerDelegate();
 
+  /// Builds the composition root.
   Widget root(DrawerContext context);
 }
 
+/// A [Drawer] widget resolved through [DrawerDelegate].
 class Drawer extends StatelessWidget {
+  /// Creates a [Drawer].
   const Drawer({
     super.key,
     required this.child,
@@ -81,17 +124,37 @@ class Drawer extends StatelessWidget {
     this.style,
   }) : variant = DrawerVariant.defaults;
 
+  /// The visual variant selected by the constructor.
   final DrawerVariant variant;
+
+  /// Whether the content is expanded.
   final bool? opened;
+
+  /// The primary child widget.
   final Widget child;
+
+  /// The title.
   final Widget? title;
+
+  /// Called when the overlay closes.
   final VoidCallback? onClose;
+
+  /// The position.
   final DrawerPosition? position;
+
+  /// Whether with overlay.
   final bool? withOverlay;
+
+  /// Whether with close button.
   final bool? withCloseButton;
+
+  /// Size token.
   final double? size;
+
+  /// Style overrides merged over theme defaults.
   final DrawerStyle? style;
 
+  /// Resolves properties and builds via [DrawerDelegate].
   @override
   Widget build(BuildContext context) {
     final resolvedOpened = opened ?? false;

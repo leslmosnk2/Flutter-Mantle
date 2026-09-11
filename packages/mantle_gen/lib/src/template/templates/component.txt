@@ -1,21 +1,27 @@
+/// {{ variantEnumDoc }}
 enum {{ variantEnumName }} {
 {%- for variant in variants %}
+  /// {{ variant.doc }}
   {{ variant.enumName }},
 {%- endfor %}
 }
 
+/// {{ styleClassDoc }}
 @immutable
 class {{ styleClassName }} {
 {% if styleFields %}
+  /// {{ styleConstructorDoc }}
   const {{ styleClassName }}({
 {%- for field in styleFields %}
     this.{{ field.name }},
 {%- endfor %}
   });
 {% for field in styleFields %}
+  /// {{ field.doc }}
   final {{ field.type }} {{ field.name }};
 {%- endfor %}
 
+  /// {{ copyWithDoc }}
   {{ styleClassName }} copyWith({
 {%- for field in styleFields %}
     {{ field.type }} {{ field.name }},
@@ -28,6 +34,7 @@ class {{ styleClassName }} {
     );
   }
 
+  /// {{ mergeWithDoc }}
   {{ styleClassName }} mergeWith({{ styleClassName }}? other) {
     if (other == null) return this;
     return {{ styleClassName }}(
@@ -37,67 +44,87 @@ class {{ styleClassName }} {
     );
   }
 {% else %}
+  /// {{ styleConstructorDoc }}
   const {{ styleClassName }}();
 
+  /// {{ copyWithDoc }}
   {{ styleClassName }} copyWith() => this;
 
+  /// {{ mergeWithDoc }}
   {{ styleClassName }} mergeWith({{ styleClassName }}? other) => this;
 {% endif %}
 }
 
+/// {{ stateClassDoc }}
 @immutable
 class {{ stateClassName }} {
 {% if stateFields %}
+  /// {{ stateConstructorDoc }}
   const {{ stateClassName }}({
 {%- for field in stateFields %}
     {{ field.constructorParam }},
 {%- endfor %}
   });
 {% for field in stateFields %}
+  /// {{ field.doc }}
   final {{ field.type }} {{ field.name }};
 {%- endfor %}
 {% else %}
+  /// {{ stateConstructorDoc }}
   const {{ stateClassName }}();
 {% endif %}
 }
 
+/// {{ contextClassDoc }}
 @immutable
 class {{ contextClassName }} {
+  /// {{ contextConstructorDoc }}
   const {{ contextClassName }}({
 {%- for field in contextFields %}
     {% if field.required %}required {% endif %}this.{{ field.name }},
 {%- endfor %}
   });
 {% for field in contextFields %}
+  /// {{ field.doc }}
   final {{ field.type }} {{ field.name }};
 {%- endfor %}
 }
 
 {% for slot in slotTypes -%}
+/// {{ slot.doc }}
 class {{ slot.typeName }} {
+  /// {{ slot.constructorDoc }}
   const {{ slot.typeName }}(this._build);
 
   final {{ slot.functionType }} _build;
 
+  /// {{ slot.callDoc }}
   {{ slot.returnType }} call({{ contextClassName }} context) => _build(context);
 }
 
 {% endfor -%}
+/// {{ delegateClassDoc }}
 abstract class {{ delegateClassName }} extends ComponentDelegate {
+  /// {{ delegateConstructorDoc }}
   const {{ delegateClassName }}();
 {% for method in delegateMethods %}
+  /// {{ method.doc }}
   {{ method.returnType }} {{ method.name }}{{ method.signature }};
 {% endfor %}
 }
 
+/// {{ widgetDoc }}
 class {{ name }} extends StatelessWidget {
 {% for ctor in constructors %}
+  /// {{ ctor.doc }}
   {{ ctor.signature }} : {{ ctor.initializer }};
 {% endfor %}
 {% for field in widgetFields %}
+  /// {{ field.doc }}
   final {{ field.type }} {{ field.name }};
 {%- endfor %}
 
+  /// {{ buildDoc }}
   @override
   Widget build(BuildContext context) {
 {{ buildBody }}

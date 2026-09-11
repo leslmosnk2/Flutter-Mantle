@@ -1,11 +1,15 @@
 # Design tokens
 
-Token groups are immutable maps keyed by size or name. Every group implements
+Token groups are maps keyed by size or name. Every group implements
 `MantleTokenGroup` so themes can **merge** nested overrides and **lerp**
 during animated theme changes.
 
 `MantleSize` is a `String` (`'xs'`, `'sm'`, `'md'`, …). Scales are
 `MantleSizeScale<T>`.
+
+Prefer **context-built** `@MantleToken` classes so `MantleTheme.of(context)`
+(or `AppTheme.of(context)`) can resolve values against the current text
+style. Map literals remain for tests and partial overrides.
 
 ## Colors
 
@@ -41,8 +45,16 @@ final spacing = MantleSpacing({
 });
 
 spacing.all('md');                          // EdgeInsets.all(16)
+spacing['md'];                              // 16
 spacing.symmetric(horizontal: 'sm');        // EdgeInsets.symmetric(horizontal: 12)
 spacing.only(top: 'lg', left: 'xs');
+```
+
+Generated app tokens use named getters instead of string keys:
+
+```dart
+AppTheme.of(context).spacing.md;
+AppTheme.of(context).spacing.all.md;
 ```
 
 ## Radius
@@ -58,7 +70,12 @@ final radius = MantleRadius({
 
 radius.border('md');      // BorderRadius.circular(8)
 radius.circular('sm');    // Radius.circular(4)
+radius['md'];             // 8
 radius.elliptical('sm', 'lg');
+```
+
+```dart
+AppTheme.of(context).radius.border.md;
 ```
 
 ## Typography
@@ -94,6 +111,7 @@ final breakpoints = MantleBreakpoint({
 
 final size = breakpoints.fromContext(context); // largest token ≤ viewport width
 final minWidth = breakpoints['md'];
+breakpoints.fromMedia(context); // rem/text scaling, not a viewport bucket
 ```
 
 ## Shadows and icons
@@ -116,8 +134,21 @@ Icon values are `IconTokenBuilder` functions. Render them with
 ## Extensions
 
 `MantleTheme.extensions` is a `Map<Type, MantleTokenGroup>` for app-defined
-groups. Register a custom group,
-then read it from the theme.
+groups. Register a custom group, then read it from the theme.
+
+## Em and rem scaling
+
+`1.emOf(context)` is the ambient [DefaultTextStyle] font size (16 if unset),
+scaled with `MediaQuery.textScalerOf`. Use it in `@MantleToken` constructors.
+
+Numeric **map** scales can still store px at remBase 16. `resolveRem` /
+`fromMedia` convert with `TextScaler`. `fromContext` on breakpoints still
+means “bucket from viewport width”.
+
+```dart
+theme.spacing.fromMedia(context);
+0.5.emOf(context);
+```
 
 ## Merge and lerp
 

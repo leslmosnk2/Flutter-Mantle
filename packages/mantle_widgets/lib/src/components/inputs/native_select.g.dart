@@ -6,24 +6,42 @@ part of 'native_select.dart';
 // MantleComponentGenerator
 // **************************************************************************
 
-enum NativeSelectVariant { defaults, filled, unstyled }
+/// Visual variants of [NativeSelect].
+enum NativeSelectVariant {
+  /// The default variant.
+  defaults,
 
+  /// The filled variant.
+  filled,
+
+  /// The unstyled variant.
+  unstyled,
+}
+
+/// Resolved visual values for [NativeSelect].
 @immutable
 class NativeSelectStyle {
+  /// Creates a [NativeSelectStyle].
   const NativeSelectStyle();
 
+  /// Returns a copy of this [NativeSelectStyle] with selected fields replaced.
   NativeSelectStyle copyWith() => this;
 
+  /// Merges [other] over this [NativeSelectStyle]; null fields keep this value.
   NativeSelectStyle mergeWith(NativeSelectStyle? other) => this;
 }
 
+/// Resolved interaction state for [NativeSelect].
 @immutable
 class NativeSelectState {
+  /// Creates a [NativeSelectState].
   const NativeSelectState();
 }
 
+/// Values passed to [NativeSelectDelegate] slots during build.
 @immutable
 class NativeSelectContext {
+  /// Creates a [NativeSelectContext].
   const NativeSelectContext({
     required this.context,
     required this.style,
@@ -44,40 +62,81 @@ class NativeSelectContext {
     required this.radius,
   });
 
+  /// The [BuildContext] for this build.
   final BuildContext context;
+
+  /// Style overrides merged over theme defaults.
   final NativeSelectStyle style;
+
+  /// Resolved interaction state for this build.
   final NativeSelectState state;
+
+  /// The visual variant selected by the constructor.
   final NativeSelectVariant variant;
+
+  /// Tabular data to render.
   final List<NativeSelectItem> data;
+
+  /// The controlled value.
   final String? value;
+
+  /// Initial value when [value] is omitted.
   final String? defaultValue;
+
+  /// Called when the value changes.
   final void Function(String)? onChanged;
+
+  /// Placeholder text when empty.
   final String? placeholder;
+
+  /// The label.
   final Widget? label;
+
+  /// Supporting description text.
   final Widget? description;
+
+  /// Error text or error state.
   final Widget? error;
+
+  /// Whether interaction is disabled.
   final bool disabled;
+
+  /// Whether required.
   final bool required;
+
+  /// Whether with asterisk.
   final bool? withAsterisk;
+
+  /// Size token.
   final String size;
+
+  /// Corner radius.
   final BorderRadiusGeometry radius;
 }
 
+/// Builder for the root slot.
 class NativeSelectRoot {
+  /// Creates a [NativeSelectRoot] from a builder function.
   const NativeSelectRoot(this._build);
 
   final Widget Function(NativeSelectContext context) _build;
 
+  /// Invokes this slot with [context].
   Widget call(NativeSelectContext context) => _build(context);
 }
 
+/// Theme-owned composition slots for [NativeSelect].
 abstract class NativeSelectDelegate extends ComponentDelegate {
+  /// Creates a [NativeSelectDelegate].
   const NativeSelectDelegate();
 
+  /// Builds the composition root.
   Widget root(NativeSelectContext context);
 }
 
+/// A [NativeSelect] widget resolved through [NativeSelectDelegate].
 class NativeSelect extends StatelessWidget {
+  /// Creates a [NativeSelect].
   const NativeSelect({
     super.key,
     required this.data,
@@ -96,6 +155,7 @@ class NativeSelect extends StatelessWidget {
     this.style,
   }) : variant = NativeSelectVariant.defaults;
 
+  /// Creates a filled [NativeSelect].
   const NativeSelect.filled({
     super.key,
     required this.data,
@@ -114,6 +174,7 @@ class NativeSelect extends StatelessWidget {
     this.style,
   }) : variant = NativeSelectVariant.filled;
 
+  /// Creates an unstyled [NativeSelect].
   const NativeSelect.unstyled({
     super.key,
     required this.data,
@@ -132,22 +193,52 @@ class NativeSelect extends StatelessWidget {
     this.style,
   }) : variant = NativeSelectVariant.unstyled;
 
+  /// The visual variant selected by the constructor.
   final NativeSelectVariant variant;
+
+  /// Tabular data to render.
   final List<NativeSelectItem> data;
+
+  /// The controlled value.
   final String? value;
+
+  /// Initial value when [value] is omitted.
   final String? defaultValue;
+
+  /// Called when the value changes.
   final void Function(String)? onChanged;
+
+  /// Placeholder text when empty.
   final String? placeholder;
+
+  /// The label.
   final Widget? label;
+
+  /// Supporting description text.
   final Widget? description;
+
+  /// Error text or error state.
   final Widget? error;
+
+  /// Whether interaction is disabled.
   final bool? disabled;
+
+  /// Whether required.
   final bool? required;
+
+  /// Whether with asterisk.
   final bool? withAsterisk;
+
+  /// Size token.
   final String? size;
+
+  /// Corner radius.
   final BorderRadiusGeometry? radius;
+
+  /// Style overrides merged over theme defaults.
   final NativeSelectStyle? style;
 
+  /// Resolves properties and builds via [NativeSelectDelegate].
   @override
   Widget build(BuildContext context) {
     final resolvedData = data;

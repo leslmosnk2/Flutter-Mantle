@@ -6,24 +6,42 @@ part of 'file_input.dart';
 // MantleComponentGenerator
 // **************************************************************************
 
-enum FileInputVariant { defaults, filled, unstyled }
+/// Visual variants of [FileInput].
+enum FileInputVariant {
+  /// The default variant.
+  defaults,
 
+  /// The filled variant.
+  filled,
+
+  /// The unstyled variant.
+  unstyled,
+}
+
+/// Resolved visual values for [FileInput].
 @immutable
 class FileInputStyle {
+  /// Creates a [FileInputStyle].
   const FileInputStyle();
 
+  /// Returns a copy of this [FileInputStyle] with selected fields replaced.
   FileInputStyle copyWith() => this;
 
+  /// Merges [other] over this [FileInputStyle]; null fields keep this value.
   FileInputStyle mergeWith(FileInputStyle? other) => this;
 }
 
+/// Resolved interaction state for [FileInput].
 @immutable
 class FileInputState {
+  /// Creates a [FileInputState].
   const FileInputState();
 }
 
+/// Values passed to [FileInputDelegate] slots during build.
 @immutable
 class FileInputContext {
+  /// Creates a [FileInputContext].
   const FileInputContext({
     required this.context,
     required this.style,
@@ -47,43 +65,90 @@ class FileInputContext {
     required this.radius,
   });
 
+  /// The [BuildContext] for this build.
   final BuildContext context;
+
+  /// Style overrides merged over theme defaults.
   final FileInputStyle style;
+
+  /// Resolved interaction state for this build.
   final FileInputState state;
+
+  /// The visual variant selected by the constructor.
   final FileInputVariant variant;
+
+  /// The controlled value.
   final List<MantlePickedFile>? value;
+
+  /// Called when the value changes.
   final void Function(List<MantlePickedFile>)? onChanged;
+
+  /// Called when pick.
   final VoidCallback? onPick;
+
+  /// Placeholder text when empty.
   final String? placeholder;
+
+  /// The label.
   final Widget? label;
+
+  /// Supporting description text.
   final Widget? description;
+
+  /// Error text or error state.
   final Widget? error;
+
+  /// Whether more than one item can be selected.
   final bool multiple;
+
+  /// Whether the value can be cleared.
   final bool clearable;
+
+  /// Whether interaction is disabled.
   final bool disabled;
+
+  /// Whether the value cannot be edited.
   final bool readOnly;
+
+  /// Whether required.
   final bool required;
+
+  /// Whether with asterisk.
   final bool? withAsterisk;
+
+  /// The accept.
   final String? accept;
+
+  /// Size token.
   final String size;
+
+  /// Corner radius.
   final BorderRadiusGeometry radius;
 }
 
+/// Builder for the root slot.
 class FileInputRoot {
+  /// Creates a [FileInputRoot] from a builder function.
   const FileInputRoot(this._build);
 
   final Widget Function(FileInputContext context) _build;
 
+  /// Invokes this slot with [context].
   Widget call(FileInputContext context) => _build(context);
 }
 
+/// Theme-owned composition slots for [FileInput].
 abstract class FileInputDelegate extends ComponentDelegate {
+  /// Creates a [FileInputDelegate].
   const FileInputDelegate();
 
+  /// Builds the composition root.
   Widget root(FileInputContext context);
 }
 
+/// A [FileInput] widget resolved through [FileInputDelegate].
 class FileInput extends StatelessWidget {
+  /// Creates a [FileInput].
   const FileInput({
     super.key,
     this.value,
@@ -105,6 +170,7 @@ class FileInput extends StatelessWidget {
     this.style,
   }) : variant = FileInputVariant.defaults;
 
+  /// Creates a filled [FileInput].
   const FileInput.filled({
     super.key,
     this.value,
@@ -126,6 +192,7 @@ class FileInput extends StatelessWidget {
     this.style,
   }) : variant = FileInputVariant.filled;
 
+  /// Creates an unstyled [FileInput].
   const FileInput.unstyled({
     super.key,
     this.value,
@@ -147,25 +214,61 @@ class FileInput extends StatelessWidget {
     this.style,
   }) : variant = FileInputVariant.unstyled;
 
+  /// The visual variant selected by the constructor.
   final FileInputVariant variant;
+
+  /// The controlled value.
   final List<MantlePickedFile>? value;
+
+  /// Called when the value changes.
   final void Function(List<MantlePickedFile>)? onChanged;
+
+  /// Called when pick.
   final VoidCallback? onPick;
+
+  /// Placeholder text when empty.
   final String? placeholder;
+
+  /// The label.
   final Widget? label;
+
+  /// Supporting description text.
   final Widget? description;
+
+  /// Error text or error state.
   final Widget? error;
+
+  /// Whether more than one item can be selected.
   final bool? multiple;
+
+  /// Whether the value can be cleared.
   final bool? clearable;
+
+  /// Whether interaction is disabled.
   final bool? disabled;
+
+  /// Whether the value cannot be edited.
   final bool? readOnly;
+
+  /// Whether required.
   final bool? required;
+
+  /// Whether with asterisk.
   final bool? withAsterisk;
+
+  /// The accept.
   final String? accept;
+
+  /// Size token.
   final String? size;
+
+  /// Corner radius.
   final BorderRadiusGeometry? radius;
+
+  /// Style overrides merged over theme defaults.
   final FileInputStyle? style;
 
+  /// Resolves properties and builds via [FileInputDelegate].
   @override
   Widget build(BuildContext context) {
     final resolvedValue = value;

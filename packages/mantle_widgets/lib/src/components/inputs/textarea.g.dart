@@ -6,24 +6,42 @@ part of 'textarea.dart';
 // MantleComponentGenerator
 // **************************************************************************
 
-enum TextareaVariant { defaults, filled, unstyled }
+/// Visual variants of [Textarea].
+enum TextareaVariant {
+  /// The default variant.
+  defaults,
 
+  /// The filled variant.
+  filled,
+
+  /// The unstyled variant.
+  unstyled,
+}
+
+/// Resolved visual values for [Textarea].
 @immutable
 class TextareaStyle {
+  /// Creates a [TextareaStyle].
   const TextareaStyle();
 
+  /// Returns a copy of this [TextareaStyle] with selected fields replaced.
   TextareaStyle copyWith() => this;
 
+  /// Merges [other] over this [TextareaStyle]; null fields keep this value.
   TextareaStyle mergeWith(TextareaStyle? other) => this;
 }
 
+/// Resolved interaction state for [Textarea].
 @immutable
 class TextareaState {
+  /// Creates a [TextareaState].
   const TextareaState();
 }
 
+/// Values passed to [TextareaDelegate] slots during build.
 @immutable
 class TextareaContext {
+  /// Creates a [TextareaContext].
   const TextareaContext({
     required this.context,
     required this.style,
@@ -47,43 +65,90 @@ class TextareaContext {
     required this.radius,
   });
 
+  /// The [BuildContext] for this build.
   final BuildContext context;
+
+  /// Style overrides merged over theme defaults.
   final TextareaStyle style;
+
+  /// Resolved interaction state for this build.
   final TextareaState state;
+
+  /// The visual variant selected by the constructor.
   final TextareaVariant variant;
+
+  /// The controlled value.
   final String? value;
+
+  /// Initial value when [value] is omitted.
   final String? defaultValue;
+
+  /// Called when the value changes.
   final void Function(String)? onChanged;
+
+  /// Placeholder text when empty.
   final String? placeholder;
+
+  /// The label.
   final Widget? label;
+
+  /// Supporting description text.
   final Widget? description;
+
+  /// Error text or error state.
   final Widget? error;
+
+  /// Whether interaction is disabled.
   final bool disabled;
+
+  /// Whether the value cannot be edited.
   final bool readOnly;
+
+  /// Whether required.
   final bool required;
+
+  /// Whether with asterisk.
   final bool? withAsterisk;
+
+  /// Whether autosize.
   final bool autosize;
+
+  /// The min rows.
   final int minRows;
+
+  /// The max rows.
   final int? maxRows;
+
+  /// Size token.
   final String size;
+
+  /// Corner radius.
   final BorderRadiusGeometry radius;
 }
 
+/// Builder for the root slot.
 class TextareaRoot {
+  /// Creates a [TextareaRoot] from a builder function.
   const TextareaRoot(this._build);
 
   final Widget Function(TextareaContext context) _build;
 
+  /// Invokes this slot with [context].
   Widget call(TextareaContext context) => _build(context);
 }
 
+/// Theme-owned composition slots for [Textarea].
 abstract class TextareaDelegate extends ComponentDelegate {
+  /// Creates a [TextareaDelegate].
   const TextareaDelegate();
 
+  /// Builds the composition root.
   Widget root(TextareaContext context);
 }
 
+/// A [Textarea] widget resolved through [TextareaDelegate].
 class Textarea extends StatelessWidget {
+  /// Creates a [Textarea].
   const Textarea({
     super.key,
     this.value,
@@ -105,6 +170,7 @@ class Textarea extends StatelessWidget {
     this.style,
   }) : variant = TextareaVariant.defaults;
 
+  /// Creates a filled [Textarea].
   const Textarea.filled({
     super.key,
     this.value,
@@ -126,6 +192,7 @@ class Textarea extends StatelessWidget {
     this.style,
   }) : variant = TextareaVariant.filled;
 
+  /// Creates an unstyled [Textarea].
   const Textarea.unstyled({
     super.key,
     this.value,
@@ -147,25 +214,61 @@ class Textarea extends StatelessWidget {
     this.style,
   }) : variant = TextareaVariant.unstyled;
 
+  /// The visual variant selected by the constructor.
   final TextareaVariant variant;
+
+  /// The controlled value.
   final String? value;
+
+  /// Initial value when [value] is omitted.
   final String? defaultValue;
+
+  /// Called when the value changes.
   final void Function(String)? onChanged;
+
+  /// Placeholder text when empty.
   final String? placeholder;
+
+  /// The label.
   final Widget? label;
+
+  /// Supporting description text.
   final Widget? description;
+
+  /// Error text or error state.
   final Widget? error;
+
+  /// Whether interaction is disabled.
   final bool? disabled;
+
+  /// Whether the value cannot be edited.
   final bool? readOnly;
+
+  /// Whether required.
   final bool? required;
+
+  /// Whether with asterisk.
   final bool? withAsterisk;
+
+  /// Whether autosize.
   final bool? autosize;
+
+  /// The min rows.
   final int? minRows;
+
+  /// The max rows.
   final int? maxRows;
+
+  /// Size token.
   final String? size;
+
+  /// Corner radius.
   final BorderRadiusGeometry? radius;
+
+  /// Style overrides merged over theme defaults.
   final TextareaStyle? style;
 
+  /// Resolves properties and builds via [TextareaDelegate].
   @override
   Widget build(BuildContext context) {
     final resolvedValue = value;

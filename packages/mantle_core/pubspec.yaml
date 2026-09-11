@@ -2,13 +2,13 @@ name: mantle_core
 description: >
   Core runtime for Mantle: design tokens, MantleTheme, MantleProvider,
   and the theme-owned widget architecture.
-version: 1.0.0
+version: 1.1.0
 resolution: workspace
 
 homepage: https://mantle.leslmosnk.com
 repository: https://github.com/leslmosnk2/Flutter-Mantle/tree/main/packages/mantle_core
 issue_tracker: https://github.com/leslmosnk2/Flutter-Mantle/issues
-documentation: https://docs.mantle.leslmosnk.com/#/core/
+documentation: https://leslmosnk2.github.io/Flutter-Mantle/#/core/
 
 topics:
   - flutter

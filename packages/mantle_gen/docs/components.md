@@ -25,6 +25,9 @@ For `@MantleComponent(name: 'Button', …)`:
 | `ButtonDelegate` | Abstract `ComponentDelegate` — **implement this** |
 | `Button` | `StatelessWidget` with one constructor per variant |
 
+Generated types include dartdoc on the class, constructors, fields, and
+delegate methods.
+
 The unnamed constructor is the `default` variant (emitted as
 `ButtonVariant.defaults` because `default` is reserved).
 

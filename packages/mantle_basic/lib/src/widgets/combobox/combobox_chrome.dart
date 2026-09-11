@@ -1,6 +1,5 @@
 import 'package:flutter/widgets.dart';
 import 'package:mantle_basic/src/widgets/inputs/input_tokens.dart';
-import 'package:mantle_core/mantle_core.dart';
 import 'package:mantle_widgets/mantle_widgets.dart';
 
 /// Option vertical/horizontal padding by size (Mantine `--combobox-option-padding-*`).

@@ -6,10 +6,16 @@ part of 'tree_select.dart';
 // MantleComponentGenerator
 // **************************************************************************
 
-enum TreeSelectVariant { defaults }
+/// Visual variants of [TreeSelect].
+enum TreeSelectVariant {
+  /// The default variant.
+  defaults,
+}
 
+/// Resolved visual values for [TreeSelect].
 @immutable
 class TreeSelectStyle {
+  /// Creates a [TreeSelectStyle].
   const TreeSelectStyle({
     this.background,
     this.borderColor,
@@ -17,11 +23,19 @@ class TreeSelectStyle {
     this.radius,
   });
 
+  /// Background color.
   final Color? background;
+
+  /// Border color token or value.
   final Color? borderColor;
+
+  /// Height in logical pixels.
   final double? height;
+
+  /// Corner radius.
   final BorderRadiusGeometry? radius;
 
+  /// Returns a copy of this [TreeSelectStyle] with selected fields replaced.
   TreeSelectStyle copyWith({
     Color? background,
     Color? borderColor,
@@ -36,6 +50,7 @@ class TreeSelectStyle {
     );
   }
 
+  /// Merges [other] over this [TreeSelectStyle]; null fields keep this value.
   TreeSelectStyle mergeWith(TreeSelectStyle? other) {
     if (other == null) return this;
     return TreeSelectStyle(
@@ -47,19 +62,26 @@ class TreeSelectStyle {
   }
 }
 
+/// Resolved interaction state for [TreeSelect].
 @immutable
 class TreeSelectState {
+  /// Creates a [TreeSelectState].
   const TreeSelectState({
     this.disabled = false,
     this.mode = TreeSelectMode.single,
   });
 
+  /// Whether interaction is disabled.
   final bool disabled;
+
+  /// The mode.
   final TreeSelectMode mode;
 }
 
+/// Values passed to [TreeSelectDelegate] slots during build.
 @immutable
 class TreeSelectContext {
+  /// Creates a [TreeSelectContext].
   const TreeSelectContext({
     required this.context,
     required this.style,
@@ -94,54 +116,123 @@ class TreeSelectContext {
     required this.radius,
   });
 
+  /// The [BuildContext] for this build.
   final BuildContext context;
+
+  /// Style overrides merged over theme defaults.
   final TreeSelectStyle style;
+
+  /// Resolved interaction state for this build.
   final TreeSelectState state;
+
+  /// The visual variant selected by the constructor.
   final TreeSelectVariant variant;
+
+  /// Tabular data to render.
   final List<TreeNodeData> data;
+
+  /// The controlled value.
   final List<String>? value;
+
+  /// Called when the value changes.
   final TreeSelectChanged? onChange;
+
+  /// The mode.
   final TreeSelectMode mode;
+
+  /// Placeholder text when empty.
   final String? placeholder;
+
+  /// The label.
   final String? label;
+
+  /// Supporting description text.
   final String? description;
+
+  /// Error text or error state.
   final String? error;
+
+  /// Whether the list can be filtered.
   final bool searchable;
+
+  /// Controlled search text.
   final String? searchValue;
+
+  /// Called when the search text changes.
   final ComboboxSearchChanged? onSearchChange;
+
+  /// Whether default expand all.
   final bool defaultExpandAll;
+
+  /// The expanded values.
   final List<String>? expandedValues;
+
+  /// Called when expanded change.
   final TreeExpandedChanged? onExpandedChange;
+
+  /// Whether with lines.
   final bool withLines;
+
+  /// Whether allow deselect.
   final bool allowDeselect;
+
+  /// Whether the value can be cleared.
   final bool clearable;
+
+  /// Maximum number of selected values.
   final int? maxValues;
+
+  /// Called when an item is removed.
   final ComboboxOptionSubmit? onRemove;
+
+  /// Whether interaction is disabled.
   final bool disabled;
+
+  /// Whether the dropdown is open.
   final bool? dropdownOpened;
+
+  /// Called when the dropdown opens.
   final VoidCallback? onDropdownOpen;
+
+  /// Called when the dropdown closes.
   final VoidCallback? onDropdownClose;
+
+  /// Message shown when no options match.
   final String? nothingFoundMessage;
+
+  /// The max dropdown height.
   final double maxDropdownHeight;
+
+  /// Size token.
   final String size;
+
+  /// Corner radius.
   final BorderRadiusGeometry radius;
 }
 
+/// Builder for the root slot.
 class TreeSelectRoot {
+  /// Creates a [TreeSelectRoot] from a builder function.
   const TreeSelectRoot(this._build);
 
   final Widget Function(TreeSelectContext context) _build;
 
+  /// Invokes this slot with [context].
   Widget call(TreeSelectContext context) => _build(context);
 }
 
+/// Theme-owned composition slots for [TreeSelect].
 abstract class TreeSelectDelegate extends ComponentDelegate {
+  /// Creates a [TreeSelectDelegate].
   const TreeSelectDelegate();
 
+  /// Builds the composition root.
   Widget root(TreeSelectContext context);
 }
 
+/// A [TreeSelect] widget resolved through [TreeSelectDelegate].
 class TreeSelect extends StatelessWidget {
+  /// Creates a [TreeSelect].
   const TreeSelect({
     super.key,
     required this.data,
@@ -174,36 +265,94 @@ class TreeSelect extends StatelessWidget {
     this.style,
   }) : variant = TreeSelectVariant.defaults;
 
+  /// The visual variant selected by the constructor.
   final TreeSelectVariant variant;
+
+  /// Tabular data to render.
   final List<TreeNodeData> data;
+
+  /// The controlled value.
   final List<String>? value;
+
+  /// Called when the value changes.
   final TreeSelectChanged? onChange;
+
+  /// The mode.
   final TreeSelectMode? mode;
+
+  /// Placeholder text when empty.
   final String? placeholder;
+
+  /// The label.
   final String? label;
+
+  /// Supporting description text.
   final String? description;
+
+  /// Error text or error state.
   final String? error;
+
+  /// Whether the list can be filtered.
   final bool? searchable;
+
+  /// Controlled search text.
   final String? searchValue;
+
+  /// Called when the search text changes.
   final ComboboxSearchChanged? onSearchChange;
+
+  /// Whether default expand all.
   final bool? defaultExpandAll;
+
+  /// The expanded values.
   final List<String>? expandedValues;
+
+  /// Called when expanded change.
   final TreeExpandedChanged? onExpandedChange;
+
+  /// Whether with lines.
   final bool? withLines;
+
+  /// Whether allow deselect.
   final bool? allowDeselect;
+
+  /// Whether the value can be cleared.
   final bool? clearable;
+
+  /// Maximum number of selected values.
   final int? maxValues;
+
+  /// Called when an item is removed.
   final ComboboxOptionSubmit? onRemove;
+
+  /// Whether interaction is disabled.
   final bool? disabled;
+
+  /// Whether the dropdown is open.
   final bool? dropdownOpened;
+
+  /// Called when the dropdown opens.
   final VoidCallback? onDropdownOpen;
+
+  /// Called when the dropdown closes.
   final VoidCallback? onDropdownClose;
+
+  /// Message shown when no options match.
   final String? nothingFoundMessage;
+
+  /// The max dropdown height.
   final double? maxDropdownHeight;
+
+  /// Size token.
   final String? size;
+
+  /// Corner radius.
   final BorderRadiusGeometry? radius;
+
+  /// Style overrides merged over theme defaults.
   final TreeSelectStyle? style;
 
+  /// Resolves properties and builds via [TreeSelectDelegate].
   @override
   Widget build(BuildContext context) {
     final resolvedData = data;

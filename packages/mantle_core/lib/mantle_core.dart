@@ -29,6 +29,7 @@ export 'src/theme/variant_colors.dart';
 export 'src/tokens/breakpoint.dart';
 export 'src/tokens/color.dart';
 export 'src/tokens/colors.dart';
+export 'src/tokens/em.dart';
 export 'src/tokens/icons.dart';
 export 'src/tokens/radius.dart';
 export 'src/tokens/scale.dart';

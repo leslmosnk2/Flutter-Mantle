@@ -11,13 +11,13 @@ Inspired by [Mantine](https://mantine.dev). Sister packages (`mantle_widgets`,
 `mantle_basic`, codegen, …) build on this core.
 
 - **Gallery:** [mantle.leslmosnk.com](https://mantle.leslmosnk.com)
-- **Docs:** [docs.mantle.leslmosnk.com/core](https://docs.mantle.leslmosnk.com/#/core/)
+- **Docs:** [leslmosnk2.github.io/Flutter-Mantle/#/core](https://leslmosnk2.github.io/Flutter-Mantle/#/core/)
 
 ## Install
 
 ```yaml
 dependencies:
-  mantle_core: ^1.0.0
+  mantle_core: ^1.1.0
 ```
 
 A runnable sample lives in [`example/`](example/).

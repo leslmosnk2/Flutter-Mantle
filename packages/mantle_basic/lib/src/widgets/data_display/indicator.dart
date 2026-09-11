@@ -1,6 +1,5 @@
 import 'package:flutter/widgets.dart';
 import 'package:mantle_basic/src/widgets/data_display/tokens.dart';
-import 'package:mantle_core/mantle_core.dart';
 import 'package:mantle_widgets/mantle_widgets.dart';
 
 /// Baseline [IndicatorDelegate]: overlay marker on a child.

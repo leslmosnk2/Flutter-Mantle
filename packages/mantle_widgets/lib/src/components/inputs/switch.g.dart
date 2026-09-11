@@ -6,24 +6,36 @@ part of 'switch.dart';
 // MantleComponentGenerator
 // **************************************************************************
 
-enum SwitchVariant { defaults }
+/// Visual variants of [Switch].
+enum SwitchVariant {
+  /// The default variant.
+  defaults,
+}
 
+/// Resolved visual values for [Switch].
 @immutable
 class SwitchStyle {
+  /// Creates a [SwitchStyle].
   const SwitchStyle();
 
+  /// Returns a copy of this [SwitchStyle] with selected fields replaced.
   SwitchStyle copyWith() => this;
 
+  /// Merges [other] over this [SwitchStyle]; null fields keep this value.
   SwitchStyle mergeWith(SwitchStyle? other) => this;
 }
 
+/// Resolved interaction state for [Switch].
 @immutable
 class SwitchState {
+  /// Creates a [SwitchState].
   const SwitchState();
 }
 
+/// Values passed to [SwitchDelegate] slots during build.
 @immutable
 class SwitchContext {
+  /// Creates a [SwitchContext].
   const SwitchContext({
     required this.context,
     required this.style,
@@ -46,42 +58,87 @@ class SwitchContext {
     required this.radius,
   });
 
+  /// The [BuildContext] for this build.
   final BuildContext context;
+
+  /// Style overrides merged over theme defaults.
   final SwitchStyle style;
+
+  /// Resolved interaction state for this build.
   final SwitchState state;
+
+  /// The visual variant selected by the constructor.
   final SwitchVariant variant;
+
+  /// Whether checked.
   final bool? checked;
+
+  /// Whether default checked.
   final bool defaultChecked;
+
+  /// Called when the value changes.
   final void Function(bool)? onChanged;
+
+  /// The controlled value.
   final String? value;
+
+  /// The label.
   final Widget? label;
+
+  /// Supporting description text.
   final Widget? description;
+
+  /// Error text or error state.
   final Widget? error;
+
+  /// Called when label.
   final Widget? onLabel;
+
+  /// The off label.
   final Widget? offLabel;
+
+  /// The thumb icon.
   final Widget? thumbIcon;
+
+  /// Whether interaction is disabled.
   final bool disabled;
+
+  /// Foreground or accent color.
   final String? color;
+
+  /// The label position.
   final InputLabelPosition labelPosition;
+
+  /// Size token.
   final String size;
+
+  /// Corner radius.
   final BorderRadiusGeometry radius;
 }
 
+/// Builder for the root slot.
 class SwitchRoot {
+  /// Creates a [SwitchRoot] from a builder function.
   const SwitchRoot(this._build);
 
   final Widget Function(SwitchContext context) _build;
 
+  /// Invokes this slot with [context].
   Widget call(SwitchContext context) => _build(context);
 }
 
+/// Theme-owned composition slots for [Switch].
 abstract class SwitchDelegate extends ComponentDelegate {
+  /// Creates a [SwitchDelegate].
   const SwitchDelegate();
 
+  /// Builds the composition root.
   Widget root(SwitchContext context);
 }
 
+/// A [Switch] widget resolved through [SwitchDelegate].
 class Switch extends StatelessWidget {
+  /// Creates a [Switch].
   const Switch({
     super.key,
     this.checked,
@@ -102,24 +159,58 @@ class Switch extends StatelessWidget {
     this.style,
   }) : variant = SwitchVariant.defaults;
 
+  /// The visual variant selected by the constructor.
   final SwitchVariant variant;
+
+  /// Whether checked.
   final bool? checked;
+
+  /// Whether default checked.
   final bool? defaultChecked;
+
+  /// Called when the value changes.
   final void Function(bool)? onChanged;
+
+  /// The controlled value.
   final String? value;
+
+  /// The label.
   final Widget? label;
+
+  /// Supporting description text.
   final Widget? description;
+
+  /// Error text or error state.
   final Widget? error;
+
+  /// Called when label.
   final Widget? onLabel;
+
+  /// The off label.
   final Widget? offLabel;
+
+  /// The thumb icon.
   final Widget? thumbIcon;
+
+  /// Whether interaction is disabled.
   final bool? disabled;
+
+  /// Foreground or accent color.
   final String? color;
+
+  /// The label position.
   final InputLabelPosition? labelPosition;
+
+  /// Size token.
   final String? size;
+
+  /// Corner radius.
   final BorderRadiusGeometry? radius;
+
+  /// Style overrides merged over theme defaults.
   final SwitchStyle? style;
 
+  /// Resolves properties and builds via [SwitchDelegate].
   @override
   Widget build(BuildContext context) {
     final resolvedChecked = checked;
@@ -168,24 +259,36 @@ class Switch extends StatelessWidget {
   }
 }
 
-enum SwitchGroupVariant { defaults }
+/// Visual variants of [SwitchGroup].
+enum SwitchGroupVariant {
+  /// The default variant.
+  defaults,
+}
 
+/// Resolved visual values for [SwitchGroup].
 @immutable
 class SwitchGroupStyle {
+  /// Creates a [SwitchGroupStyle].
   const SwitchGroupStyle();
 
+  /// Returns a copy of this [SwitchGroupStyle] with selected fields replaced.
   SwitchGroupStyle copyWith() => this;
 
+  /// Merges [other] over this [SwitchGroupStyle]; null fields keep this value.
   SwitchGroupStyle mergeWith(SwitchGroupStyle? other) => this;
 }
 
+/// Resolved interaction state for [SwitchGroup].
 @immutable
 class SwitchGroupState {
+  /// Creates a [SwitchGroupState].
   const SwitchGroupState();
 }
 
+/// Values passed to [SwitchGroupDelegate] slots during build.
 @immutable
 class SwitchGroupContext {
+  /// Creates a [SwitchGroupContext].
   const SwitchGroupContext({
     required this.context,
     required this.style,
@@ -203,37 +306,72 @@ class SwitchGroupContext {
     required this.size,
   });
 
+  /// The [BuildContext] for this build.
   final BuildContext context;
+
+  /// Style overrides merged over theme defaults.
   final SwitchGroupStyle style;
+
+  /// Resolved interaction state for this build.
   final SwitchGroupState state;
+
+  /// The visual variant selected by the constructor.
   final SwitchGroupVariant variant;
+
+  /// Child widgets composed by this component.
   final List<Widget> children;
+
+  /// The controlled value.
   final List<String>? value;
+
+  /// Initial value when [value] is omitted.
   final List<String>? defaultValue;
+
+  /// Called when the value changes.
   final void Function(List<String>)? onChanged;
+
+  /// The label.
   final Widget? label;
+
+  /// Supporting description text.
   final Widget? description;
+
+  /// Error text or error state.
   final Widget? error;
+
+  /// Whether interaction is disabled.
   final bool disabled;
+
+  /// Whether the value cannot be edited.
   final bool readOnly;
+
+  /// Size token.
   final String size;
 }
 
+/// Builder for the root slot.
 class SwitchGroupRoot {
+  /// Creates a [SwitchGroupRoot] from a builder function.
   const SwitchGroupRoot(this._build);
 
   final Widget Function(SwitchGroupContext context) _build;
 
+  /// Invokes this slot with [context].
   Widget call(SwitchGroupContext context) => _build(context);
 }
 
+/// Theme-owned composition slots for [SwitchGroup].
 abstract class SwitchGroupDelegate extends ComponentDelegate {
+  /// Creates a [SwitchGroupDelegate].
   const SwitchGroupDelegate();
 
+  /// Builds the composition root.
   Widget root(SwitchGroupContext context);
 }
 
+/// A [SwitchGroup] widget resolved through [SwitchGroupDelegate].
 class SwitchGroup extends StatelessWidget {
+  /// Creates a [SwitchGroup].
   const SwitchGroup({
     super.key,
     required this.children,
@@ -249,19 +387,43 @@ class SwitchGroup extends StatelessWidget {
     this.style,
   }) : variant = SwitchGroupVariant.defaults;
 
+  /// The visual variant selected by the constructor.
   final SwitchGroupVariant variant;
+
+  /// Child widgets composed by this component.
   final List<Widget> children;
+
+  /// The controlled value.
   final List<String>? value;
+
+  /// Initial value when [value] is omitted.
   final List<String>? defaultValue;
+
+  /// Called when the value changes.
   final void Function(List<String>)? onChanged;
+
+  /// The label.
   final Widget? label;
+
+  /// Supporting description text.
   final Widget? description;
+
+  /// Error text or error state.
   final Widget? error;
+
+  /// Whether interaction is disabled.
   final bool? disabled;
+
+  /// Whether the value cannot be edited.
   final bool? readOnly;
+
+  /// Size token.
   final String? size;
+
+  /// Style overrides merged over theme defaults.
   final SwitchGroupStyle? style;
 
+  /// Resolves properties and builds via [SwitchGroupDelegate].
   @override
   Widget build(BuildContext context) {
     final resolvedChildren = children;

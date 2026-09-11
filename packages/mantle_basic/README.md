@@ -8,14 +8,14 @@ Apps wrap with `MantleProvider(theme: BasicTheme(), child: …)` so every
 widget has a terminal implementation.
 
 - **Gallery:** [mantle.leslmosnk.com](https://mantle.leslmosnk.com)
-- **Docs:** [docs.mantle.leslmosnk.com/basic](https://docs.mantle.leslmosnk.com/#/basic/)
+- **Docs:** [leslmosnk2.github.io/Flutter-Mantle/#/basic](https://leslmosnk2.github.io/Flutter-Mantle/#/basic/)
 
 ## Install
 
 ```yaml
 dependencies:
-  mantle_widgets: ^1.0.0
-  mantle_basic: ^1.0.0
+  mantle_widgets: ^1.1.0
+  mantle_basic: ^1.1.0
 ```
 
 ```dart

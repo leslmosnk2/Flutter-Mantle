@@ -6,24 +6,36 @@ part of 'nav_link.dart';
 // MantleComponentGenerator
 // **************************************************************************
 
-enum NavLinkVariant { defaults }
+/// Visual variants of [NavLink].
+enum NavLinkVariant {
+  /// The default variant.
+  defaults,
+}
 
+/// Resolved visual values for [NavLink].
 @immutable
 class NavLinkStyle {
+  /// Creates a [NavLinkStyle].
   const NavLinkStyle();
 
+  /// Returns a copy of this [NavLinkStyle] with selected fields replaced.
   NavLinkStyle copyWith() => this;
 
+  /// Merges [other] over this [NavLinkStyle]; null fields keep this value.
   NavLinkStyle mergeWith(NavLinkStyle? other) => this;
 }
 
+/// Resolved interaction state for [NavLink].
 @immutable
 class NavLinkState {
+  /// Creates a [NavLinkState].
   const NavLinkState();
 }
 
+/// Values passed to [NavLinkDelegate] slots during build.
 @immutable
 class NavLinkContext {
+  /// Creates a [NavLinkContext].
   const NavLinkContext({
     required this.context,
     required this.style,
@@ -43,39 +55,78 @@ class NavLinkContext {
     this.color,
   });
 
+  /// The [BuildContext] for this build.
   final BuildContext context;
+
+  /// Style overrides merged over theme defaults.
   final NavLinkStyle style;
+
+  /// Resolved interaction state for this build.
   final NavLinkState state;
+
+  /// The visual variant selected by the constructor.
   final NavLinkVariant variant;
+
+  /// The label.
   final Widget label;
+
+  /// Supporting description text.
   final Widget? description;
+
+  /// The left section.
   final Widget? leftSection;
+
+  /// The right section.
   final Widget? rightSection;
+
+  /// Child widgets composed by this component.
   final List<Widget>? children;
+
+  /// Whether this item is the active option.
   final bool active;
+
+  /// Whether the content is expanded.
   final bool opened;
+
+  /// Whether interaction is disabled.
   final bool disabled;
+
+  /// Called when tap.
   final NavLinkOnTap? onTap;
+
+  /// Called when opened change.
   final NavLinkOnOpenedChange? onOpenedChange;
+
+  /// The children offset.
   final String childrenOffset;
+
+  /// Foreground or accent color.
   final String? color;
 }
 
+/// Builder for the root slot.
 class NavLinkRoot {
+  /// Creates a [NavLinkRoot] from a builder function.
   const NavLinkRoot(this._build);
 
   final Widget Function(NavLinkContext context) _build;
 
+  /// Invokes this slot with [context].
   Widget call(NavLinkContext context) => _build(context);
 }
 
+/// Theme-owned composition slots for [NavLink].
 abstract class NavLinkDelegate extends ComponentDelegate {
+  /// Creates a [NavLinkDelegate].
   const NavLinkDelegate();
 
+  /// Builds the composition root.
   Widget root(NavLinkContext context);
 }
 
+/// A [NavLink] widget resolved through [NavLinkDelegate].
 class NavLink extends StatelessWidget {
+  /// Creates a [NavLink].
   const NavLink({
     super.key,
     required this.label,
@@ -93,21 +144,49 @@ class NavLink extends StatelessWidget {
     this.style,
   }) : variant = NavLinkVariant.defaults;
 
+  /// The visual variant selected by the constructor.
   final NavLinkVariant variant;
+
+  /// The label.
   final Widget label;
+
+  /// Supporting description text.
   final Widget? description;
+
+  /// The left section.
   final Widget? leftSection;
+
+  /// The right section.
   final Widget? rightSection;
+
+  /// Child widgets composed by this component.
   final List<Widget>? children;
+
+  /// Whether this item is the active option.
   final bool? active;
+
+  /// Whether the content is expanded.
   final bool? opened;
+
+  /// Whether interaction is disabled.
   final bool? disabled;
+
+  /// Called when tap.
   final NavLinkOnTap? onTap;
+
+  /// Called when opened change.
   final NavLinkOnOpenedChange? onOpenedChange;
+
+  /// The children offset.
   final String? childrenOffset;
+
+  /// Foreground or accent color.
   final String? color;
+
+  /// Style overrides merged over theme defaults.
   final NavLinkStyle? style;
 
+  /// Resolves properties and builds via [NavLinkDelegate].
   @override
   Widget build(BuildContext context) {
     final resolvedLabel = label;

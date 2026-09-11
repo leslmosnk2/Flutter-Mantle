@@ -6,24 +6,36 @@ part of 'group.dart';
 // MantleComponentGenerator
 // **************************************************************************
 
-enum GroupVariant { defaults }
+/// Visual variants of [Group].
+enum GroupVariant {
+  /// The default variant.
+  defaults,
+}
 
+/// Resolved visual values for [Group].
 @immutable
 class GroupStyle {
+  /// Creates a [GroupStyle].
   const GroupStyle();
 
+  /// Returns a copy of this [GroupStyle] with selected fields replaced.
   GroupStyle copyWith() => this;
 
+  /// Merges [other] over this [GroupStyle]; null fields keep this value.
   GroupStyle mergeWith(GroupStyle? other) => this;
 }
 
+/// Resolved interaction state for [Group].
 @immutable
 class GroupState {
+  /// Creates a [GroupState].
   const GroupState();
 }
 
+/// Values passed to [GroupDelegate] slots during build.
 @immutable
 class GroupContext {
+  /// Creates a [GroupContext].
   const GroupContext({
     required this.context,
     required this.style,
@@ -38,34 +50,63 @@ class GroupContext {
     required this.preventGrowOverflow,
   });
 
+  /// The [BuildContext] for this build.
   final BuildContext context;
+
+  /// Style overrides merged over theme defaults.
   final GroupStyle style;
+
+  /// Resolved interaction state for this build.
   final GroupState state;
+
+  /// The visual variant selected by the constructor.
   final GroupVariant variant;
+
+  /// Child widgets composed by this component.
   final List<Widget> children;
+
+  /// Spacing token between items.
   final String gap;
+
+  /// Text alignment.
   final CrossAxisAlignment align;
+
+  /// The justify.
   final MainAxisAlignment justify;
+
+  /// Whether wrap.
   final bool wrap;
+
+  /// Whether the control expands to fill available width.
   final bool grow;
+
+  /// Whether prevent grow overflow.
   final bool preventGrowOverflow;
 }
 
+/// Builder for the root slot.
 class GroupRoot {
+  /// Creates a [GroupRoot] from a builder function.
   const GroupRoot(this._build);
 
   final Widget Function(GroupContext context) _build;
 
+  /// Invokes this slot with [context].
   Widget call(GroupContext context) => _build(context);
 }
 
+/// Theme-owned composition slots for [Group].
 abstract class GroupDelegate extends ComponentDelegate {
+  /// Creates a [GroupDelegate].
   const GroupDelegate();
 
+  /// Builds the composition root.
   Widget root(GroupContext context);
 }
 
+/// A [Group] widget resolved through [GroupDelegate].
 class Group extends StatelessWidget {
+  /// Creates a [Group].
   const Group({
     super.key,
     required this.children,
@@ -78,16 +119,34 @@ class Group extends StatelessWidget {
     this.style,
   }) : variant = GroupVariant.defaults;
 
+  /// The visual variant selected by the constructor.
   final GroupVariant variant;
+
+  /// Child widgets composed by this component.
   final List<Widget> children;
+
+  /// Spacing token between items.
   final String? gap;
+
+  /// Text alignment.
   final CrossAxisAlignment? align;
+
+  /// The justify.
   final MainAxisAlignment? justify;
+
+  /// Whether wrap.
   final bool? wrap;
+
+  /// Whether the control expands to fill available width.
   final bool? grow;
+
+  /// Whether prevent grow overflow.
   final bool? preventGrowOverflow;
+
+  /// Style overrides merged over theme defaults.
   final GroupStyle? style;
 
+  /// Resolves properties and builds via [GroupDelegate].
   @override
   Widget build(BuildContext context) {
     final resolvedChildren = children;

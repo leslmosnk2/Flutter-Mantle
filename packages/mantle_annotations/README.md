@@ -6,13 +6,13 @@ This package has **no Flutter dependency**, so both app/library code and the
 analyzer-side generators in [`mantle_gen`](https://pub.dev/packages/mantle_gen)
 can import it.
 
-- **Docs:** [docs.mantle.leslmosnk.com/annotations](https://docs.mantle.leslmosnk.com/#/annotations/)
+- **Docs:** [leslmosnk2.github.io/Flutter-Mantle/#/annotations](https://leslmosnk2.github.io/Flutter-Mantle/#/annotations/)
 
 ## Install
 
 ```yaml
 dependencies:
-  mantle_annotations: ^1.0.0
+  mantle_annotations: ^1.1.0
 ```
 
 See [`example/example.dart`](example/example.dart) for a `@MantleToken` group.
@@ -24,18 +24,19 @@ Typically you also add `mantle_gen` as a `dev_dependency` and run
 
 ### `@MantleToken`
 
-Marks a class whose `static const` fields should be collected by the Mantle
-token generator:
+Marks a class of size names (or `static const` values) for the Mantle
+token generator. Size-list classes extend a generated base and take
+`BuildContext` so values can use `emOf`:
 
 ```dart
 import 'package:mantle_annotations/mantle_annotations.dart';
 
-part 'palette.g.dart';
+part 'app_theme.g.dart';
 
-@MantleToken()
-abstract final class Palette {
-  static const red = 0xFFFF0000;
-  static const blue = 0xFF0000FF;
+@MantleToken(['xs', 'sm', 'md', 'lg', 'xl'])
+class AppSpacing extends _$AppSpacing {
+  AppSpacing(BuildContext context)
+    : super(xs: 10, sm: 12, md: 1.emOf(context), lg: 20, xl: 32);
 }
 ```
 
@@ -43,8 +44,23 @@ Optional parameters:
 
 | Parameter | Default | Purpose |
 |---|---|---|
-| `type` | `dynamic` | Value type used in the generated `toMap()` |
-| `name` | `_${classname}` | Generated mixin name (supports `{classname}`) |
+| `sizes` | `[]` | Size names for a context-built scale |
+| `slot` | inferred | Built-in theme slot (`spacing`, `radius`, `breakpoints`) |
+| `type` | `dynamic` | Value type used in the static-const `toMap()` |
+| `name` | `_$${classname}` | Generated base/mixin name (supports `{classname}`) |
+
+### `@MantleAppTheme`
+
+Marks a class that aggregates `@MantleToken` scales in the same library.
+After generation:
+
+```dart
+@MantleAppTheme()
+class AppTheme = _$AppTheme with _$AppThemeMixin;
+
+MantleProvider(theme: AppTheme(), child: app);
+AppTheme.of(context).spacing.all.md;
+```
 
 ## License
 

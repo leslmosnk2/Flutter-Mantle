@@ -6,24 +6,36 @@ part of 'breadcrumbs.dart';
 // MantleComponentGenerator
 // **************************************************************************
 
-enum BreadcrumbsVariant { defaults }
+/// Visual variants of [Breadcrumbs].
+enum BreadcrumbsVariant {
+  /// The default variant.
+  defaults,
+}
 
+/// Resolved visual values for [Breadcrumbs].
 @immutable
 class BreadcrumbsStyle {
+  /// Creates a [BreadcrumbsStyle].
   const BreadcrumbsStyle();
 
+  /// Returns a copy of this [BreadcrumbsStyle] with selected fields replaced.
   BreadcrumbsStyle copyWith() => this;
 
+  /// Merges [other] over this [BreadcrumbsStyle]; null fields keep this value.
   BreadcrumbsStyle mergeWith(BreadcrumbsStyle? other) => this;
 }
 
+/// Resolved interaction state for [Breadcrumbs].
 @immutable
 class BreadcrumbsState {
+  /// Creates a [BreadcrumbsState].
   const BreadcrumbsState();
 }
 
+/// Values passed to [BreadcrumbsDelegate] slots during build.
 @immutable
 class BreadcrumbsContext {
+  /// Creates a [BreadcrumbsContext].
   const BreadcrumbsContext({
     required this.context,
     required this.style,
@@ -34,30 +46,51 @@ class BreadcrumbsContext {
     required this.separatorMargin,
   });
 
+  /// The [BuildContext] for this build.
   final BuildContext context;
+
+  /// Style overrides merged over theme defaults.
   final BreadcrumbsStyle style;
+
+  /// Resolved interaction state for this build.
   final BreadcrumbsState state;
+
+  /// The visual variant selected by the constructor.
   final BreadcrumbsVariant variant;
+
+  /// Child widgets composed by this component.
   final List<Widget> children;
+
+  /// The separator.
   final Widget? separator;
+
+  /// The separator margin.
   final String separatorMargin;
 }
 
+/// Builder for the root slot.
 class BreadcrumbsRoot {
+  /// Creates a [BreadcrumbsRoot] from a builder function.
   const BreadcrumbsRoot(this._build);
 
   final Widget Function(BreadcrumbsContext context) _build;
 
+  /// Invokes this slot with [context].
   Widget call(BreadcrumbsContext context) => _build(context);
 }
 
+/// Theme-owned composition slots for [Breadcrumbs].
 abstract class BreadcrumbsDelegate extends ComponentDelegate {
+  /// Creates a [BreadcrumbsDelegate].
   const BreadcrumbsDelegate();
 
+  /// Builds the composition root.
   Widget root(BreadcrumbsContext context);
 }
 
+/// A [Breadcrumbs] widget resolved through [BreadcrumbsDelegate].
 class Breadcrumbs extends StatelessWidget {
+  /// Creates a [Breadcrumbs].
   const Breadcrumbs({
     super.key,
     required this.children,
@@ -66,12 +99,22 @@ class Breadcrumbs extends StatelessWidget {
     this.style,
   }) : variant = BreadcrumbsVariant.defaults;
 
+  /// The visual variant selected by the constructor.
   final BreadcrumbsVariant variant;
+
+  /// Child widgets composed by this component.
   final List<Widget> children;
+
+  /// The separator.
   final Widget? separator;
+
+  /// The separator margin.
   final String? separatorMargin;
+
+  /// Style overrides merged over theme defaults.
   final BreadcrumbsStyle? style;
 
+  /// Resolves properties and builds via [BreadcrumbsDelegate].
   @override
   Widget build(BuildContext context) {
     final resolvedChildren = children;

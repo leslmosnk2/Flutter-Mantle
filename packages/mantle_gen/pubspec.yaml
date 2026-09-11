@@ -2,13 +2,13 @@ name: mantle_gen
 description: >
   build_runner generators for Mantle. Annotate token groups and
   components, then emit helpers with SharedPartBuilder.
-version: 1.0.0
+version: 1.1.0
 resolution: workspace
 
 homepage: https://mantle.leslmosnk.com
 repository: https://github.com/leslmosnk2/Flutter-Mantle/tree/main/packages/mantle_gen
 issue_tracker: https://github.com/leslmosnk2/Flutter-Mantle/issues
-documentation: https://docs.mantle.leslmosnk.com/#/gen/
+documentation: https://leslmosnk2.github.io/Flutter-Mantle/#/gen/
 
 topics:
   - codegen
@@ -23,7 +23,7 @@ environment:
 dependencies:
   analyzer: '>=13.3.0 <15.0.0'
   build: '>=4.0.0 <5.0.0'
-  mantle_annotations: ^1.0.0
+  mantle_annotations: ^1.1.0
   source_gen: '>=4.2.4 <5.0.0'
 
 dev_dependencies:

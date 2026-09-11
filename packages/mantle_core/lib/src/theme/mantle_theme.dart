@@ -46,6 +46,9 @@ class MantleTheme with Diagnosticable implements MantleTokenGroup {
     MantleRadius radius = const MantleRadius.empty(),
     MantleShadow shadows = const MantleShadow.empty(),
     MantleBreakpoint breakpoints = const MantleBreakpoint.empty(),
+    MantleSpacing Function(BuildContext context)? spacingBuilder,
+    MantleRadius Function(BuildContext context)? radiusBuilder,
+    MantleBreakpoint Function(BuildContext context)? breakpointsBuilder,
     DelegateRegistry components = const DelegateRegistry.empty(),
     ComponentDefaults componentDefaults = const ComponentDefaults.empty(),
     Map<Type, MantleTokenGroup> extensions = const {},
@@ -63,6 +66,7 @@ class MantleTheme with Diagnosticable implements MantleTokenGroup {
     bool? respectReducedMotion,
     MantleCursorType? cursorType,
     VariantColorsResolver? variantColorResolver,
+    MantleTheme? baseline,
   }) : this._(
          colors: colors,
          icons: icons,
@@ -71,10 +75,12 @@ class MantleTheme with Diagnosticable implements MantleTokenGroup {
          radius: radius,
          shadows: shadows,
          breakpoints: breakpoints,
+         spacingBuilder: spacingBuilder,
+         radiusBuilder: radiusBuilder,
+         breakpointsBuilder: breakpointsBuilder,
          components: components,
          componentDefaults: componentDefaults,
          extensions: extensions,
-         baseline: null,
          debugName: debugName,
          primaryColor: primaryColor,
          primaryShade: primaryShade,
@@ -89,6 +95,7 @@ class MantleTheme with Diagnosticable implements MantleTokenGroup {
          respectReducedMotion: respectReducedMotion,
          cursorType: cursorType,
          variantColorResolver: variantColorResolver,
+         baseline: baseline,
        );
 
   const MantleTheme._({
@@ -103,6 +110,9 @@ class MantleTheme with Diagnosticable implements MantleTokenGroup {
     required this.componentDefaults,
     required this.extensions,
     required this.baseline,
+    this.spacingBuilder,
+    this.radiusBuilder,
+    this.breakpointsBuilder,
     this._debugName,
     this._primaryColor,
     this._primaryShade,
@@ -139,6 +149,15 @@ class MantleTheme with Diagnosticable implements MantleTokenGroup {
 
   /// Breakpoint scale.
   final MantleBreakpoint breakpoints;
+
+  /// Builds [spacing] from the reading [BuildContext] when set.
+  final MantleSpacing Function(BuildContext context)? spacingBuilder;
+
+  /// Builds [radius] from the reading [BuildContext] when set.
+  final MantleRadius Function(BuildContext context)? radiusBuilder;
+
+  /// Builds [breakpoints] from the reading [BuildContext] when set.
+  final MantleBreakpoint Function(BuildContext context)? breakpointsBuilder;
 
   /// Theme-owned component delegates, keyed by contract type.
   final DelegateRegistry components;
@@ -278,6 +297,25 @@ class MantleTheme with Diagnosticable implements MantleTokenGroup {
     return _copy(baseline: baseline);
   }
 
+  /// Resolves context-built token factories against [context].
+  ///
+  /// Returns this theme when no factories are set so identity stays stable.
+  MantleTheme resolve(BuildContext context) {
+    if (spacingBuilder == null &&
+        radiusBuilder == null &&
+        breakpointsBuilder == null) {
+      return this;
+    }
+    return _copy(
+      spacing: spacingBuilder?.call(context) ?? spacing,
+      radius: radiusBuilder?.call(context) ?? radius,
+      breakpoints: breakpointsBuilder?.call(context) ?? breakpoints,
+      spacingBuilder: null,
+      radiusBuilder: null,
+      breakpointsBuilder: null,
+    );
+  }
+
   /// Copies this theme with the given fields replaced.
   MantleTheme copyWith({
     MantleColors? colors,
@@ -287,6 +325,9 @@ class MantleTheme with Diagnosticable implements MantleTokenGroup {
     MantleRadius? radius,
     MantleShadow? shadows,
     MantleBreakpoint? breakpoints,
+    MantleSpacing Function(BuildContext context)? spacingBuilder,
+    MantleRadius Function(BuildContext context)? radiusBuilder,
+    MantleBreakpoint Function(BuildContext context)? breakpointsBuilder,
     DelegateRegistry? components,
     ComponentDefaults? componentDefaults,
     Map<Type, MantleTokenGroup>? extensions,
@@ -313,6 +354,9 @@ class MantleTheme with Diagnosticable implements MantleTokenGroup {
       radius: radius ?? this.radius,
       shadows: shadows ?? this.shadows,
       breakpoints: breakpoints ?? this.breakpoints,
+      spacingBuilder: spacingBuilder ?? this.spacingBuilder,
+      radiusBuilder: radiusBuilder ?? this.radiusBuilder,
+      breakpointsBuilder: breakpointsBuilder ?? this.breakpointsBuilder,
       components: components ?? this.components,
       componentDefaults: componentDefaults ?? this.componentDefaults,
       extensions: extensions ?? this.extensions,
@@ -346,6 +390,13 @@ class MantleTheme with Diagnosticable implements MantleTokenGroup {
       radius: radius.mergeWith(other.radius),
       shadows: shadows.mergeWith(other.shadows),
       breakpoints: breakpoints.mergeWith(other.breakpoints),
+      spacingBuilder:
+          spacingBuilder ?? (spacing.isEmpty ? other.spacingBuilder : null),
+      radiusBuilder:
+          radiusBuilder ?? (radius.isEmpty ? other.radiusBuilder : null),
+      breakpointsBuilder:
+          breakpointsBuilder ??
+          (breakpoints.isEmpty ? other.breakpointsBuilder : null),
       components: components.mergeWith(other.components),
       componentDefaults: componentDefaults.mergeWith(other.componentDefaults),
       extensions: _mergeExtensions(extensions, other.extensions),
@@ -379,6 +430,13 @@ class MantleTheme with Diagnosticable implements MantleTokenGroup {
       radius: radius.lerpWith(other.radius, t),
       shadows: shadows.lerpWith(other.shadows, t),
       breakpoints: breakpoints.lerpWith(other.breakpoints, t),
+      spacingBuilder: _snap(spacingBuilder, other.spacingBuilder, t),
+      radiusBuilder: _snap(radiusBuilder, other.radiusBuilder, t),
+      breakpointsBuilder: _snap(
+        breakpointsBuilder,
+        other.breakpointsBuilder,
+        t,
+      ),
       components: _snap(components, other.components, t),
       componentDefaults: _snap(componentDefaults, other.componentDefaults, t),
       extensions: _lerpExtensions(extensions, other.extensions, t),
@@ -423,6 +481,9 @@ class MantleTheme with Diagnosticable implements MantleTokenGroup {
     MantleRadius? radius,
     MantleShadow? shadows,
     MantleBreakpoint? breakpoints,
+    Object? spacingBuilder = _keep,
+    Object? radiusBuilder = _keep,
+    Object? breakpointsBuilder = _keep,
     DelegateRegistry? components,
     ComponentDefaults? componentDefaults,
     Map<Type, MantleTokenGroup>? extensions,
@@ -450,6 +511,15 @@ class MantleTheme with Diagnosticable implements MantleTokenGroup {
       radius: radius ?? this.radius,
       shadows: shadows ?? this.shadows,
       breakpoints: breakpoints ?? this.breakpoints,
+      spacingBuilder: identical(spacingBuilder, _keep)
+          ? this.spacingBuilder
+          : spacingBuilder as MantleSpacing Function(BuildContext)?,
+      radiusBuilder: identical(radiusBuilder, _keep)
+          ? this.radiusBuilder
+          : radiusBuilder as MantleRadius Function(BuildContext)?,
+      breakpointsBuilder: identical(breakpointsBuilder, _keep)
+          ? this.breakpointsBuilder
+          : breakpointsBuilder as MantleBreakpoint Function(BuildContext)?,
       components: components ?? this.components,
       componentDefaults: componentDefaults ?? this.componentDefaults,
       extensions: extensions ?? this.extensions,

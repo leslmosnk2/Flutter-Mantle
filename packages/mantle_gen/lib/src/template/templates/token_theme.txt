@@ -1,0 +1,92 @@
+class {{ baseName }} extends MantleTheme {
+  {{ baseName }}({
+    MantleColors colors = const MantleColors.empty(),
+    MantleIcons icons = const MantleIcons.empty(),
+    MantleTypography typography = const MantleTypography.empty(),
+    MantleShadow shadows = const MantleShadow.empty(),
+    DelegateRegistry components = const DelegateRegistry.empty(),
+    ComponentDefaults componentDefaults = const ComponentDefaults.empty(),
+    Map<Type, MantleTokenGroup> extensions = const {},
+    String? debugName,
+    String? primaryColor,
+    MantleShade? primaryShade,
+    MantleSize? defaultRadius,
+    MantleGradient? defaultGradient,
+    MantleFocusRing? focusRing,
+    double? scale,
+    Color? white,
+    Color? black,
+    bool? autoContrast,
+    double? luminanceThreshold,
+    bool? respectReducedMotion,
+    MantleCursorType? cursorType,
+    VariantColorsResolver? variantColorResolver,
+{% for token in tokens %}    {{ token.className }} Function(BuildContext context)? {{ token.slotName }},
+{% endfor %}  }) : super(
+         colors: colors,
+         icons: icons,
+         typography: typography,
+         shadows: shadows,
+         components: components,
+         componentDefaults: componentDefaults,
+         extensions: extensions,
+         debugName: debugName,
+         primaryColor: primaryColor,
+         primaryShade: primaryShade,
+         defaultRadius: defaultRadius,
+         defaultGradient: defaultGradient,
+         focusRing: focusRing,
+         scale: scale,
+         white: white,
+         black: black,
+         autoContrast: autoContrast,
+         luminanceThreshold: luminanceThreshold,
+         respectReducedMotion: respectReducedMotion,
+         cursorType: cursorType,
+         variantColorResolver: variantColorResolver,
+{% for token in tokens %}         {{ token.slotName }}Builder: {{ token.slotName }} ?? {{ token.className }}.new,
+{% endfor %}       );
+
+  {{ baseName }}.of(BuildContext context, {MantleAspect? aspect})
+    : this._adopt(MantleTheme.of(context, aspect: aspect));
+
+  {{ baseName }}._adopt(MantleTheme resolved)
+    : super(
+        colors: resolved.colors,
+        icons: resolved.icons,
+        typography: resolved.typography,
+        spacing: resolved.spacing,
+        radius: resolved.radius,
+        shadows: resolved.shadows,
+        breakpoints: resolved.breakpoints,
+        components: resolved.components,
+        componentDefaults: resolved.componentDefaults,
+        extensions: resolved.extensions,
+        debugName: resolved.debugName,
+        primaryColor: resolved.primaryColor,
+        primaryShade: resolved.primaryShade,
+        defaultRadius: resolved.defaultRadius,
+        defaultGradient: resolved.defaultGradient,
+        focusRing: resolved.focusRing,
+        scale: resolved.scale,
+        white: resolved.white,
+        black: resolved.black,
+        autoContrast: resolved.autoContrast,
+        luminanceThreshold: resolved.luminanceThreshold,
+        respectReducedMotion: resolved.respectReducedMotion,
+        cursorType: resolved.cursorType,
+        variantColorResolver: resolved.variantColorResolver,
+        baseline: resolved.baseline,
+      );
+
+  @override
+  {{ baseName }} resolve(BuildContext context) {
+    return {{ baseName }}._adopt(super.resolve(context));
+  }
+{% for token in tokens %}
+  @override
+  {{ token.baseName }} get {{ token.slotName }} =>
+      super.{{ token.slotName }} as {{ token.baseName }};
+{% endfor %}}
+
+mixin {{ helpersMixin }} {}

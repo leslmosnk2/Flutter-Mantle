@@ -6,6 +6,11 @@ void main() {
   group('MantleSpacing', () {
     final spacing = MantleSpacing(const {'sm': 4, 'md': 8, 'lg': 16});
 
+    test('.empty() yields to the other side in mergeWith', () {
+      final filled = MantleSpacing(const {'md': 8});
+      expect(const MantleSpacing.empty().mergeWith(filled)['md'], equals(8));
+    });
+
     test('.all() builds equal insets', () {
       expect(spacing.all('md'), equals(const EdgeInsets.all(8)));
     });
@@ -54,6 +59,41 @@ void main() {
       expect(merged.all('sm'), equals(const EdgeInsets.all(4)));
       expect(merged.all('md'), equals(const EdgeInsets.all(8)));
       expect(merged.all('lg'), equals(const EdgeInsets.all(24)));
+    });
+
+    test('[] returns a raw spacing value', () {
+      expect(spacing['md'], equals(8));
+    });
+
+    test('.getOrNull() returns null for missing keys', () {
+      expect(spacing.getOrNull('md'), equals(8));
+      expect(spacing.getOrNull('missing'), isNull);
+    });
+
+    test('.resolveRem() scales px-at-remBase values', () {
+      final resolved = spacing.resolveRem(
+        textScaler: const TextScaler.linear(2),
+      );
+
+      expect(resolved['md'], equals(16));
+    });
+
+    testWidgets('.fromMedia() uses the ambient text scaler', (tester) async {
+      late MantleSpacing resolved;
+
+      await tester.pumpWidget(
+        MediaQuery(
+          data: const MediaQueryData(textScaler: TextScaler.linear(2)),
+          child: Builder(
+            builder: (context) {
+              resolved = spacing.fromMedia(context);
+              return const SizedBox.shrink();
+            },
+          ),
+        ),
+      );
+
+      expect(resolved['md'], equals(16));
     });
   });
 }

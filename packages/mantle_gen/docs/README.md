@@ -10,10 +10,10 @@ Add it as a **dev dependency** only — app code never imports `mantle_gen`.
 
 ```yaml
 dependencies:
-  mantle_annotations: ^1.0.0
+  mantle_annotations: ^1.1.0
 
 dev_dependencies:
-  mantle_gen: ^1.0.0
+  mantle_gen: ^1.1.0
   build_runner: ^2.4.0
 ```
 

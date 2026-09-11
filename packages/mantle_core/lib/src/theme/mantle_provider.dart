@@ -70,15 +70,44 @@ class MantleProvider extends StatefulWidget {
         ),
       ]);
     }
-    return scope.theme;
+    return scope.resolve(context);
   }
 
-  /// The theme for [context], or `null` if none is in scope.
-  static MantleTheme? maybeOf(BuildContext context, {MantleAspect? aspect}) {
+  /// The unresolved theme config for [context], or `null` if none is in scope.
+  static MantleTheme? maybeUnresolvedOf(
+    BuildContext context, {
+    MantleAspect? aspect,
+  }) {
     return InheritedModel.inheritFrom<_MantleScope>(
       context,
       aspect: aspect,
     )?.theme;
+  }
+
+  /// The unresolved theme config for [context].
+  static MantleTheme unresolvedOf(
+    BuildContext context, {
+    MantleAspect? aspect,
+  }) {
+    final theme = maybeUnresolvedOf(context, aspect: aspect);
+    if (theme == null) {
+      throw FlutterError.fromParts([
+        ErrorSummary('No MantleProvider found above this widget.'),
+        ErrorDescription(
+          'Wrap your app in MantleProvider(theme: ..., child: ...).',
+        ),
+      ]);
+    }
+    return theme;
+  }
+
+  /// The theme for [context], or `null` if none is in scope.
+  static MantleTheme? maybeOf(BuildContext context, {MantleAspect? aspect}) {
+    final scope = InheritedModel.inheritFrom<_MantleScope>(
+      context,
+      aspect: aspect,
+    );
+    return scope?.resolve(context);
   }
 
   /// Resolved `light` or `dark` scheme (never [MantleColorScheme.auto]).
@@ -287,9 +316,9 @@ class _MantleProviderState extends State<MantleProvider>
 
   @override
   Widget build(BuildContext context) {
-    final theme = _controller.isAnimating
-        ? (_tween?.evaluate(_curved) ?? _effectiveTheme)
-        : _effectiveTheme;
+    final theme = _effectiveTheme;
+    final animating = _controller.isAnimating;
+    final lerpT = animating ? _curved.value : 0.0;
     if (_isRoot) {
       Mantle.attachRoot(theme);
     }
@@ -301,6 +330,9 @@ class _MantleProviderState extends State<MantleProvider>
       baseline: _isRoot ? widget.baseline : _parent!.baseline,
       isRoot: _isRoot,
       schemeForced: forced,
+      lerpBegin: animating ? _tween?.begin : null,
+      lerpEnd: animating ? _tween?.end : null,
+      lerpT: lerpT,
       setColorScheme: forced
           ? null
           : (_parent?._setColorScheme ?? _setColorScheme),
@@ -326,6 +358,9 @@ class _MantleScope extends InheritedModel<MantleAspect> {
     required this.baseline,
     required this.isRoot,
     required this.schemeForced,
+    required this.lerpBegin,
+    required this.lerpEnd,
+    required this.lerpT,
     required this._setColorScheme,
     required this._toggleColorScheme,
     required super.child,
@@ -336,8 +371,20 @@ class _MantleScope extends InheritedModel<MantleAspect> {
   final MantleTheme? baseline;
   final bool isRoot;
   final bool schemeForced;
+  final MantleTheme? lerpBegin;
+  final MantleTheme? lerpEnd;
+  final double lerpT;
   final void Function(MantleColorScheme)? _setColorScheme;
   final VoidCallback? _toggleColorScheme;
+
+  MantleTheme resolve(BuildContext context) {
+    final begin = lerpBegin;
+    final end = lerpEnd;
+    if (begin != null && end != null && lerpT > 0 && lerpT < 1) {
+      return begin.resolve(context).lerpWith(end.resolve(context), lerpT);
+    }
+    return theme.resolve(context);
+  }
 
   @override
   bool updateShouldNotify(_MantleScope oldWidget) {
@@ -345,7 +392,10 @@ class _MantleScope extends InheritedModel<MantleAspect> {
         colorScheme != oldWidget.colorScheme ||
         baseline != oldWidget.baseline ||
         isRoot != oldWidget.isRoot ||
-        schemeForced != oldWidget.schemeForced;
+        schemeForced != oldWidget.schemeForced ||
+        lerpT != oldWidget.lerpT ||
+        !identical(lerpBegin, oldWidget.lerpBegin) ||
+        !identical(lerpEnd, oldWidget.lerpEnd);
   }
 
   @override
@@ -361,19 +411,28 @@ class _MantleScope extends InheritedModel<MantleAspect> {
           theme.typography,
           oldWidget.theme.typography,
         ),
-        MantleAspect.spacing => !identical(
-          theme.spacing,
-          oldWidget.theme.spacing,
-        ),
-        MantleAspect.radius => !identical(theme.radius, oldWidget.theme.radius),
+        MantleAspect.spacing =>
+          !identical(theme.spacing, oldWidget.theme.spacing) ||
+              !identical(
+                theme.spacingBuilder,
+                oldWidget.theme.spacingBuilder,
+              ) ||
+              lerpT != oldWidget.lerpT,
+        MantleAspect.radius =>
+          !identical(theme.radius, oldWidget.theme.radius) ||
+              !identical(theme.radiusBuilder, oldWidget.theme.radiusBuilder) ||
+              lerpT != oldWidget.lerpT,
         MantleAspect.shadows => !identical(
           theme.shadows,
           oldWidget.theme.shadows,
         ),
-        MantleAspect.breakpoints => !identical(
-          theme.breakpoints,
-          oldWidget.theme.breakpoints,
-        ),
+        MantleAspect.breakpoints =>
+          !identical(theme.breakpoints, oldWidget.theme.breakpoints) ||
+              !identical(
+                theme.breakpointsBuilder,
+                oldWidget.theme.breakpointsBuilder,
+              ) ||
+              lerpT != oldWidget.lerpT,
         MantleAspect.components =>
           theme.components != oldWidget.theme.components ||
               theme.componentDefaults != oldWidget.theme.componentDefaults,
