@@ -250,8 +250,11 @@ class BasicEditableField extends StatefulWidget {
     this.maxLines = 1,
     this.minLines,
     this.keyboardType,
+    this.textInputAction,
     this.textAlign = TextAlign.start,
     this.onSubmitted,
+    this.onEditingComplete,
+    this.focusNode,
     this.onFocusChange,
     this.inputFormatters,
     this.autofocus = false,
@@ -297,11 +300,20 @@ class BasicEditableField extends StatefulWidget {
   /// Keyboard type.
   final TextInputType? keyboardType;
 
+  /// IME action button (next, done, …).
+  final TextInputAction? textInputAction;
+
   /// Horizontal alignment.
   final TextAlign textAlign;
 
   /// Called when the user submits.
   final ValueChanged<String>? onSubmitted;
+
+  /// Called when editing is complete (IME action).
+  final VoidCallback? onEditingComplete;
+
+  /// Optional external focus node. When omitted, one is created and disposed.
+  final FocusNode? focusNode;
 
   /// Focus changes.
   final ValueChanged<bool>? onFocusChange;
@@ -318,7 +330,9 @@ class BasicEditableField extends StatefulWidget {
 
 class _BasicEditableFieldState extends State<BasicEditableField> {
   late final TextEditingController _controller;
-  late final FocusNode _focusNode;
+  FocusNode? _ownedFocusNode;
+
+  FocusNode get _focusNode => widget.focusNode ?? _ownedFocusNode!;
 
   @override
   void initState() {
@@ -326,7 +340,9 @@ class _BasicEditableFieldState extends State<BasicEditableField> {
     _controller = TextEditingController(
       text: widget.value ?? widget.defaultValue ?? '',
     );
-    _focusNode = FocusNode();
+    if (widget.focusNode == null) {
+      _ownedFocusNode = FocusNode();
+    }
     _focusNode.addListener(_handleFocus);
     if (widget.autofocus) {
       _focusNode.requestFocus();
@@ -341,6 +357,16 @@ class _BasicEditableFieldState extends State<BasicEditableField> {
   @override
   void didUpdateWidget(covariant BasicEditableField oldWidget) {
     super.didUpdateWidget(oldWidget);
+    if (widget.focusNode != oldWidget.focusNode) {
+      (oldWidget.focusNode ?? _ownedFocusNode)?.removeListener(_handleFocus);
+      if (widget.focusNode != null) {
+        _ownedFocusNode?.dispose();
+        _ownedFocusNode = null;
+      } else {
+        _ownedFocusNode ??= FocusNode();
+      }
+      _focusNode.addListener(_handleFocus);
+    }
     if (widget.value != null && widget.value != _controller.text) {
       _controller.value = TextEditingValue(
         text: widget.value!,
@@ -351,9 +377,8 @@ class _BasicEditableFieldState extends State<BasicEditableField> {
 
   @override
   void dispose() {
-    _focusNode
-      ..removeListener(_handleFocus)
-      ..dispose();
+    _focusNode.removeListener(_handleFocus);
+    _ownedFocusNode?.dispose();
     _controller.dispose();
     super.dispose();
   }
@@ -388,8 +413,10 @@ class _BasicEditableFieldState extends State<BasicEditableField> {
             obscureText: widget.obscureText,
             readOnly: widget.readOnly || !widget.enabled,
             keyboardType: widget.keyboardType,
+            textInputAction: widget.textInputAction,
             textAlign: widget.textAlign,
             onChanged: widget.onChanged,
+            onEditingComplete: widget.onEditingComplete,
             onSubmitted: widget.onSubmitted,
             inputFormatters: widget.inputFormatters,
             enableInteractiveSelection: !widget.obscureText,
@@ -513,7 +540,10 @@ class BasicTextInputBody extends StatefulWidget {
     this.withErrorStyles = true,
     this.obscureText = false,
     this.keyboardType,
+    this.textInputAction,
     this.onSubmitted,
+    this.onEditingComplete,
+    this.focusNode,
     this.inputFormatters,
     this.monospace = false,
     super.key,
@@ -576,8 +606,17 @@ class BasicTextInputBody extends StatefulWidget {
   /// Keyboard.
   final TextInputType? keyboardType;
 
+  /// IME action button (next, done, …).
+  final TextInputAction? textInputAction;
+
   /// Submit callback.
   final ValueChanged<String>? onSubmitted;
+
+  /// Called when editing is complete (IME action).
+  final VoidCallback? onEditingComplete;
+
+  /// Optional external focus node.
+  final FocusNode? focusNode;
 
   /// Formatters.
   final List<TextInputFormatter>? inputFormatters;
@@ -640,7 +679,10 @@ class _BasicTextInputBodyState extends State<BasicTextInputBody> {
         maxLines: widget.maxLines,
         minLines: widget.minLines,
         keyboardType: widget.keyboardType,
+        textInputAction: widget.textInputAction,
         onSubmitted: widget.onSubmitted,
+        onEditingComplete: widget.onEditingComplete,
+        focusNode: widget.focusNode,
         inputFormatters: widget.inputFormatters,
         onFocusChange: (focused) {
           setState(() => _focused = focused);

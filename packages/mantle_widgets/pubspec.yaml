@@ -2,7 +2,7 @@ name: mantle_widgets
 description: >
   Component contracts and generated widgets for Mantle. Pair with
   mantle_basic or register your own theme delegates.
-version: 1.1.0
+version: 1.1.1
 resolution: workspace
 
 homepage: https://mantle.leslmosnk.com

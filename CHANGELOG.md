@@ -1,3 +1,8 @@
+## 1.1.1
+
+- Text and password inputs expose `textInputAction`, `onSubmitted`,
+  `onEditingComplete`, and `focusNode` (including external focus nodes).
+
 ## 1.1.0
 
 - Context-built token scales (`emOf`, token factories, `MantleTheme.of`).

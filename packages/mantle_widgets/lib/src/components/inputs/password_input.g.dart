@@ -59,6 +59,10 @@ class PasswordInputContext {
     required this.readOnly,
     required this.required,
     this.withAsterisk,
+    this.textInputAction,
+    this.onSubmitted,
+    this.onEditingComplete,
+    this.focusNode,
     this.visible,
     required this.defaultVisible,
     this.onVisibilityChange,
@@ -114,6 +118,18 @@ class PasswordInputContext {
   /// Whether with asterisk.
   final bool? withAsterisk;
 
+  /// The text input action.
+  final TextInputAction? textInputAction;
+
+  /// Called when submitted.
+  final void Function(String)? onSubmitted;
+
+  /// Called when editing complete.
+  final VoidCallback? onEditingComplete;
+
+  /// The focus node.
+  final FocusNode? focusNode;
+
   /// Whether visible.
   final bool? visible;
 
@@ -167,6 +183,10 @@ class PasswordInput extends StatelessWidget {
     this.readOnly,
     this.required,
     this.withAsterisk,
+    this.textInputAction,
+    this.onSubmitted,
+    this.onEditingComplete,
+    this.focusNode,
     this.visible,
     this.defaultVisible,
     this.onVisibilityChange,
@@ -190,6 +210,10 @@ class PasswordInput extends StatelessWidget {
     this.readOnly,
     this.required,
     this.withAsterisk,
+    this.textInputAction,
+    this.onSubmitted,
+    this.onEditingComplete,
+    this.focusNode,
     this.visible,
     this.defaultVisible,
     this.onVisibilityChange,
@@ -213,6 +237,10 @@ class PasswordInput extends StatelessWidget {
     this.readOnly,
     this.required,
     this.withAsterisk,
+    this.textInputAction,
+    this.onSubmitted,
+    this.onEditingComplete,
+    this.focusNode,
     this.visible,
     this.defaultVisible,
     this.onVisibilityChange,
@@ -260,6 +288,18 @@ class PasswordInput extends StatelessWidget {
   /// Whether with asterisk.
   final bool? withAsterisk;
 
+  /// The text input action.
+  final TextInputAction? textInputAction;
+
+  /// Called when submitted.
+  final void Function(String)? onSubmitted;
+
+  /// Called when editing complete.
+  final VoidCallback? onEditingComplete;
+
+  /// The focus node.
+  final FocusNode? focusNode;
+
   /// Whether visible.
   final bool? visible;
 
@@ -293,6 +333,10 @@ class PasswordInput extends StatelessWidget {
     final resolvedReadOnly = readOnly ?? false;
     final resolvedRequired = required ?? false;
     final resolvedWithAsterisk = withAsterisk;
+    final resolvedTextInputAction = textInputAction;
+    final resolvedOnSubmitted = onSubmitted;
+    final resolvedOnEditingComplete = onEditingComplete;
+    final resolvedFocusNode = focusNode;
     final resolvedVisible = visible;
     final resolvedDefaultVisible = defaultVisible ?? false;
     final resolvedOnVisibilityChange = onVisibilityChange;
@@ -320,6 +364,10 @@ class PasswordInput extends StatelessWidget {
       readOnly: resolvedReadOnly,
       required: resolvedRequired,
       withAsterisk: resolvedWithAsterisk,
+      textInputAction: resolvedTextInputAction,
+      onSubmitted: resolvedOnSubmitted,
+      onEditingComplete: resolvedOnEditingComplete,
+      focusNode: resolvedFocusNode,
       visible: resolvedVisible,
       defaultVisible: resolvedDefaultVisible,
       onVisibilityChange: resolvedOnVisibilityChange,

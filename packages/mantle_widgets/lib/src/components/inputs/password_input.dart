@@ -1,6 +1,7 @@
 // Contracts are single-method by design so themes only implement `root`.
 // ignore_for_file: one_member_abstracts
 
+import 'package:flutter/services.dart' show TextInputAction;
 import 'package:flutter/widgets.dart';
 import 'package:mantle_annotations/mantle_annotations.dart';
 import 'package:mantle_core/mantle_core.dart';
@@ -29,6 +30,10 @@ part 'password_input.g.dart';
     MantleProperty<bool>('readOnly', nullable: true, defaultValue: false),
     MantleProperty<bool>('required', nullable: true, defaultValue: false),
     MantleProperty<bool>('withAsterisk', nullable: true),
+    MantleProperty<TextInputAction>('textInputAction', nullable: true),
+    MantleProperty<void Function(String)>('onSubmitted', nullable: true),
+    MantleProperty<VoidCallback>('onEditingComplete', nullable: true),
+    MantleProperty<FocusNode>('focusNode', nullable: true),
     MantleProperty<bool>('visible', nullable: true),
     MantleProperty<bool>('defaultVisible', nullable: true, defaultValue: false),
     MantleProperty<ValueChanged<bool>>(

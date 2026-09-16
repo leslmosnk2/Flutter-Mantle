@@ -58,6 +58,10 @@ class _PasswordInputRootState extends State<_PasswordInputRoot> {
         readOnly: ctx.readOnly,
         error: ctx.error != null,
         obscureText: !_revealed,
+        textInputAction: ctx.textInputAction,
+        onSubmitted: ctx.onSubmitted,
+        onEditingComplete: ctx.onEditingComplete,
+        focusNode: ctx.focusNode,
         rightSection: GestureDetector(
           key: BasicPasswordInputDelegate.visibilityToggleKey,
           onTap: ctx.disabled

@@ -111,5 +111,40 @@ void main() {
 
       expect(find.text('Invalid JSON'), findsNothing);
     });
+
+    testWidgets('TextInput next moves focus and done submits', (tester) async {
+      var submitted = '';
+      await tester.pumpMantle(
+        Column(
+          children: [
+            const m.TextInput(
+              placeholder: 'first',
+              textInputAction: TextInputAction.next,
+            ),
+            m.TextInput(
+              placeholder: 'last',
+              textInputAction: TextInputAction.done,
+              onSubmitted: (value) => submitted = value,
+            ),
+          ],
+        ),
+        theme: inputTestTheme(),
+      );
+
+      final fields = find.byType(EditableText);
+      await tester.tap(fields.first);
+      await tester.pump();
+      await tester.testTextInput.receiveAction(TextInputAction.next);
+      await tester.pump();
+      expect(
+        tester.widget<EditableText>(fields.at(1)).focusNode.hasFocus,
+        isTrue,
+      );
+
+      await tester.enterText(fields.at(1), 'ok');
+      await tester.testTextInput.receiveAction(TextInputAction.done);
+      await tester.pump();
+      expect(submitted, 'ok');
+    });
   });
 }

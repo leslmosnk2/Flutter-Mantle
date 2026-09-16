@@ -60,6 +60,10 @@ class TextInputContext {
     required this.readOnly,
     required this.required,
     this.withAsterisk,
+    this.textInputAction,
+    this.onSubmitted,
+    this.onEditingComplete,
+    this.focusNode,
     required this.size,
     required this.radius,
   });
@@ -115,6 +119,18 @@ class TextInputContext {
   /// Whether with asterisk.
   final bool? withAsterisk;
 
+  /// The text input action.
+  final TextInputAction? textInputAction;
+
+  /// Called when submitted.
+  final void Function(String)? onSubmitted;
+
+  /// Called when editing complete.
+  final VoidCallback? onEditingComplete;
+
+  /// The focus node.
+  final FocusNode? focusNode;
+
   /// Size token.
   final String size;
 
@@ -160,6 +176,10 @@ class TextInput extends StatelessWidget {
     this.readOnly,
     this.required,
     this.withAsterisk,
+    this.textInputAction,
+    this.onSubmitted,
+    this.onEditingComplete,
+    this.focusNode,
     this.size,
     this.radius,
     this.style,
@@ -181,6 +201,10 @@ class TextInput extends StatelessWidget {
     this.readOnly,
     this.required,
     this.withAsterisk,
+    this.textInputAction,
+    this.onSubmitted,
+    this.onEditingComplete,
+    this.focusNode,
     this.size,
     this.radius,
     this.style,
@@ -202,6 +226,10 @@ class TextInput extends StatelessWidget {
     this.readOnly,
     this.required,
     this.withAsterisk,
+    this.textInputAction,
+    this.onSubmitted,
+    this.onEditingComplete,
+    this.focusNode,
     this.size,
     this.radius,
     this.style,
@@ -249,6 +277,18 @@ class TextInput extends StatelessWidget {
   /// Whether with asterisk.
   final bool? withAsterisk;
 
+  /// The text input action.
+  final TextInputAction? textInputAction;
+
+  /// Called when submitted.
+  final void Function(String)? onSubmitted;
+
+  /// Called when editing complete.
+  final VoidCallback? onEditingComplete;
+
+  /// The focus node.
+  final FocusNode? focusNode;
+
   /// Size token.
   final String? size;
 
@@ -274,6 +314,10 @@ class TextInput extends StatelessWidget {
     final resolvedReadOnly = readOnly ?? false;
     final resolvedRequired = required ?? false;
     final resolvedWithAsterisk = withAsterisk;
+    final resolvedTextInputAction = textInputAction;
+    final resolvedOnSubmitted = onSubmitted;
+    final resolvedOnEditingComplete = onEditingComplete;
+    final resolvedFocusNode = focusNode;
     final resolvedSize = size ?? 'sm';
     final resolvedRadius = radius ?? inputDefaultRadius(context);
 
@@ -299,6 +343,10 @@ class TextInput extends StatelessWidget {
       readOnly: resolvedReadOnly,
       required: resolvedRequired,
       withAsterisk: resolvedWithAsterisk,
+      textInputAction: resolvedTextInputAction,
+      onSubmitted: resolvedOnSubmitted,
+      onEditingComplete: resolvedOnEditingComplete,
+      focusNode: resolvedFocusNode,
       size: resolvedSize,
       radius: resolvedRadius,
     );

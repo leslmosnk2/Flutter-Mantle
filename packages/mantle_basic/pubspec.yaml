@@ -2,7 +2,7 @@ name: mantle_basic
 description: >
   Baseline Mantine-like theme for Mantle, with tokens and a delegate
   for every mantle_widgets contract.
-version: 1.1.0
+version: 1.1.1
 resolution: workspace
 
 homepage: https://mantle.leslmosnk.com

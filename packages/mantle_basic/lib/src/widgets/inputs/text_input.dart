@@ -30,6 +30,10 @@ class BasicTextInputDelegate extends TextInputDelegate {
         disabled: context.disabled,
         readOnly: context.readOnly,
         error: context.error != null,
+        textInputAction: context.textInputAction,
+        onSubmitted: context.onSubmitted,
+        onEditingComplete: context.onEditingComplete,
+        focusNode: context.focusNode,
       ),
     );
   }

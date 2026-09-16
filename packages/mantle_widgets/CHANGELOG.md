@@ -1,3 +1,8 @@
+## 1.1.1
+
+- `TextInput` and `PasswordInput` expose `textInputAction`, `onSubmitted`,
+  `onEditingComplete`, and `focusNode`.
+
 ## 1.1.0
 
 - Generated widgets, constructors, and fields include dartdoc comments.

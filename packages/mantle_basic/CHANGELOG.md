@@ -1,3 +1,8 @@
+## 1.1.1
+
+- Text and password inputs wire through `textInputAction`, `onSubmitted`,
+  `onEditingComplete`, and optional external `focusNode`.
+
 ## 1.1.0
 
 - `BasicSpacing`, `BasicRadius`, and `BasicBreakpoints` are context-built
