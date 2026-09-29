@@ -340,6 +340,7 @@ class _BasicEditableFieldState extends State<BasicEditableField> {
     _controller = TextEditingController(
       text: widget.value ?? widget.defaultValue ?? '',
     );
+    _controller.addListener(_handleText);
     if (widget.focusNode == null) {
       _ownedFocusNode = FocusNode();
     }
@@ -347,6 +348,10 @@ class _BasicEditableFieldState extends State<BasicEditableField> {
     if (widget.autofocus) {
       _focusNode.requestFocus();
     }
+  }
+
+  void _handleText() {
+    setState(() {});
   }
 
   void _handleFocus() {
@@ -377,6 +382,7 @@ class _BasicEditableFieldState extends State<BasicEditableField> {
 
   @override
   void dispose() {
+    _controller.removeListener(_handleText);
     _focusNode.removeListener(_handleFocus);
     _ownedFocusNode?.dispose();
     _controller.dispose();

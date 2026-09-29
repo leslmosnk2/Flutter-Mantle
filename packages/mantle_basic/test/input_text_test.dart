@@ -17,6 +17,18 @@ void main() {
       expect(find.text('Name'), findsOneWidget);
     });
 
+    testWidgets('Input hides placeholder while typing', (tester) async {
+      await tester.pumpMantle(
+        const m.TextInput(placeholder: 'Search'),
+        theme: inputTestTheme(),
+      );
+
+      expect(find.text('Search'), findsOneWidget);
+      await tester.enterText(find.byType(EditableText), 'bieten');
+      await tester.pump();
+      expect(find.text('Search'), findsNothing);
+    });
+
     testWidgets('TextInput shows a label and accepts text', (tester) async {
       var value = '';
       await tester.pumpMantle(
