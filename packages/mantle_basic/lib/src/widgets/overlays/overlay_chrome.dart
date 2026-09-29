@@ -109,14 +109,16 @@ Widget overlayHeader({
   return Padding(
     padding: const EdgeInsets.only(bottom: 8),
     child: Row(
-      mainAxisSize: MainAxisSize.min,
       children: [
         if (title != null)
-          DefaultTextStyle.merge(
-            style: theme.typography.headings.h5,
-            child: title,
-          ),
-        if (title != null && withCloseButton) const SizedBox(width: 8),
+          Expanded(
+            child: DefaultTextStyle.merge(
+              style: theme.typography.headings.h5,
+              child: title,
+            ),
+          )
+        else
+          const Spacer(),
         if (withCloseButton) OverlayCloseControl(onPressed: onClose),
       ],
     ),
