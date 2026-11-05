@@ -12,7 +12,6 @@ class BasicModalDelegate extends ModalDelegate {
     if (!context.opened) {
       return const SizedBox.shrink();
     }
-    final theme = MantleTheme.of(context.context);
     final panel = overlayPanel(
       context: context.context,
       width: context.fullScreen ? null : 440,
@@ -48,7 +47,7 @@ class BasicModalDelegate extends ModalDelegate {
       fit: StackFit.expand,
       children: [
         overlayBarrier(
-          color: theme.black,
+          color: overlayScrimColor(context.context),
           opacity: 0.6,
           onTap: context.onClose,
         ),
@@ -68,7 +67,6 @@ class BasicModalRootDelegate extends ModalRootDelegate {
     if (!context.opened) {
       return const SizedBox.shrink();
     }
-    final theme = MantleTheme.of(context.context);
     if (!context.withOverlay) {
       return context.child;
     }
@@ -76,7 +74,7 @@ class BasicModalRootDelegate extends ModalRootDelegate {
       fit: StackFit.expand,
       children: [
         overlayBarrier(
-          color: theme.black,
+          color: overlayScrimColor(context.context),
           opacity: 0.6,
           onTap: context.onClose,
         ),

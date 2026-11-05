@@ -12,7 +12,6 @@ class BasicDrawerDelegate extends DrawerDelegate {
     if (!context.opened) {
       return const SizedBox.shrink();
     }
-    final theme = MantleTheme.of(context.context);
     final size = context.size ?? 440;
     final panel = overlayPanel(
       context: context.context,
@@ -56,7 +55,7 @@ class BasicDrawerDelegate extends DrawerDelegate {
       fit: StackFit.expand,
       children: [
         overlayBarrier(
-          color: theme.black,
+          color: overlayScrimColor(context.context),
           opacity: 0.6,
           onTap: context.onClose,
         ),

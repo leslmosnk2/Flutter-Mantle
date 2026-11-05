@@ -14,6 +14,28 @@ T? firstOverlayChild<T extends Widget>(List<Widget> children) {
   return null;
 }
 
+bool _overlayIsDark(BuildContext context) =>
+    MantleProvider.colorSchemeOf(context) == MantleColorScheme.dark;
+
+/// Paper surface for dialogs and other popups. Dark scheme uses `dark.6`,
+/// matching cards; light scheme uses [MantleTheme.white].
+Color overlaySurfaceColor(BuildContext context) {
+  final theme = MantleTheme.of(context);
+  return _overlayIsDark(context) ? theme.colors['dark'][6] : theme.white;
+}
+
+/// Text and icon color on [overlaySurfaceColor].
+Color overlayForegroundColor(BuildContext context) {
+  final theme = MantleTheme.of(context);
+  return _overlayIsDark(context) ? theme.white : theme.black;
+}
+
+/// Scrim behind a dialog or drawer.
+Color overlayScrimColor(BuildContext context) {
+  final theme = MantleTheme.of(context);
+  return _overlayIsDark(context) ? theme.colors['dark'][9] : theme.black;
+}
+
 /// Paper-like panel used by dialog, dropdown, and window chrome.
 Widget overlayPanel({
   required BuildContext context,
@@ -24,22 +46,47 @@ Widget overlayPanel({
   EdgeInsetsGeometry? padding,
 }) {
   final theme = MantleTheme.of(context);
+  final dark = _overlayIsDark(context);
   final radius = BorderRadius.all(theme.resolvedDefaultRadius);
-  return DecoratedBox(
-    decoration: BoxDecoration(
-      color: theme.white,
-      borderRadius: radius,
-      border: withBorder ? Border.all(color: theme.colors['gray'][2]) : null,
-    ),
-    child: SizedBox(
-      width: width,
-      height: height,
-      child: Padding(
-        padding: padding ?? const EdgeInsets.all(16),
-        child: child,
-      ),
-    ),
+  return LayoutBuilder(
+    builder: (context, constraints) {
+      return DecoratedBox(
+        decoration: BoxDecoration(
+          color: overlaySurfaceColor(context),
+          borderRadius: radius,
+          border: withBorder
+              ? Border.all(
+                  color: dark
+                      ? theme.colors['dark'][4]
+                      : theme.colors['gray'][2],
+                )
+              : null,
+        ),
+        child: SizedBox(
+          width: _fitOverlaySize(width, constraints.maxWidth),
+          height: _fitOverlaySize(height, constraints.maxHeight),
+          child: DefaultTextStyle.merge(
+            style: TextStyle(color: overlayForegroundColor(context)),
+            child: IconTheme.merge(
+              data: IconThemeData(color: overlayForegroundColor(context)),
+              child: Padding(
+                padding: padding ?? const EdgeInsets.all(16),
+                child: child,
+              ),
+            ),
+          ),
+        ),
+      );
+    },
   );
+}
+
+/// Keeps a requested popup size inside the space the parent actually gives it.
+double? _fitOverlaySize(double? requested, double maxConstraint) {
+  if (requested == null || !maxConstraint.isFinite) {
+    return requested;
+  }
+  return math.min(requested, maxConstraint);
 }
 
 /// Full-size dimming barrier.
@@ -109,6 +156,7 @@ Widget overlayHeader({
   return Padding(
     padding: const EdgeInsets.only(bottom: 8),
     child: Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (title != null)
           Expanded(

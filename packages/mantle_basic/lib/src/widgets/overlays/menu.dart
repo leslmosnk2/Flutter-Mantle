@@ -80,6 +80,9 @@ class BasicMenuItemDelegate extends MenuItemDelegate {
   @override
   Widget root(MenuItemContext context) {
     final theme = MantleTheme.of(context.context);
+    final dark =
+        MantleProvider.colorSchemeOf(context.context) ==
+        MantleColorScheme.dark;
     final scope = MenuScope.maybeOf(context.context);
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
@@ -96,7 +99,9 @@ class BasicMenuItemDelegate extends MenuItemDelegate {
         child: DefaultTextStyle.merge(
           style: theme.typography.body.copyWith(
             fontSize: theme.typography.fontSize['sm'],
-            color: context.disabled ? theme.colors['gray'][5] : theme.black,
+            color: context.disabled
+                ? (dark ? theme.colors['dark'][3] : theme.colors['gray'][5])
+                : overlayForegroundColor(context.context),
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
@@ -126,12 +131,15 @@ class BasicMenuLabelDelegate extends MenuLabelDelegate {
   @override
   Widget root(MenuLabelContext context) {
     final theme = MantleTheme.of(context.context);
+    final dark =
+        MantleProvider.colorSchemeOf(context.context) ==
+        MantleColorScheme.dark;
     return Padding(
       padding: const EdgeInsets.fromLTRB(12, 8, 12, 4),
       child: DefaultTextStyle.merge(
         style: theme.typography.label.copyWith(
           fontSize: theme.typography.fontSize['xs'],
-          color: theme.colors['gray'][6],
+          color: dark ? theme.colors['dark'][2] : theme.colors['gray'][6],
         ),
         child: context.child,
       ),
@@ -147,10 +155,13 @@ class BasicMenuDividerDelegate extends MenuDividerDelegate {
   @override
   Widget root(MenuDividerContext context) {
     final theme = MantleTheme.of(context.context);
+    final dark =
+        MantleProvider.colorSchemeOf(context.context) ==
+        MantleColorScheme.dark;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: ColoredBox(
-        color: theme.colors['gray'][2],
+        color: dark ? theme.colors['dark'][4] : theme.colors['gray'][2],
         child: const SizedBox(height: 1, width: 160),
       ),
     );

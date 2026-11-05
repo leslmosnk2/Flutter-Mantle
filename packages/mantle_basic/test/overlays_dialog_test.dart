@@ -71,6 +71,29 @@ void main() {
       expect(find.text('Body'), findsOneWidget);
     });
 
+    testWidgets('close button stays on the right of a narrow dialog', (
+      tester,
+    ) async {
+      await tester.pumpMantle(
+        const SizedBox(
+          width: 320,
+          height: 480,
+          child: m.Modal(
+            opened: true,
+            centered: true,
+            title: Text('Korting'),
+            child: Text('Body'),
+          ),
+        ),
+        theme: BasicTheme(),
+      );
+
+      final host = tester.getRect(find.byType(m.Modal));
+      final close = tester.getRect(find.text('×'));
+      expect(close.right, lessThanOrEqualTo(host.right));
+      expect(close.left, greaterThan(host.center.dx));
+    });
+
     testWidgets('ModalRoot shows child over a barrier', (tester) async {
       await tester.pumpMantle(
         const SizedBox(
